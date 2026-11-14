@@ -1,215 +1,392 @@
 
-:root {
-  --background: #101820;
-  --surface: #1c2a32;
-  --surface-light: #263740;
-  --text: #f0f5f4;
-  --muted: #91a6a7;
-  --accent: #42d6a4;
-  --border: #34434b;
+/* =========================================
+   NOVIA HOME V4 - CSS COMPATIBILITY PATCH
+   ========================================= */
+
+.app-shell {
+  width: min(100% - 36px, 1040px);
+  margin: 0 auto;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background: var(--background);
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-}
-
-.app-container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 24px 18px;
-}
-
-.header {
+.topbar {
+  min-height: 82px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
   gap: 12px;
-  margin-bottom: 30px;
+  color: var(--text);
+  text-decoration: none;
 }
 
-.header h1 {
-  font-size: 25px;
-  letter-spacing: 1px;
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+  border: 1px solid #42d6a466;
+  border-radius: 12px;
+  color: var(--accent);
+  background: #42d6a41f;
+  font-weight: bold;
 }
 
-.header p {
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  font-size: 13px;
+  letter-spacing: 1.5px;
+}
+
+.brand small {
+  margin-top: 4px;
   color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 2px;
-  margin-top: 5px;
+  font-size: 9px;
+  letter-spacing: 1.5px;
 }
 
-.connection {
+.demo-pill {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--accent);
+  padding: 8px 12px;
+  border: 1px solid #e3c78b55;
+  border-radius: 30px;
+  color: #e3c78b;
   font-size: 10px;
   font-weight: bold;
 }
 
-.status-dot {
-  width: 8px;
-  height: 8px;
+.pulse {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--accent);
+  background: #e3c78b;
 }
 
-.overview {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  margin-bottom: 32px;
+.welcome {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 48px 0 32px;
 }
 
-.info-card {
-  background: var(--surface);
+.eyebrow {
+  margin-bottom: 9px;
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: clamp(30px, 6vw, 50px);
+  line-height: 1.1;
+}
+
+h1 span {
+  color: var(--muted);
+}
+
+.welcome-copy {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hero-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 20px;
-  display: flex;
-  align-items: center;
+  background: var(--surface);
+}
+
+.chip-icon {
+  color: var(--accent);
+  font-size: 24px;
+}
+
+.hero-chip b,
+.hero-chip small {
+  display: block;
+}
+
+.hero-chip small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
-.icon {
-  color: var(--accent);
-  font-size: 26px;
-}
-
-.info-card h3 {
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-.info-card p {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.section-heading {
+.summary-card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  gap: 14px;
+  min-height: 94px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
 }
 
-.section-heading h2,
-.system-info h2 {
-  font-size: 16px;
+.summary-icon {
+  color: var(--accent);
+  font-size: 25px;
 }
 
-.section-heading span {
+.summary-card div {
+  display: grid;
+  gap: 5px;
+}
+
+.summary-card small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.summary-card strong {
+  font-size: 12px;
+}
+
+.summary-note {
   color: var(--muted);
   font-size: 10px;
 }
 
+.section-block {
+  margin-top: 38px;
+}
+
+.section-heading .eyebrow {
+  margin-bottom: 6px;
+}
+
+.section-heading h2 {
+  font-size: 20px;
+}
+
+.count-label {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
 .device-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
 .device-card {
-  background: var(--surface);
+  min-width: 0;
+  min-height: 160px;
+  padding: 19px;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px;
-  min-height: 130px;
+  border-radius: 17px;
+  background: linear-gradient(145deg, #263740, #17232b);
+  transition: .2s;
 }
 
-.device-top {
+.device-card.is-on {
+  border-color: var(--accent);
+  background: linear-gradient(145deg, #245044, #17232b);
+}
+
+.device-card-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
-.bulb {
+.device-icon {
   color: var(--muted);
-  font-size: 22px;
+  font-size: 21px;
 }
 
-.device-status {
+.state-badge {
   color: var(--muted);
   font-size: 9px;
   font-weight: bold;
 }
 
+.device-card.is-on .state-badge {
+  color: var(--accent);
+}
+
 .device-card h3 {
-  font-size: 14px;
   margin-bottom: 6px;
+  font-size: 15px;
 }
 
 .device-card p {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 9px;
+  letter-spacing: 1px;
 }
 
-.system-info {
-  background: var(--surface);
+.toggle-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 19px;
+  padding: 10px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 10px;
+  color: var(--muted);
+  background: #101820;
+  cursor: pointer;
+}
+
+.toggle-knob {
+  position: relative;
+  width: 29px;
+  height: 16px;
+  flex: 0 0 29px;
+  border-radius: 20px;
+  background: #40515b;
+  transition: .2s;
+}
+
+.toggle-knob::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  transition: .2s;
+}
+
+.toggle-label {
+  font-size: 9px;
+  font-weight: bold;
+}
+
+.device-card.is-on .toggle-button {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.device-card.is-on .toggle-knob {
+  background: #278f70;
+}
+
+.device-card.is-on .toggle-knob::after {
+  transform: translateX(13px);
+}
+
+.demo-note {
+  margin-top: 13px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.system-panel {
+  margin-top: 38px;
   padding: 20px;
-  margin-top: 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
 }
 
-.system-info h2 {
-  margin-bottom: 18px;
+.system-panel h2 {
+  margin-bottom: 15px;
 }
 
-.system-row {
+.system-list div {
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  padding: 13px 0;
   border-bottom: 1px solid var(--border);
-  padding: 12px 0;
-  font-size: 12px;
+  font-size: 11px;
 }
 
-.system-row:last-child {
-  border-bottom: none;
+.system-list div:last-child {
+  border-bottom: 0;
 }
 
-.system-row span {
+.system-list span {
   color: var(--muted);
 }
 
-.system-row strong {
+.system-list strong {
   text-align: right;
 }
 
-footer {
-  text-align: center;
-  color: var(--muted);
-  font-size: 10px;
-  margin-top: 30px;
-  padding: 15px;
+.pending {
+  color: #e3c78b;
 }
 
-@media (max-width: 480px) {
-  .app-container {
-    padding: 20px 14px;
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 25px 2px;
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    width: calc(100% - 28px);
   }
 
-  .header h1 {
-    font-size: 21px;
+  .welcome {
+    padding: 36px 0 25px;
   }
 
+  .summary-grid,
   .device-grid {
-    gap: 10px;
+    gap: 9px;
+  }
+
+  .summary-card {
+    padding: 12px;
+    gap: 8px;
   }
 
   .device-card {
-    padding: 14px;
+    padding: 13px;
+  }
+
+  .device-card h3 {
+    font-size: 12px;
+  }
+
+  .hero-chip {
+    padding: 9px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-chip {
+    display: none;
+  }
+
+  .brand strong {
+    font-size: 11px;
   }
 }
