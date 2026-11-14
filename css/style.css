@@ -116,3 +116,157 @@ footer {
     flex-direction: column;
   }
 }
+
+
+/* =========================================
+   NOVIA HOME V4
+   DARK PREMIUM ELEGANT THEME
+   ========================================= */
+
+:root {
+  color-scheme: dark;
+
+  --bg: #101820;
+  --surface: #192832;
+  --border: #30434D;
+
+  --text: #E7EDF0;
+  --muted: #82939D;
+
+  --accent: #42D6A4;
+}
+
+/* MAIN BACKGROUND */
+
+html,
+body {
+  background: var(--bg) !important;
+  color: var(--text);
+  margin: 0;
+}
+
+/* MAIN CONTAINER */
+
+.app-shell {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* HEADER */
+
+.topbar {
+  border-color: var(--border);
+}
+
+.brand,
+.brand strong {
+  color: var(--text);
+}
+
+/* WELCOME SECTION */
+
+h1,
+h2,
+h3,
+p,
+strong {
+  color: inherit;
+}
+
+h1 span {
+  color: var(--muted);
+}
+
+/* SUMMARY CARDS */
+
+.summary-card,
+.hero-chip,
+.system-panel {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.summary-card strong {
+  color: var(--text);
+}
+
+/* DEVICE CARDS */
+
+.device-card {
+  color: var(--text);
+
+  background: linear-gradient(
+    145deg,
+    #263B46,
+    #192832
+  );
+
+  border-color: #354B56;
+}
+
+.device-card h3 {
+  color: #F0F5F7;
+}
+
+.device-card p {
+  color: var(--muted);
+}
+
+.device-card.is-on {
+  background: linear-gradient(
+    145deg,
+    #174E40,
+    #192832
+  );
+
+  border-color: var(--accent);
+}
+
+/* DEVICE STATUS */
+
+.state-badge {
+  color: #A8B6BE;
+}
+
+.device-card.is-on .state-badge {
+  color: var(--accent);
+}
+
+/* TOGGLE BUTTON */
+
+.toggle-button {
+  color: #D5E0E5;
+  background: #101820;
+  border-color: #354B56;
+}
+
+.device-card.is-on .toggle-button {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* SYSTEM INFORMATION */
+
+.system-panel {
+  color: var(--text);
+}
+
+.system-list div {
+  border-color: var(--border);
+}
+
+.system-list span {
+  color: var(--muted);
+}
+
+.system-list strong {
+  color: var(--text);
+}
+
+/* FOOTER */
+
+footer {
+  color: var(--muted);
+}
+
