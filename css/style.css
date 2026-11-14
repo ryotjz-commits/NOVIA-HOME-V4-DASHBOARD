@@ -1,0 +1,215 @@
+
+:root {
+  --background: #101820;
+  --surface: #1c2a32;
+  --surface-light: #263740;
+  --text: #f0f5f4;
+  --muted: #91a6a7;
+  --accent: #42d6a4;
+  --border: #34434b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.app-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 24px 18px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 25px;
+  letter-spacing: 1px;
+}
+
+.header p {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-top: 5px;
+}
+
+.connection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.overview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.icon {
+  color: var(--accent);
+  font-size: 26px;
+}
+
+.info-card h3 {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.info-card p {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.section-heading h2,
+.system-info h2 {
+  font-size: 16px;
+}
+
+.section-heading span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.device-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.device-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  min-height: 130px;
+}
+
+.device-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.bulb {
+  color: var(--muted);
+  font-size: 22px;
+}
+
+.device-status {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: bold;
+}
+
+.device-card h3 {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.device-card p {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.system-info {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 28px;
+}
+
+.system-info h2 {
+  margin-bottom: 18px;
+}
+
+.system-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+  font-size: 12px;
+}
+
+.system-row:last-child {
+  border-bottom: none;
+}
+
+.system-row span {
+  color: var(--muted);
+}
+
+.system-row strong {
+  text-align: right;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 30px;
+  padding: 15px;
+}
+
+@media (max-width: 480px) {
+  .app-container {
+    padding: 20px 14px;
+  }
+
+  .header h1 {
+    font-size: 21px;
+  }
+
+  .device-grid {
+    gap: 10px;
+  }
+
+  .device-card {
+    padding: 14px;
+  }
+}
