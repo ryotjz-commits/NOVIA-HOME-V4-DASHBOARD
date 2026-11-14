@@ -3,128 +3,154 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="theme-color" content="#101820">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1118">
   <title>NOVIA HOME V4</title>
-
   <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
+<div class="app-shell">
 
-  <div class="app-container">
+  <header class="topbar">
+    <a class="brand" href="./">
+      <span class="brand-mark">N</span>
+      <span>
+        <strong>NOVIA HOME</strong>
+        <small>SMART CONTROL CENTER</small>
+      </span>
+    </a>
+    <div class="demo-pill">
+      <span class="pulse"></span>
+      <span id="connectionStatus">DEMO MODE</span>
+    </div>
+  </header>
 
-    <header class="header">
+  <main>
+    <section class="welcome">
       <div>
-        <h1>NOVIA HOME</h1>
-        <p>SMART HOME CONTROL CENTER</p>
+        <p class="eyebrow">HOME AUTOMATION</p>
+        <h1>Kontrol rumah,<br><span>dalam satu tempat.</span></h1>
+        <p class="welcome-copy">
+          Dashboard NOVIA HOME V4 · Empat channel kontrol
+        </p>
+      </div>
+      <div class="hero-chip">
+        <span class="chip-icon">⌂</span>
+        <span><b>ESP32</b><small>DEVKIT V1</small></span>
+      </div>
+    </section>
+
+    <section class="summary-grid">
+      <article class="summary-card">
+        <span class="summary-icon">⌁</span>
+        <div>
+          <small>JARINGAN</small>
+          <strong>Belum terhubung</strong>
+          <span class="summary-note">Menunggu integrasi</span>
+        </div>
+      </article>
+
+      <article class="summary-card">
+        <span class="summary-icon">▣</span>
+        <div>
+          <small>PERANGKAT</small>
+          <strong>Belum terhubung</strong>
+          <span class="summary-note">ESP32 · 4 channel</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-block">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">KONTROL PERANGKAT</p>
+          <h2>Device control</h2>
+        </div>
+        <span class="count-label">04 CHANNELS</span>
       </div>
 
-      <div class="connection">
-        <span class="status-dot"></span>
-        <span id="connectionStatus">DEMO MODE</span>
+      <div class="device-grid">
+
+        <article class="device-card" data-channel="0">
+          <div class="device-card-head">
+            <span class="device-icon">✳</span>
+            <span class="state-badge">DEMO OFF</span>
+          </div>
+          <h3>Lampu Depan</h3>
+          <p>CHANNEL 01 · V0</p>
+          <button class="toggle-button" aria-pressed="false">
+            <span class="toggle-knob"></span>
+            <span class="toggle-label">SIMULASI OFF</span>
+          </button>
+        </article>
+
+        <article class="device-card" data-channel="1">
+          <div class="device-card-head">
+            <span class="device-icon">✳</span>
+            <span class="state-badge">DEMO OFF</span>
+          </div>
+          <h3>Lampu Tengah</h3>
+          <p>CHANNEL 02 · V1</p>
+          <button class="toggle-button" aria-pressed="false">
+            <span class="toggle-knob"></span>
+            <span class="toggle-label">SIMULASI OFF</span>
+          </button>
+        </article>
+
+        <article class="device-card" data-channel="2">
+          <div class="device-card-head">
+            <span class="device-icon">✳</span>
+            <span class="state-badge">DEMO OFF</span>
+          </div>
+          <h3>Lampu Kamar</h3>
+          <p>CHANNEL 03 · V2</p>
+          <button class="toggle-button" aria-pressed="false">
+            <span class="toggle-knob"></span>
+            <span class="toggle-label">SIMULASI OFF</span>
+          </button>
+        </article>
+
+        <article class="device-card" data-channel="3">
+          <div class="device-card-head">
+            <span class="device-icon">✳</span>
+            <span class="state-badge">DEMO OFF</span>
+          </div>
+          <h3>Lampu Belakang</h3>
+          <p>CHANNEL 04 · V3</p>
+          <button class="toggle-button" aria-pressed="false">
+            <span class="toggle-knob"></span>
+            <span class="toggle-label">SIMULASI OFF</span>
+          </button>
+        </article>
+
       </div>
-    </header>
 
-    <main>
+      <p class="demo-note">
+        ⓘ Tombol saat ini hanya simulasi tampilan.
+        Belum mengirim perintah ke ESP32 atau Blynk.
+      </p>
+    </section>
 
-      <section class="overview">
-        <div class="info-card">
-          <span class="icon">⌁</span>
-          <div>
-            <h3>WiFi</h3>
-            <p>Belum terhubung</p>
-          </div>
-        </div>
+    <section class="section-block system-panel">
+      <p class="eyebrow">INFORMASI</p>
+      <h2>System overview</h2>
 
-        <div class="info-card">
-          <span class="icon">▣</span>
-          <div>
-            <h3>ESP32</h3>
-            <p>Belum terhubung</p>
-          </div>
-        </div>
-      </section>
+      <div class="system-list">
+        <div><span>Platform</span><strong>NOVIA HOME V4</strong></div>
+        <div><span>Controller</span><strong>ESP32 DevKit V1</strong></div>
+        <div><span>Komunikasi rencana</span><strong>Blynk IoT</strong></div>
+        <div><span>Hosting dashboard</span><strong>GitHub Pages</strong></div>
+        <div><span>Status integrasi</span><strong class="pending">Belum terhubung</strong></div>
+      </div>
+    </section>
+  </main>
 
-      <section class="devices">
+  <footer>
+    <span>NOVIA HOME V4</span>
+    <span>BUILD · DASHBOARD PREVIEW</span>
+  </footer>
 
-        <div class="section-heading">
-          <h2>Device Control</h2>
-          <span>4 CHANNELS</span>
-        </div>
-
-        <div class="device-grid">
-
-          <article class="device-card">
-            <div class="device-top">
-              <span class="bulb">●</span>
-              <span class="device-status">OFFLINE</span>
-            </div>
-            <h3>Lampu Depan</h3>
-            <p>CHANNEL 01 · V0</p>
-          </article>
-
-          <article class="device-card">
-            <div class="device-top">
-              <span class="bulb">●</span>
-              <span class="device-status">OFFLINE</span>
-            </div>
-            <h3>Lampu Tengah</h3>
-            <p>CHANNEL 02 · V1</p>
-          </article>
-
-          <article class="device-card">
-            <div class="device-top">
-              <span class="bulb">●</span>
-              <span class="device-status">OFFLINE</span>
-            </div>
-            <h3>Lampu Kamar</h3>
-            <p>CHANNEL 03 · V2</p>
-          </article>
-
-          <article class="device-card">
-            <div class="device-top">
-              <span class="bulb">●</span>
-              <span class="device-status">OFFLINE</span>
-            </div>
-            <h3>Lampu Belakang</h3>
-            <p>CHANNEL 04 · V3</p>
-          </article>
-
-        </div>
-      </section>
-
-      <section class="system-info">
-        <h2>System Information</h2>
-        <div class="system-row">
-          <span>Platform</span>
-          <strong>NOVIA HOME V4</strong>
-        </div>
-        <div class="system-row">
-          <span>Controller</span>
-          <strong>ESP32 DevKit V1</strong>
-        </div>
-        <div class="system-row">
-          <span>Communication</span>
-          <strong>Blynk IoT</strong>
-        </div>
-        <div class="system-row">
-          <span>Dashboard</span>
-          <strong>GitHub Pages</strong>
-        </div>
-      </section>
-
-    </main>
-
-    <footer>
-      NOVIA HOME V4 · SMART HOME SYSTEM
-    </footer>
-
-  </div>
-
-  <script src="js/app.js"></script>
-
+</div>
+<script src="js/app.js"></script>
 </body>
 </html>
