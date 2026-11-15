@@ -703,3 +703,185 @@ html[data-theme="light"] .automation-card select option {
     outline: 2px solid Highlight;
   }
 }
+
+
+/* =========================================================
+   NOVIA HOME V4 — AUTOMATION FUTURE LUXE
+   Matches the main dashboard's premium glass visual language
+========================================================= */
+
+.automation-panel {
+  position: relative;
+  isolation: isolate;
+}
+
+.automation-panel .section-heading h2 {
+  letter-spacing: -.025em;
+}
+
+.automation-card {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(130, 160, 170, .20);
+  border-radius: 20px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.045), transparent 54%),
+    var(--surface);
+  box-shadow: 0 14px 34px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.055);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.automation-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,.07), transparent 36%);
+  opacity: .75;
+}
+
+.automation-heading,
+.automation-card > label,
+.automation-card select,
+.automation-card input,
+.schedule-time-grid,
+.weekday-grid,
+.schedule-enable,
+.schedule-list,
+.automation-button,
+.automation-status {
+  position: relative;
+  z-index: 1;
+}
+
+.automation-icon {
+  border: 1px solid rgba(66,214,164,.22);
+  background: linear-gradient(145deg, rgba(66,214,164,.19), rgba(66,214,164,.055));
+  box-shadow: 0 0 24px rgba(66,214,164,.08), inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.automation-card select,
+.automation-card input[type="time"] {
+  min-height: 48px;
+  border-radius: 12px;
+  border-color: rgba(130,160,170,.25);
+  background-color: var(--surface-light);
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+.automation-card select:focus,
+.automation-card input[type="time"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(66,214,164,.14), 0 0 18px rgba(66,214,164,.06);
+}
+
+.automation-button {
+  min-height: 47px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 8px 18px rgba(39,143,112,.18), inset 0 1px 0 rgba(255,255,255,.18);
+  letter-spacing: 1px;
+  transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
+}
+
+.automation-button.secondary {
+  color: var(--text);
+  background: linear-gradient(145deg, var(--surface-light), var(--surface));
+  border-color: var(--border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.055);
+}
+
+.automation-button:focus-visible,
+.weekday-grid label:focus-within,
+.automation-card select:focus-visible,
+.automation-card input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.weekday-grid label {
+  min-height: 40px;
+  border-radius: 11px;
+  border-color: rgba(130,160,170,.22);
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.weekday-grid label:has(input:checked) {
+  background: rgba(66,214,164,.13);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 0 14px rgba(66,214,164,.055);
+}
+
+.schedule-item {
+  border-radius: 13px;
+  border-color: rgba(130,160,170,.20);
+  background: linear-gradient(145deg, rgba(255,255,255,.035), transparent 70%), var(--surface-light);
+}
+
+.schedule-state {
+  border: 1px solid rgba(66,214,164,.20);
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(66,214,164,.09);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .automation-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(66,214,164,.32);
+    box-shadow: 0 19px 42px rgba(0,0,0,.21), inset 0 1px 0 rgba(255,255,255,.07);
+  }
+
+  .automation-button:not(:disabled):hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 11px 24px rgba(39,143,112,.25), inset 0 1px 0 rgba(255,255,255,.2);
+  }
+
+  .weekday-grid label:hover {
+    border-color: var(--accent);
+  }
+}
+
+html[data-theme="light"] .automation-card {
+  background: linear-gradient(145deg, #FFFFFF, #F8FBFA);
+  border-color: #E2EBE8;
+  box-shadow: 0 10px 28px rgba(28,52,61,.065), inset 0 1px 0 #FFFFFF;
+}
+
+html[data-theme="light"] .automation-card::before {
+  background: linear-gradient(135deg, rgba(17,145,109,.045), transparent 40%);
+}
+
+html[data-theme="light"] .automation-card select,
+html[data-theme="light"] .automation-card input[type="time"] {
+  background-color: #F6FAF8;
+  border-color: #DCE8E4;
+}
+
+html[data-theme="light"] .automation-button.secondary {
+  color: #40535D;
+  background: linear-gradient(180deg, #FFFFFF, #F3F8F5);
+  border-color: #DCE8E4;
+}
+
+html[data-theme="light"] .schedule-item {
+  background: linear-gradient(145deg, #FFFFFF, #F5F9F7);
+  border-color: #E2EBE8;
+}
+
+html[data-theme="light"] .weekday-grid label:has(input:checked) {
+  background: rgba(17,145,109,.09);
+  color: #087C5B;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .automation-card,
+  .automation-button,
+  .weekday-grid label {
+    transition: none !important;
+  }
+}

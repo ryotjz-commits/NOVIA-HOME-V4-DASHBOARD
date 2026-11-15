@@ -1820,3 +1820,296 @@ html:not([data-theme="light"]) .theme-toggle:hover {
     outline: 2px solid Highlight;
   }
 }
+
+
+/* =========================================================
+   NOVIA HOME V4 — FUTURE LUXE DESIGN LAYER
+   Premium dark glass / refined light mode
+   CSS-only enhancement; existing markup and behavior retained
+========================================================= */
+
+:root {
+  --accent-rgb: 66, 214, 164;
+  --accent-soft: rgba(var(--accent-rgb), .12);
+  --accent-glow: rgba(var(--accent-rgb), .22);
+  --panel-glass: rgba(25, 40, 50, .78);
+  --panel-highlight: rgba(255, 255, 255, .055);
+  --shadow-soft: 0 14px 38px rgba(0, 0, 0, .20);
+  --shadow-lift: 0 20px 46px rgba(0, 0, 0, .27);
+  --focus-ring: 0 0 0 3px rgba(var(--accent-rgb), .20);
+}
+
+html:not([data-theme="light"]) {
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(37, 122, 112, .15), transparent 34rem),
+    radial-gradient(ellipse at 100% 28%, rgba(50, 92, 126, .12), transparent 32rem),
+    #101820;
+}
+
+html:not([data-theme="light"]) body {
+  background: transparent;
+}
+
+.app-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.topbar {
+  position: relative;
+  border-bottom-color: rgba(130, 160, 170, .18);
+}
+
+.brand-mark {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(var(--accent-rgb), .42);
+  background: linear-gradient(145deg, rgba(var(--accent-rgb), .20), rgba(var(--accent-rgb), .045));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 0 24px rgba(var(--accent-rgb), .08);
+}
+
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,.18) 48%, transparent 72%);
+  transform: translateX(-120%);
+  transition: transform .7s ease;
+  pointer-events: none;
+}
+
+.brand:hover .brand-mark::after {
+  transform: translateX(120%);
+}
+
+.demo-pill {
+  background: rgba(227, 199, 139, .055);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.pulse {
+  box-shadow: 0 0 0 4px rgba(227, 199, 139, .10), 0 0 13px rgba(227, 199, 139, .48);
+}
+
+.welcome {
+  position: relative;
+}
+
+.welcome h1 {
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.welcome h1 span {
+  color: var(--accent);
+  text-shadow: 0 0 28px rgba(var(--accent-rgb), .16);
+}
+
+.welcome-copy {
+  max-width: 58ch;
+}
+
+.hero-chip,
+.summary-card,
+.device-card,
+.system-panel {
+  position: relative;
+  border-color: rgba(130, 160, 170, .20);
+  box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,.055);
+}
+
+html:not([data-theme="light"]) .hero-chip,
+html:not([data-theme="light"]) .summary-card,
+html:not([data-theme="light"]) .device-card,
+html:not([data-theme="light"]) .system-panel {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.045), transparent 58%),
+    var(--panel-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.summary-card,
+.device-card,
+.system-panel {
+  border-radius: 20px;
+}
+
+.summary-card::before,
+.device-card::before,
+.system-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,.075), transparent 34%);
+  opacity: .72;
+}
+
+.summary-card,
+.device-card {
+  overflow: hidden;
+}
+
+.summary-icon,
+.device-icon {
+  filter: drop-shadow(0 0 12px rgba(var(--accent-rgb), .20));
+}
+
+.device-card {
+  gap: 0;
+}
+
+.device-card-head {
+  position: relative;
+  z-index: 1;
+}
+
+.device-card h3 {
+  letter-spacing: -.015em;
+}
+
+.state-badge {
+  border: 1px solid rgba(var(--accent-rgb), .20);
+  background: rgba(var(--accent-rgb), .09);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.toggle-button,
+.theme-toggle {
+  border: 1px solid rgba(130, 160, 170, .24);
+  transition:
+    transform .22s ease,
+    border-color .22s ease,
+    background .22s ease,
+    box-shadow .22s ease;
+}
+
+.toggle-button {
+  border-radius: 13px;
+  min-height: 46px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.055);
+}
+
+.toggle-button:active,
+.theme-toggle:active {
+  transform: scale(.975);
+}
+
+.toggle-button:focus-visible,
+.theme-toggle:focus-visible,
+.brand:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.toggle-knob {
+  box-shadow: 0 2px 8px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+.theme-toggle {
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+}
+
+.section-heading {
+  gap: 14px;
+}
+
+.section-heading h2 {
+  letter-spacing: -.025em;
+}
+
+.system-list > div {
+  border-bottom: 1px solid rgba(130, 160, 170, .12);
+}
+
+.system-list > div:last-child {
+  border-bottom: 0;
+}
+
+/* Refined light appearance: clean porcelain surfaces, restrained mint accent. */
+html[data-theme="light"] {
+  --accent-rgb: 17, 145, 109;
+  --accent-soft: rgba(var(--accent-rgb), .09);
+  --accent-glow: rgba(var(--accent-rgb), .13);
+  --panel-glass: rgba(255, 255, 255, .88);
+  --shadow-soft: 0 10px 28px rgba(28, 52, 61, .065);
+  --shadow-lift: 0 16px 36px rgba(28, 52, 61, .10);
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(17,145,109,.055), transparent 34rem),
+    #F4F7F6;
+}
+
+html[data-theme="light"] body {
+  background: transparent;
+}
+
+html[data-theme="light"] .hero-chip,
+html[data-theme="light"] .summary-card,
+html[data-theme="light"] .device-card,
+html[data-theme="light"] .system-panel {
+  background: linear-gradient(145deg, #FFFFFF, #F8FBFA);
+  border-color: #E2EBE8;
+  box-shadow: var(--shadow-soft), inset 0 1px 0 #FFFFFF;
+}
+
+html[data-theme="light"] .summary-card::before,
+html[data-theme="light"] .device-card::before,
+html[data-theme="light"] .system-panel::before {
+  background: linear-gradient(135deg, rgba(17,145,109,.045), transparent 40%);
+}
+
+html[data-theme="light"] .toggle-button,
+html[data-theme="light"] .theme-toggle {
+  border-color: #DCE8E4;
+  background: linear-gradient(180deg, #FFFFFF, #F4F8F6);
+  box-shadow: 0 2px 8px rgba(31, 66, 55, .045);
+}
+
+html[data-theme="light"] .demo-pill {
+  background: rgba(190, 146, 58, .07);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .summary-card:hover,
+  .device-card:hover,
+  .system-panel:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift), inset 0 1px 0 rgba(255,255,255,.07);
+    border-color: rgba(var(--accent-rgb), .38);
+  }
+
+  .toggle-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 7px 18px rgba(0,0,0,.12), 0 0 0 1px rgba(var(--accent-rgb), .10);
+  }
+}
+
+@media (max-width: 560px) {
+  .summary-card,
+  .device-card,
+  .system-panel {
+    border-radius: 17px;
+  }
+
+  .welcome h1 {
+    letter-spacing: -.035em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark::after {
+    display: none;
+  }
+
+  .summary-card,
+  .device-card,
+  .system-panel,
+  .toggle-button,
+  .theme-toggle {
+    transition: none !important;
+  }
+}
