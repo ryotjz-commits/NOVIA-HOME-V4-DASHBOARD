@@ -366,3 +366,187 @@ html[data-theme="light"] .automation-status.error {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+
+/* =====================================================
+   NOVIA HOME V4
+   AUTOMATION - NEON GLASS THEME
+===================================================== */
+
+html:not([data-theme="light"]) .automation-panel {
+  color: #E5F8FF;
+}
+
+html:not([data-theme="light"]) .automation-panel .eyebrow {
+  color: #25E8F3;
+}
+
+html:not([data-theme="light"]) .automation-panel .section-heading h2 {
+  color: #E8F9FF;
+}
+
+/* AUTOMATION CARD */
+
+html:not([data-theme="light"]) .automation-card {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(35, 81, 108, .75),
+      rgba(9, 37, 60, .88)
+    );
+
+  border: 1px solid rgba(107, 205, 239, .35);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.09);
+}
+
+/* AUTOMATION ICON */
+
+html:not([data-theme="light"]) .automation-icon {
+  background: rgba(32,232,245,.13);
+
+  color: #27E8F5;
+
+  border: 1px solid rgba(32,232,245,.22);
+
+  box-shadow:
+    0 0 15px rgba(32,232,245,.10);
+}
+
+/* AUTOMATION TEXT */
+
+html:not([data-theme="light"]) .automation-heading h3 {
+  color: #EAFBFF;
+}
+
+html:not([data-theme="light"]) .automation-heading p {
+  color: #93C3D5;
+}
+
+/* INPUT */
+
+html:not([data-theme="light"]) .automation-card select,
+html:not([data-theme="light"]) .automation-card input[type="time"] {
+  color: #E8F9FF;
+
+  background: rgba(2, 22, 39, .85);
+
+  border: 1px solid rgba(103, 201, 230, .30);
+
+  border-radius: 12px;
+
+  color-scheme: dark;
+}
+
+/* BUTTON */
+
+html:not([data-theme="light"]) .automation-button {
+  background:
+    linear-gradient(
+      135deg,
+      #079DBB,
+      #087B9D
+    );
+
+  color: #FFFFFF;
+
+  border: 1px solid rgba(32,232,245,.55);
+
+  border-radius: 13px;
+
+  box-shadow:
+    0 5px 18px rgba(0, 190, 225, .22);
+}
+
+html:not([data-theme="light"]) .automation-button.secondary {
+  color: #C9F2FF;
+
+  background: rgba(15, 49, 70, .85);
+
+  border: 1px solid rgba(103, 201, 230, .30);
+
+  box-shadow: none;
+}
+
+/* WEEKDAY */
+
+html:not([data-theme="light"]) .weekday-grid label {
+  background: rgba(5, 31, 49, .85);
+
+  border-color: rgba(103, 201, 230, .25);
+
+  color: #B9DFEC;
+}
+
+html:not([data-theme="light"]) .weekday-grid label:has(input:checked) {
+  background: rgba(0, 173, 194, .20);
+
+  border-color: #20E8F5;
+
+  color: #45F2FF;
+
+  box-shadow:
+    0 0 12px rgba(32,232,245,.13);
+}
+
+/* SCHEDULE ITEM */
+
+html:not([data-theme="light"]) .schedule-item {
+  background: rgba(4, 29, 47, .78);
+
+  border: 1px solid rgba(103, 201, 230, .24);
+
+  border-radius: 13px;
+}
+
+html:not([data-theme="light"]) .schedule-item-name {
+  color: #E5F8FF;
+}
+
+html:not([data-theme="light"]) .schedule-item-time {
+  color: #35EAF5;
+}
+
+html:not([data-theme="light"]) .schedule-state {
+  background: rgba(32,232,245,.13);
+
+  color: #35EAF5;
+}
+
+html:not([data-theme="light"]) .schedule-state.off {
+  background: rgba(130,147,157,.12);
+
+  color: #A2BBC6;
+}
+
+/* EMPTY STATE */
+
+html:not([data-theme="light"]) .schedule-empty {
+  background: rgba(4, 29, 47, .65);
+
+  border-color: rgba(103, 201, 230, .28);
+
+  color: #91B9CB;
+}
+
+/* STATUS */
+
+html:not([data-theme="light"]) .automation-status {
+  color: #9CCBDC;
+}
+
+html:not([data-theme="light"]) .automation-status.success {
+  color: #35EABF;
+}
+
+html:not([data-theme="light"]) .automation-status.error {
+  color: #FF9292;
+}
+
+/* =====================================================
+   END AUTOMATION NEON GLASS
+===================================================== */
