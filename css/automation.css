@@ -1,7 +1,7 @@
-
 /* =========================================
    NOVIA HOME V4 - AUTOMATION PREMIUM
    Compatible with Dark / Light Theme
+   Light Mode disesuaikan ke referensi Light Minimalist
 ========================================= */
 
 .automation-panel {
@@ -21,6 +21,7 @@
   margin: 4px 0;
   font-size: 21px;
   font-weight: 700;
+  color: var(--text);
 }
 
 .automation-panel .eyebrow {
@@ -35,6 +36,7 @@
   font-size: 9px;
   color: var(--muted);
   letter-spacing: 1px;
+  font-weight: 700;
 }
 
 .automation-card {
@@ -59,7 +61,7 @@
   display: grid;
   place-items: center;
   border-radius: 13px;
-  background: rgba(66,214,164,.12);
+  background: rgba(7,155,112,.12);
   color: var(--accent);
   font-size: 25px;
 }
@@ -67,6 +69,7 @@
 .automation-heading h3 {
   margin: 0 0 5px;
   font-size: 15px;
+  color: var(--text);
 }
 
 .automation-heading p {
@@ -107,6 +110,7 @@ html[data-theme="light"] .automation-card input[type="time"] {
 .automation-card select:focus,
 .automation-card input[type="time"]:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(7,155,112,.15);
 }
 
 .automation-button {
@@ -118,7 +122,7 @@ html[data-theme="light"] .automation-card input[type="time"] {
   border: 0;
   border-radius: 11px;
   background: var(--accent);
-  color: #10251e;
+  color: #FFFFFF;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: .8px;
@@ -131,8 +135,8 @@ html[data-theme="light"] .automation-card input[type="time"] {
 }
 
 .automation-button.secondary {
-  color: var(--text);
-  background: var(--surface-light);
+  color: #40535D;
+  background: #EDF1F3;
   border: 1px solid var(--border);
 }
 
@@ -182,7 +186,15 @@ html[data-theme="light"] .automation-card input[type="time"] {
   border: 1px solid var(--border);
   border-radius: 9px;
   font-size: 10px;
+  font-weight: 700;
   cursor: pointer;
+  transition: .15s ease;
+}
+
+.weekday-grid label:has(input:checked) {
+  background: #E1F7EF;
+  border-color: var(--accent);
+  color: #087C5B;
 }
 
 .weekday-grid input {
@@ -228,6 +240,7 @@ html[data-theme="light"] .automation-card input[type="time"] {
 .schedule-item-name {
   font-size: 12px;
   font-weight: 700;
+  color: var(--text);
 }
 
 .schedule-item-time {
@@ -255,15 +268,89 @@ html[data-theme="light"] .automation-card input[type="time"] {
 .schedule-state {
   padding: 5px 9px;
   border-radius: 20px;
-  background: rgba(66,214,164,.12);
+  background: rgba(7,155,112,.12);
   color: var(--accent);
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: .4px;
 }
 
 .schedule-state.off {
   background: rgba(130,147,157,.12);
   color: var(--muted);
+}
+
+/* =========================================
+   LIGHT MODE - SESUAI REFERENSI
+========================================= */
+
+html[data-theme="light"] .automation-card {
+  background: linear-gradient(145deg, #FFFFFF, #EDF3F5);
+  border-color: #DCE5E9;
+  box-shadow: 0 10px 28px rgba(23,43,53,.06);
+}
+
+html[data-theme="light"] .automation-icon {
+  background: #E1F7EF;
+  color: #079B70;
+}
+
+html[data-theme="light"] .automation-card select,
+html[data-theme="light"] .automation-card input[type="time"] {
+  background: #FFFFFF;
+  border-color: #DCE5E9;
+  color: #172B35;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+html[data-theme="light"] .automation-button {
+  background: linear-gradient(180deg, #0AA87A, #079B70);
+  color: #FFFFFF;
+  box-shadow: 0 6px 16px rgba(7,155,112,.32);
+}
+
+html[data-theme="light"] .automation-button.secondary {
+  background: #EDF1F3;
+  color: #40535D;
+  border-color: #DCE5E9;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+html[data-theme="light"] .weekday-grid label {
+  background: #F1F5F6;
+  border-color: #DCE5E9;
+  color: #40535D;
+}
+
+html[data-theme="light"] .weekday-grid label:has(input:checked) {
+  background: #E1F7EF;
+  border-color: #079B70;
+  color: #087C5B;
+  box-shadow: 0 0 0 1px rgba(7,155,112,.2);
+}
+
+html[data-theme="light"] .schedule-item {
+  background: #F1F5F6;
+  border-color: #DCE5E9;
+}
+
+html[data-theme="light"] .schedule-empty {
+  background: #FFFFFF;
+  border-color: #DCE5E9;
+}
+
+html[data-theme="light"] .schedule-state {
+  background: #E1F7EF;
+  color: #079B70;
+}
+
+html[data-theme="light"] .schedule-state.off {
+  background: #E8EEF1;
+  color: #71818A;
+}
+
+html[data-theme="light"] .automation-status.error {
+  color: #C24A4A;
 }
 
 @media (max-width: 420px) {
