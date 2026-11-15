@@ -777,7 +777,7 @@ footer {
    17. NOVIA HOME V4 - DARK / LIGHT THEME
 ===================================================== */
 
-/* LIGHT MODE COLOR SYSTEM */
+/* LIGHT MODE COLOR SYSTEM - SESUAI REFERENSI */
 
 html[data-theme="light"] {
   color-scheme: light;
@@ -793,6 +793,8 @@ html[data-theme="light"] {
 
   --accent: #079B70;
   --accent-dark: #087C5B;
+  --accent-soft: #E1F7EF;
+  --accent-glow: rgba(7, 155, 112, 0.22);
 
   --warning: #A87922;
 }
@@ -822,6 +824,7 @@ html[data-theme="light"] .demo-pill {
 html[data-theme="light"] .hero-chip {
   background: var(--surface);
   border-color: var(--border);
+  box-shadow: 0 8px 24px rgba(23, 43, 53, 0.06);
 }
 
 /* LIGHT MODE SUMMARY */
@@ -829,6 +832,7 @@ html[data-theme="light"] .hero-chip {
 html[data-theme="light"] .summary-card {
   background: var(--surface);
   border-color: var(--border);
+  box-shadow: 0 10px 28px rgba(23, 43, 53, 0.06);
 }
 
 /* LIGHT MODE DEVICE CARD */
@@ -842,16 +846,23 @@ html[data-theme="light"] .device-card {
 
   border-color: var(--border);
   color: var(--text);
+  box-shadow: 0 10px 28px rgba(23, 43, 53, 0.06);
 }
 
+/* INI KUNCINYA - SESUAI GAMBAR: CARD ON ADA GLOW HIJAU */
 html[data-theme="light"] .device-card.is-on {
   background: linear-gradient(
     145deg,
-    #E1F7EF,
-    #FFFFFF
+    #E6F9F0 0%,
+    #F2FBF7 45%,
+    #FFFFFF 100%
   );
 
-  border-color: var(--accent);
+  border-color: #9FE3C8;
+  box-shadow:
+    0 0 0 1px rgba(7, 155, 112, 0.18),
+    0 14px 34px rgba(7, 155, 112, 0.16),
+    0 6px 16px rgba(23, 43, 53, 0.05);
 }
 
 html[data-theme="light"] .device-card h3 {
@@ -863,33 +874,61 @@ html[data-theme="light"] .device-card p {
 }
 
 html[data-theme="light"] .device-icon {
-  color: #71818A;
+  color: #8AB4C2;
 }
 
+html[data-theme="light"] .device-card.is-on .device-icon {
+  color: #7FB8C8;
+}
+
+/* BADGE STATE - DI GAMBAR ON ITU HIJAU TEBAL */
 html[data-theme="light"] .state-badge {
   color: #71818A;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+html[data-theme="light"] .device-card.is-on .state-badge {
+  color: var(--accent);
+  font-weight: 800;
 }
 
 /* LIGHT MODE TOGGLE BUTTON */
 
 html[data-theme="light"] .toggle-button {
   color: #40535D;
-  background: #F1F5F6;
+  background: #EDF1F3;
   border-color: #DCE5E9;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
+/* SESUAI GAMBAR: TOGGLE ON = HIJAU SOLID + TEKS PUTIH */
 html[data-theme="light"] .device-card.is-on .toggle-button {
-  color: #087C5B;
-  background: #E9F8F1;
-  border-color: var(--accent);
+  color: #FFFFFF;
+  background: linear-gradient(180deg, #0AA87A, #079B70);
+  border-color: #079B70;
+  box-shadow:
+    0 6px 16px rgba(7, 155, 112, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
-html[data-theme="light"] .toggle-knob {
+/* KNOB / TRACK */
+html[data-theme="light"] .toggle-track {
   background: #B8C5CB;
 }
 
+html[data-theme="light"] .toggle-knob {
+  background: #FFFFFF;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="light"] .device-card.is-on .toggle-track {
+  background: #0AC07F;
+}
+
 html[data-theme="light"] .device-card.is-on .toggle-knob {
-  background: var(--accent-dark);
+  background: #C6F6DF;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6), 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* LIGHT MODE SYSTEM PANEL */
@@ -897,6 +936,7 @@ html[data-theme="light"] .device-card.is-on .toggle-knob {
 html[data-theme="light"] .system-panel {
   background: var(--surface);
   border-color: var(--border);
+  box-shadow: 0 10px 28px rgba(23, 43, 53, 0.05);
 }
 
 html[data-theme="light"] .system-list div {
