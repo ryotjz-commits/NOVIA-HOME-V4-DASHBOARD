@@ -390,6 +390,149 @@
     </section>
 
 
+<!-- =========================================
+     NOVIA HOME AUTOMATION PANEL
+========================================== -->
+
+<section class="section-block automation-panel" id="automation">
+
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">SMART AUTOMATION</p>
+      <h2>Automation control</h2>
+    </div>
+    <span class="count-label">TIMER & SCHEDULE</span>
+  </div>
+
+  <!-- TIMER -->
+  <article class="automation-card">
+
+    <div class="automation-heading">
+      <span class="automation-icon">◷</span>
+      <div>
+        <h3>Timer otomatis</h3>
+        <p>Atur durasi sebelum perangkat OFF</p>
+      </div>
+    </div>
+
+    <label for="timerChannel">Pilih perangkat</label>
+
+    <select id="timerChannel">
+      <option value="0">Lampu Depan · V0</option>
+      <option value="1">Lampu Tengah · V1</option>
+      <option value="2">Lampu Kamar · V2</option>
+      <option value="3">Kipas Angin · V3</option>
+    </select>
+
+    <label for="timerMinutes">Durasi timer</label>
+
+    <select id="timerMinutes">
+      <option value="15">15 menit</option>
+      <option value="30">30 menit</option>
+      <option value="60" selected>1 jam</option>
+      <option value="120">2 jam</option>
+      <option value="180">3 jam</option>
+      <option value="240">4 jam</option>
+      <option value="480">8 jam</option>
+    </select>
+
+    <button type="button" id="startTimer" class="automation-button">
+      AKTIFKAN TIMER
+    </button>
+
+    <button type="button" id="cancelTimer" class="automation-button secondary">
+      BATALKAN TIMER
+    </button>
+
+    <p id="timerStatus" class="automation-status" role="status">
+      Belum ada timer yang diatur.
+    </p>
+
+  </article>
+
+  <!-- DAILY SCHEDULE -->
+  <article class="automation-card">
+
+    <div class="automation-heading">
+      <span class="automation-icon">◷</span>
+      <div>
+        <h3>Jadwal harian</h3>
+        <p>Atur waktu ON dan OFF otomatis</p>
+      </div>
+    </div>
+
+    <label for="scheduleChannel">Pilih perangkat</label>
+
+    <select id="scheduleChannel">
+      <option value="0">Lampu Depan · V0</option>
+      <option value="1">Lampu Tengah · V1</option>
+      <option value="2">Lampu Kamar · V2</option>
+      <option value="3">Kipas Angin · V3</option>
+    </select>
+
+    <div class="schedule-time-grid">
+
+      <div>
+        <label for="scheduleOn">Waktu ON</label>
+        <input type="time" id="scheduleOn" value="18:00">
+      </div>
+
+      <div>
+        <label for="scheduleOff">Waktu OFF</label>
+        <input type="time" id="scheduleOff" value="22:00">
+      </div>
+
+    </div>
+
+    <label>Hari aktif</label>
+
+    <div class="weekday-grid">
+
+      <label><input type="checkbox" value="1" checked> Sen</label>
+      <label><input type="checkbox" value="2" checked> Sel</label>
+      <label><input type="checkbox" value="4" checked> Rab</label>
+      <label><input type="checkbox" value="8" checked> Kam</label>
+      <label><input type="checkbox" value="16" checked> Jum</label>
+      <label><input type="checkbox" value="32" checked> Sab</label>
+      <label><input type="checkbox" value="64" checked> Min</label>
+
+    </div>
+
+    <label class="schedule-enable">
+      <input type="checkbox" id="scheduleEnabled" checked>
+      Aktifkan jadwal
+    </label>
+
+    <button type="button" id="saveSchedule" class="automation-button">
+      SIMPAN JADWAL
+    </button>
+
+    <p id="scheduleStatus" class="automation-status" role="status">
+      Jadwal belum disimpan.
+    </p>
+
+  </article>
+
+  <!-- SAVED SCHEDULES -->
+  <article class="automation-card">
+
+    <div class="automation-heading">
+      <span class="automation-icon">▤</span>
+      <div>
+        <h3>Jadwal tersimpan</h3>
+        <p>Data jadwal dari database NOVIA HOME</p>
+      </div>
+    </div>
+
+    <div id="scheduleList" class="schedule-list">
+      Memuat daftar jadwal...
+    </div>
+
+  </article>
+
+</section>
+
+
     <!-- =========================================
          SYSTEM OVERVIEW
     ========================================== -->
@@ -489,4 +632,5 @@ if ("serviceWorker" in navigator) {
 </script>
 
 </body>
-</html>
+                                   </html>
+                                   
