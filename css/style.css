@@ -688,72 +688,105 @@ html:not([data-theme="light"]) .device-card.is-on { border-color: rgba(32, 232, 
   *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
+/* NOVIA HOME V4 — GRAPHITE / SAGE DARK THEME
+   Replaces the previous blue-neon look with a calm, low-glare palette.
+   Layout, responsive rules, controls and theme-switching behavior are unchanged.
+*/
+:root {
+  --bg: #151A1D;
+  --surface: #20282B;
+  --surface-light: #293337;
+  --border: #35413F;
+  --text: #E7ECE8;
+  --muted: #A0ADA5;
+  --accent: #69B58F;
+  --accent-dark: #4D9270;
+  --warning: #D9BE83;
+  --accent-rgb: 105, 181, 143;
+  --accent-soft: rgba(105, 181, 143, .10);
+  --accent-glow: rgba(105, 181, 143, .08);
+  --panel-glass: rgba(32, 40, 43, .96);
+  --panel-highlight: rgba(255, 255, 255, .035);
+  --shadow-soft: 0 8px 22px rgba(0, 0, 0, .16);
+  --shadow-lift: 0 12px 28px rgba(0, 0, 0, .20);
+  --focus-ring: 0 0 0 3px rgba(105, 181, 143, .20);
+}
 
-/* NOVIA HOME — refined dark theme (graphite + muted sage, no blue neon) */
 html:not([data-theme="light"]) {
   color-scheme: dark;
   --bg: #151A1D;
   --surface: #20282B;
-  --surface-light: #293438;
-  --border: #394744;
-  --text: #E8EEEA;
+  --surface-light: #293337;
+  --border: #35413F;
+  --text: #E7ECE8;
   --muted: #A0ADA5;
   --accent: #69B58F;
-  --accent-dark: #397D60;
-  --warning: #D8BD82;
+  --accent-dark: #4D9270;
+  --warning: #D9BE83;
   --accent-rgb: 105, 181, 143;
-  --accent-soft: rgba(var(--accent-rgb), .10);
-  --accent-glow: rgba(var(--accent-rgb), .12);
-  --neon-glow: transparent;
-  --panel-glass: rgba(32, 40, 43, .94);
-  --panel-highlight: rgba(255, 255, 255, .035);
-  --shadow-soft: 0 10px 26px rgba(0, 0, 0, .18);
-  --shadow-lift: 0 14px 30px rgba(0, 0, 0, .24);
-  --focus-ring: 0 0 0 3px rgba(var(--accent-rgb), .22);
+  --accent-soft: rgba(105, 181, 143, .10);
+  --accent-glow: rgba(105, 181, 143, .08);
+  --panel-glass: rgba(32, 40, 43, .96);
+  --shadow-soft: 0 8px 22px rgba(0, 0, 0, .16);
+  --shadow-lift: 0 12px 28px rgba(0, 0, 0, .20);
+  --focus-ring: 0 0 0 3px rgba(105, 181, 143, .20);
   background: #151A1D;
 }
 
-html:not([data-theme="light"]) body {
+html:not([data-theme="light"]) body,
+html:not([data-theme="light"]) .app-shell {
   color: var(--text);
   background: transparent;
 }
 
-html:not([data-theme="light"]) body::before {
-  background:
-    radial-gradient(ellipse at 12% 0%, rgba(105, 181, 143, .07), transparent 34rem),
-    radial-gradient(ellipse at 100% 35%, rgba(160, 173, 165, .035), transparent 32rem),
-    linear-gradient(160deg, #171D20 0%, #151A1D 55%, #121719 100%);
-}
-
+html:not([data-theme="light"]) body::before,
 html:not([data-theme="light"]) body::after {
+  content: none;
   display: none;
+  background: none;
 }
 
-html:not([data-theme="light"]) .topbar {
+html:not([data-theme="light"]) .topbar,
+html:not([data-theme="light"]) footer {
   border-color: rgba(160, 173, 165, .16);
 }
 
 html:not([data-theme="light"]) .brand-mark {
   color: var(--accent);
-  border-color: rgba(var(--accent-rgb), .30);
-  background: rgba(var(--accent-rgb), .09);
+  border-color: rgba(105, 181, 143, .32);
+  background: rgba(105, 181, 143, .09);
   box-shadow: none;
 }
 
 html:not([data-theme="light"]) .brand strong,
 html:not([data-theme="light"]) h1,
-html:not([data-theme="light"]) .section-heading h2 {
-  color: #E8EEEA;
+html:not([data-theme="light"]) .section-heading h2,
+html:not([data-theme="light"]) .summary-card strong,
+html:not([data-theme="light"]) .device-card h3 {
+  color: #E7ECE8;
   text-shadow: none;
 }
 
 html:not([data-theme="light"]) .brand small,
 html:not([data-theme="light"]) .welcome-copy,
-html:not([data-theme="light"]) h1 span,
 html:not([data-theme="light"]) .summary-note,
+html:not([data-theme="light"]) .device-card p,
 html:not([data-theme="light"]) .demo-note,
-html:not([data-theme="light"]) footer {
+html:not([data-theme="light"]) footer,
+html:not([data-theme="light"]) .count-label {
   color: #A0ADA5;
+}
+
+html:not([data-theme="light"]) h1 span,
+html:not([data-theme="light"]) .welcome h1 span,
+html:not([data-theme="light"]) .eyebrow,
+html:not([data-theme="light"]) .section-heading .eyebrow,
+html:not([data-theme="light"]) .chip-icon,
+html:not([data-theme="light"]) .summary-icon,
+html:not([data-theme="light"]) .device-icon {
+  color: var(--accent);
+  text-shadow: none;
+  filter: none;
 }
 
 html:not([data-theme="light"]) .hero-chip,
@@ -761,81 +794,56 @@ html:not([data-theme="light"]) .summary-card,
 html:not([data-theme="light"]) .device-card,
 html:not([data-theme="light"]) .system-panel {
   background: #20282B;
-  border-color: #394744;
+  border-color: #35413F;
   box-shadow: var(--shadow-soft);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 
-html:not([data-theme="light"]) .chip-icon,
-html:not([data-theme="light"]) .summary-icon,
-html:not([data-theme="light"]) .device-icon,
-html:not([data-theme="light"]) .section-heading .eyebrow {
-  color: var(--accent);
-  text-shadow: none;
-  filter: none;
-}
-
-html:not([data-theme="light"]) .summary-card small,
-html:not([data-theme="light"]) .device-card p,
-html:not([data-theme="light"]) .count-label,
-html:not([data-theme="light"]) .system-list span {
-  color: #A0ADA5;
-}
-
-html:not([data-theme="light"]) .summary-card strong,
-html:not([data-theme="light"]) .device-card h3,
-html:not([data-theme="light"]) .system-list strong {
-  color: #E8EEEA;
-}
-
-html:not([data-theme="light"]) .device-card::before {
-  display: none;
+html:not([data-theme="light"]) .device-card::before,
+html:not([data-theme="light"]) .summary-card::before,
+html:not([data-theme="light"]) .system-panel::before {
+  background: none;
+  opacity: 0;
 }
 
 html:not([data-theme="light"]) .device-card.is-on {
-  background: linear-gradient(145deg, #263B32, #202A27);
-  border-color: #568A70;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, .20);
+  background: #24342D;
+  border-color: rgba(105, 181, 143, .65);
+  box-shadow: 0 0 0 1px rgba(105, 181, 143, .08), var(--shadow-soft);
 }
 
+html:not([data-theme="light"]) .state-badge,
 html:not([data-theme="light"]) .device-card.is-on .state-badge {
-  color: #8CC7A7;
+  color: #91C8A9;
   text-shadow: none;
 }
 
-html:not([data-theme="light"]) .state-badge {
-  color: #B6C2BA;
-  border-color: rgba(var(--accent-rgb), .20);
-  background: rgba(var(--accent-rgb), .08);
-  box-shadow: none;
-}
-
 html:not([data-theme="light"]) .toggle-button {
-  color: #DCE6DF;
+  color: #DCE5DF;
   background: #171E20;
-  border-color: #40504A;
+  border-color: #3A4842;
   box-shadow: none;
 }
 
 html:not([data-theme="light"]) .toggle-label {
-  color: #E2EAE4;
+  color: #E1E9E3;
 }
 
 html:not([data-theme="light"]) .toggle-knob {
-  background: #53625B;
+  background: #46534C;
   box-shadow: none;
 }
 
 html:not([data-theme="light"]) .toggle-knob::after {
-  background: #E8EEEA;
+  background: #DCE5DF;
   box-shadow: none;
 }
 
 html:not([data-theme="light"]) .device-card.is-on .toggle-button {
-  color: #F2F7F3;
-  background: #397D60;
-  border-color: #568A70;
+  color: #F3F7F4;
+  background: #376B52;
+  border-color: #69B58F;
   box-shadow: none;
 }
 
@@ -844,31 +852,37 @@ html:not([data-theme="light"]) .device-card.is-on .toggle-knob {
 }
 
 html:not([data-theme="light"]) .device-card.is-on .toggle-knob::after {
-  background: #FFFFFF;
+  background: #F4F7F4;
   box-shadow: none;
 }
 
+html:not([data-theme="light"]) .system-list div,
 html:not([data-theme="light"]) .system-list > div {
   border-color: rgba(160, 173, 165, .14);
 }
 
 html:not([data-theme="light"]) .theme-toggle {
-  color: #DCE6DF;
+  color: #DCE5DF;
   background: #20282B;
-  border-color: #40504A;
+  border-color: #3A4842;
   box-shadow: none;
 }
 
 html:not([data-theme="light"]) .theme-toggle:hover,
 html:not([data-theme="light"]) .toggle-button:hover {
-  border-color: #69B58F;
+  border-color: var(--accent);
   box-shadow: none;
 }
 
-html:not([data-theme="light"]) .device-card:hover {
-  border-color: #568A70;
+html:not([data-theme="light"]) .pulse {
+  box-shadow: 0 0 0 3px rgba(105, 181, 143, .10);
 }
 
-html:not([data-theme="light"]) .brand-mark::after {
-  display: none;
+@media (hover: hover) and (pointer: fine) {
+  html:not([data-theme="light"]) .summary-card:hover,
+  html:not([data-theme="light"]) .device-card:hover,
+  html:not([data-theme="light"]) .system-panel:hover {
+    border-color: rgba(105, 181, 143, .42);
+    box-shadow: var(--shadow-lift);
+  }
 }
