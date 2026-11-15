@@ -1,6 +1,75 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const API_URL = "https://novia-home-api.ryo-tjz.workers.dev";
+  
+  // ==========================================
+  // NOVIA HOME V4 - THEME SWITCHER
+  // ==========================================
+
+  const themeButton = document.createElement("button");
+
+  themeButton.type = "button";
+  themeButton.className = "theme-toggle";
+  themeButton.setAttribute("aria-label", "Ganti tema");
+
+  const savedTheme = (() => {
+    try {
+      return localStorage.getItem("novia-home-theme");
+    } catch (error) {
+      return null;
+    }
+  })();
+
+  let currentTheme =
+    savedTheme === "light" ? "light" : "dark";
+
+  function applyTheme(theme) {
+    currentTheme = theme;
+
+    document.documentElement.setAttribute(
+      "data-theme",
+      theme
+    );
+
+    const isLight = theme === "light";
+
+    themeButton.innerHTML = `
+      <span class="theme-toggle-icon">
+        ${isLight ? "☀" : "☾"}
+      </span>
+      <span>${isLight ? "LIGHT" : "DARK"}</span>
+    `;
+
+    themeButton.setAttribute(
+      "aria-label",
+      isLight ? "Aktifkan Dark Mode" : "Aktifkan Light Mode"
+    );
+
+    try {
+      localStorage.setItem("novia-home-theme", theme);
+    } catch (error) {
+      console.warn("Tema tidak dapat disimpan:", error);
+    }
+  }
+
+  const topbar = document.querySelector(".topbar");
+
+  if (topbar) {
+    topbar.appendChild(themeButton);
+  }
+
+  themeButton.addEventListener("click", () => {
+    applyTheme(
+      currentTheme === "dark" ? "light" : "dark"
+    );
+  });
+
+  applyTheme(currentTheme);
+
+  // ==========================================
+  // END THEME SWITCHER
+  // ==========================================
+  
 
   const statusElement = document.getElementById("connectionStatus");
   const cards = [...document.querySelectorAll(".device-card")];
