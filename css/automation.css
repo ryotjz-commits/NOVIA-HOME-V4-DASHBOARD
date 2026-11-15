@@ -1,87 +1,92 @@
-/* =========================================
-   NOVIA HOME V4 - AUTOMATION PREMIUM
-   Compatible with Dark / Light Theme
-   Light Mode disesuaikan ke referensi Light Minimalist
-========================================= */
+/* =========================================================
+   NOVIA HOME V4 — AUTOMATION
+   Consolidated • mobile-first • dark/light theme
+   Replace the old automation.css with this file.
+========================================================= */
 
 .automation-panel {
-  margin-top: 28px;
+  margin-top: 24px;
   color: var(--text);
 }
 
 .automation-panel .section-heading {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 12px;
 }
 
 .automation-panel .section-heading h2 {
-  margin: 4px 0;
-  font-size: 21px;
-  font-weight: 700;
+  margin: 2px 0;
   color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.02em;
 }
 
 .automation-panel .eyebrow {
   margin: 0;
   color: var(--accent);
   font-size: 10px;
-  letter-spacing: 2px;
-  font-weight: 800;
+  font-weight: 700;
+  letter-spacing: 1.4px;
 }
 
 .automation-panel .count-label {
-  font-size: 9px;
   color: var(--muted);
-  letter-spacing: 1px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 600;
 }
 
 .automation-card {
+  margin: 0 0 12px;
+  padding: 14px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 17px;
-  padding: 19px;
-  margin-bottom: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.08);
+  border-radius: 15px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .07);
 }
 
 .automation-heading {
   display: flex;
   align-items: center;
-  gap: 13px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .automation-icon {
-  width: 43px;
-  height: 43px;
   display: grid;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
   place-items: center;
-  border-radius: 13px;
-  background: rgba(7,155,112,.12);
   color: var(--accent);
-  font-size: 25px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  border-radius: 11px;
+  font-size: 21px;
 }
 
 .automation-heading h3 {
-  margin: 0 0 5px;
-  font-size: 15px;
+  margin: 0 0 3px;
   color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .automation-heading p {
   margin: 0;
-  font-size: 11px;
   color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .automation-card > label,
 .schedule-time-grid label {
   display: block;
-  margin: 13px 0 7px;
+  margin: 11px 0 6px;
   color: var(--muted);
   font-size: 11px;
   font-weight: 600;
@@ -89,9 +94,11 @@
 
 .automation-card select,
 .automation-card input[type="time"] {
+  box-sizing: border-box;
   width: 100%;
-  min-height: 45px;
-  padding: 11px 13px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 11px;
   color: var(--text);
   background: var(--surface-light);
   border: 1px solid var(--border);
@@ -100,6 +107,7 @@
   font: inherit;
   font-size: 13px;
   color-scheme: dark;
+  transition: border-color .16s ease, box-shadow .16s ease;
 }
 
 html[data-theme="light"] .automation-card select,
@@ -107,37 +115,46 @@ html[data-theme="light"] .automation-card input[type="time"] {
   color-scheme: light;
 }
 
+.automation-card select:focus-visible,
+.automation-card input:focus-visible,
+.automation-button:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: 2px;
+}
+
 .automation-card select:focus,
 .automation-card input[type="time"]:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(7,155,112,.15);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 
 .automation-button {
   display: block;
   width: 100%;
-  min-height: 45px;
-  margin-top: 14px;
-  padding: 12px;
-  border: 0;
-  border-radius: 11px;
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 11px 13px;
+  color: #fff;
   background: var(--accent);
-  color: #FFFFFF;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
   font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .8px;
+  font-weight: 700;
+  letter-spacing: .45px;
   cursor: pointer;
-  transition: .2s ease;
-}
-
-.automation-button:active {
-  transform: scale(.98);
+  transition: filter .16s ease, transform .16s ease, background-color .16s ease;
 }
 
 .automation-button.secondary {
-  color: #40535D;
-  background: #EDF1F3;
-  border: 1px solid var(--border);
+  color: var(--text);
+  background: var(--surface-light);
+  border-color: var(--border);
+}
+
+.automation-button:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .automation-button:disabled {
@@ -147,480 +164,53 @@ html[data-theme="light"] .automation-card input[type="time"] {
 
 .automation-status {
   min-height: 18px;
-  margin: 13px 0 0;
+  margin: 10px 0 0;
   color: var(--muted);
   font-size: 11px;
-  line-height: 1.6;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
-.automation-status.success {
-  color: var(--accent);
-}
-
-.automation-status.error {
-  color: #e58d8d;
-}
+.automation-status.success { color: var(--accent); }
+.automation-status.error { color: #d96b6b; }
 
 .schedule-time-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
 }
 
 .weekday-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
   margin-top: 10px;
 }
 
 .weekday-grid label {
   display: flex;
+  min-width: 0;
+  min-height: 40px;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  min-height: 37px;
-  padding: 7px 4px;
+  padding: 6px 3px;
   color: var(--text);
   background: var(--surface-light);
   border: 1px solid var(--border);
   border-radius: 9px;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  transition: .15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .16s ease, border-color .16s ease;
 }
 
 .weekday-grid label:has(input:checked) {
-  background: #E1F7EF;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
   border-color: var(--accent);
-  color: #087C5B;
-}
-
-.weekday-grid input {
-  width: 13px;
-  height: 13px;
-  accent-color: var(--accent);
-  margin: 0;
-}
-
-.schedule-enable {
-  display: flex !important;
-  align-items: center;
-  gap: 9px;
-  margin-top: 18px !important;
-  color: var(--text) !important;
-}
-
-.schedule-enable input {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--accent);
-}
-
-.schedule-list {
-  display: grid;
-  gap: 10px;
-}
-
-.schedule-item {
-  padding: 13px;
-  border-radius: 11px;
-  background: var(--surface-light);
-  border: 1px solid var(--border);
-}
-
-.schedule-item-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-
-.schedule-item-name {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.schedule-item-time {
-  margin-top: 9px;
-  font-size: 13px;
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.schedule-item-days {
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 10px;
-}
-
-.schedule-empty {
-  padding: 17px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 11px;
-  border: 1px dashed var(--border);
-  border-radius: 10px;
-}
-
-.schedule-state {
-  padding: 5px 9px;
-  border-radius: 20px;
-  background: rgba(7,155,112,.12);
-  color: var(--accent);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .4px;
-}
-
-.schedule-state.off {
-  background: rgba(130,147,157,.12);
-  color: var(--muted);
-}
-
-/* =========================================
-   LIGHT MODE - SESUAI REFERENSI
-========================================= */
-
-html[data-theme="light"] .automation-card {
-  background: linear-gradient(145deg, #FFFFFF, #EDF3F5);
-  border-color: #DCE5E9;
-  box-shadow: 0 10px 28px rgba(23,43,53,.06);
-}
-
-html[data-theme="light"] .automation-icon {
-  background: #E1F7EF;
-  color: #079B70;
-}
-
-html[data-theme="light"] .automation-card select,
-html[data-theme="light"] .automation-card input[type="time"] {
-  background: #FFFFFF;
-  border-color: #DCE5E9;
-  color: #172B35;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
-}
-
-html[data-theme="light"] .automation-button {
-  background: linear-gradient(180deg, #0AA87A, #079B70);
-  color: #FFFFFF;
-  box-shadow: 0 6px 16px rgba(7,155,112,.32);
-}
-
-html[data-theme="light"] .automation-button.secondary {
-  background: #EDF1F3;
-  color: #40535D;
-  border-color: #DCE5E9;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
-}
-
-html[data-theme="light"] .weekday-grid label {
-  background: #F1F5F6;
-  border-color: #DCE5E9;
-  color: #40535D;
-}
-
-html[data-theme="light"] .weekday-grid label:has(input:checked) {
-  background: #E1F7EF;
-  border-color: #079B70;
-  color: #087C5B;
-  box-shadow: 0 0 0 1px rgba(7,155,112,.2);
-}
-
-html[data-theme="light"] .schedule-item {
-  background: #F1F5F6;
-  border-color: #DCE5E9;
-}
-
-html[data-theme="light"] .schedule-empty {
-  background: #FFFFFF;
-  border-color: #DCE5E9;
-}
-
-html[data-theme="light"] .schedule-state {
-  background: #E1F7EF;
-  color: #079B70;
-}
-
-html[data-theme="light"] .schedule-state.off {
-  background: #E8EEF1;
-  color: #71818A;
-}
-
-html[data-theme="light"] .automation-status.error {
-  color: #C24A4A;
-}
-
-@media (max-width: 420px) {
-  .automation-card {
-    padding: 15px;
-  }
-
-  .automation-panel .section-heading h2 {
-    font-size: 18px;
-  }
-
-  .weekday-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-
-/* =====================================================
-   NOVIA HOME V4
-   AUTOMATION - NEON GLASS THEME
-===================================================== */
-
-html:not([data-theme="light"]) .automation-panel {
-  color: #E5F8FF;
-}
-
-html:not([data-theme="light"]) .automation-panel .eyebrow {
-  color: #25E8F3;
-}
-
-html:not([data-theme="light"]) .automation-panel .section-heading h2 {
-  color: #E8F9FF;
-}
-
-/* AUTOMATION CARD */
-
-html:not([data-theme="light"]) .automation-card {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(35, 81, 108, .75),
-      rgba(9, 37, 60, .88)
-    );
-
-  border: 1px solid rgba(107, 205, 239, .35);
-
-  border-radius: 20px;
-
-  box-shadow:
-    0 12px 28px rgba(0,0,0,.22),
-    inset 0 1px 0 rgba(255,255,255,.09);
-}
-
-/* AUTOMATION ICON */
-
-html:not([data-theme="light"]) .automation-icon {
-  background: rgba(32,232,245,.13);
-
-  color: #27E8F5;
-
-  border: 1px solid rgba(32,232,245,.22);
-
-  box-shadow:
-    0 0 15px rgba(32,232,245,.10);
-}
-
-/* AUTOMATION TEXT */
-
-html:not([data-theme="light"]) .automation-heading h3 {
-  color: #EAFBFF;
-}
-
-html:not([data-theme="light"]) .automation-heading p {
-  color: #93C3D5;
-}
-
-/* INPUT */
-
-html:not([data-theme="light"]) .automation-card select,
-html:not([data-theme="light"]) .automation-card input[type="time"] {
-  color: #E8F9FF;
-
-  background: rgba(2, 22, 39, .85);
-
-  border: 1px solid rgba(103, 201, 230, .30);
-
-  border-radius: 12px;
-
-  color-scheme: dark;
-}
-
-/* BUTTON */
-
-html:not([data-theme="light"]) .automation-button {
-  background:
-    linear-gradient(
-      135deg,
-      #079DBB,
-      #087B9D
-    );
-
-  color: #FFFFFF;
-
-  border: 1px solid rgba(32,232,245,.55);
-
-  border-radius: 13px;
-
-  box-shadow:
-    0 5px 18px rgba(0, 190, 225, .22);
-}
-
-html:not([data-theme="light"]) .automation-button.secondary {
-  color: #C9F2FF;
-
-  background: rgba(15, 49, 70, .85);
-
-  border: 1px solid rgba(103, 201, 230, .30);
-
-  box-shadow: none;
-}
-
-/* WEEKDAY */
-
-html:not([data-theme="light"]) .weekday-grid label {
-  background: rgba(5, 31, 49, .85);
-
-  border-color: rgba(103, 201, 230, .25);
-
-  color: #B9DFEC;
-}
-
-html:not([data-theme="light"]) .weekday-grid label:has(input:checked) {
-  background: rgba(0, 173, 194, .20);
-
-  border-color: #20E8F5;
-
-  color: #45F2FF;
-
-  box-shadow:
-    0 0 12px rgba(32,232,245,.13);
-}
-
-/* SCHEDULE ITEM */
-
-html:not([data-theme="light"]) .schedule-item {
-  background: rgba(4, 29, 47, .78);
-
-  border: 1px solid rgba(103, 201, 230, .24);
-
-  border-radius: 13px;
-}
-
-html:not([data-theme="light"]) .schedule-item-name {
-  color: #E5F8FF;
-}
-
-html:not([data-theme="light"]) .schedule-item-time {
-  color: #35EAF5;
-}
-
-html:not([data-theme="light"]) .schedule-state {
-  background: rgba(32,232,245,.13);
-
-  color: #35EAF5;
-}
-
-html:not([data-theme="light"]) .schedule-state.off {
-  background: rgba(130,147,157,.12);
-
-  color: #A2BBC6;
-}
-
-/* EMPTY STATE */
-
-html:not([data-theme="light"]) .schedule-empty {
-  background: rgba(4, 29, 47, .65);
-
-  border-color: rgba(103, 201, 230, .28);
-
-  color: #91B9CB;
-}
-
-/* STATUS */
-
-html:not([data-theme="light"]) .automation-status {
-  color: #9CCBDC;
-}
-
-html:not([data-theme="light"]) .automation-status.success {
-  color: #35EABF;
-}
-
-html:not([data-theme="light"]) .automation-status.error {
-  color: #FF9292;
-}
-
-/* =====================================================
-   END AUTOMATION NEON GLASS
-===================================================== */
-
-/* =====================================================
-   NOVIA HOME V4 — FINAL POLISH
-   Accessibility, interaction states and responsive fixes
-   ===================================================== */
-
-.automation-panel,
-.automation-panel * {
-  min-width: 0;
-}
-
-.automation-card {
-  overflow: hidden;
-}
-
-.automation-card select,
-.automation-card input[type="time"] {
-  display: block;
-  min-width: 0;
-  max-width: 100%;
-  line-height: 1.4;
-  transition:
-    border-color var(--transition, .2s ease),
-    box-shadow var(--transition, .2s ease),
-    background-color var(--transition, .2s ease);
-}
-
-.automation-card select option {
-  color: var(--text);
-  background: var(--surface);
-}
-
-.automation-card select:focus-visible,
-.automation-card input[type="time"]:focus-visible,
-.automation-button:focus-visible,
-.weekday-grid input:focus-visible,
-.schedule-enable input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-.automation-button {
-  min-width: 0;
-  line-height: 1.4;
-  -webkit-tap-highlight-color: transparent;
-}
-
-@media (hover: hover) {
-  .automation-button:not(:disabled):hover {
-    filter: brightness(1.07);
-  }
-
-  .automation-button.secondary:not(:disabled):hover {
-    border-color: var(--accent);
-  }
-
-  .schedule-item {
-    transition:
-      border-color var(--transition, .2s ease),
-      transform var(--transition, .2s ease);
-  }
-
-  .schedule-item:hover {
-    border-color: var(--accent);
-  }
-}
-
-.weekday-grid label {
-  min-width: 0;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .weekday-grid label:focus-within {
@@ -631,6 +221,65 @@ html:not([data-theme="light"]) .automation-status.error {
 .weekday-grid input,
 .schedule-enable input {
   flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.schedule-enable {
+  display: flex !important;
+  min-height: 42px;
+  align-items: center;
+  gap: 9px;
+  margin-top: 13px !important;
+  color: var(--text) !important;
+  font-size: 11px;
+}
+
+.schedule-enable input {
+  width: 18px;
+  height: 18px;
+}
+
+.schedule-list {
+  display: grid;
+  gap: 8px;
+}
+
+.schedule-item {
+  min-width: 0;
+  padding: 11px;
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+}
+
+.schedule-item-top {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.schedule-item-name {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.schedule-item-time {
+  margin-top: 7px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.schedule-item-days {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 10px;
 }
 
 .schedule-item-name,
@@ -639,45 +288,63 @@ html:not([data-theme="light"]) .automation-status.error {
   overflow-wrap: anywhere;
 }
 
-.schedule-item-top {
-  min-width: 0;
-}
-
 .schedule-state {
   flex: 0 0 auto;
+  padding: 4px 8px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
-.automation-status {
-  overflow-wrap: anywhere;
+.schedule-state.off {
+  color: var(--muted);
+  background: color-mix(in srgb, var(--muted) 12%, transparent);
+  border-color: var(--border);
 }
 
+.schedule-empty {
+  padding: 15px;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  font-size: 11px;
+  text-align: center;
+}
+
+html[data-theme="light"] .automation-status.error { color: #b94343; }
 html[data-theme="light"] .automation-card select option {
-  color: #172B35;
-  background: #FFFFFF;
+  color: var(--text);
+  background: var(--surface);
 }
 
-@media (max-width: 360px) {
-  .schedule-time-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 4px;
-  }
+@media (max-width: 340px) {
+  .automation-card { padding: 11px; }
+  .schedule-time-grid { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .weekday-grid { gap: 5px; }
+  .weekday-grid label { gap: 3px; padding-inline: 2px; font-size: 9px; }
+  .automation-panel .section-heading { align-items: flex-start; }
+}
 
-  .weekday-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 6px;
-  }
+@media (min-width: 600px) {
+  .automation-panel { margin-top: 30px; }
+  .automation-panel .section-heading h2 { font-size: 20px; }
+  .automation-card { padding: 18px; border-radius: 16px; }
+  .automation-heading h3 { font-size: 15px; }
+  .automation-heading p { font-size: 12px; }
+  .schedule-time-grid { gap: 12px; }
+  .weekday-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+}
 
-  .weekday-grid label {
-    gap: 4px;
-    padding-inline: 2px;
-    font-size: 9px;
-  }
-
-  .automation-panel .section-heading {
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
+@media (hover: hover) and (pointer: fine) {
+  .automation-button:not(:disabled):hover { filter: brightness(1.06); }
+  .automation-button.secondary:not(:disabled):hover,
+  .schedule-item:hover,
+  .weekday-grid label:hover { border-color: var(--accent); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -698,395 +365,5 @@ html[data-theme="light"] .automation-card select option {
   .automation-button {
     border: 1px solid CanvasText;
   }
-
-  .weekday-grid label:has(input:checked) {
-    outline: 2px solid Highlight;
-  }
-}
-
-
-/* =========================================================
-   NOVIA HOME V4 — AUTOMATION FUTURE LUXE
-   Matches the main dashboard's premium glass visual language
-========================================================= */
-
-.automation-panel {
-  position: relative;
-  isolation: isolate;
-}
-
-.automation-panel .section-heading h2 {
-  letter-spacing: -.025em;
-}
-
-.automation-card {
-  position: relative;
-  overflow: hidden;
-  border-color: rgba(130, 160, 170, .20);
-  border-radius: 20px;
-  background:
-    linear-gradient(145deg, rgba(255,255,255,.045), transparent 54%),
-    var(--surface);
-  box-shadow: 0 14px 34px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.055);
-  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
-}
-
-.automation-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(135deg, rgba(255,255,255,.07), transparent 36%);
-  opacity: .75;
-}
-
-.automation-heading,
-.automation-card > label,
-.automation-card select,
-.automation-card input,
-.schedule-time-grid,
-.weekday-grid,
-.schedule-enable,
-.schedule-list,
-.automation-button,
-.automation-status {
-  position: relative;
-  z-index: 1;
-}
-
-.automation-icon {
-  border: 1px solid rgba(66,214,164,.22);
-  background: linear-gradient(145deg, rgba(66,214,164,.19), rgba(66,214,164,.055));
-  box-shadow: 0 0 24px rgba(66,214,164,.08), inset 0 1px 0 rgba(255,255,255,.08);
-}
-
-.automation-card select,
-.automation-card input[type="time"] {
-  min-height: 48px;
-  border-radius: 12px;
-  border-color: rgba(130,160,170,.25);
-  background-color: var(--surface-light);
-  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
-}
-
-.automation-card select:focus,
-.automation-card input[type="time"]:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(66,214,164,.14), 0 0 18px rgba(66,214,164,.06);
-}
-
-.automation-button {
-  min-height: 47px;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  box-shadow: 0 8px 18px rgba(39,143,112,.18), inset 0 1px 0 rgba(255,255,255,.18);
-  letter-spacing: 1px;
-  transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
-}
-
-.automation-button.secondary {
-  color: var(--text);
-  background: linear-gradient(145deg, var(--surface-light), var(--surface));
-  border-color: var(--border);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.055);
-}
-
-.automation-button:focus-visible,
-.weekday-grid label:focus-within,
-.automation-card select:focus-visible,
-.automation-card input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-.weekday-grid label {
-  min-height: 40px;
-  border-radius: 11px;
-  border-color: rgba(130,160,170,.22);
-  transition: background .18s ease, border-color .18s ease, transform .18s ease;
-}
-
-.weekday-grid label:has(input:checked) {
-  background: rgba(66,214,164,.13);
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 0 14px rgba(66,214,164,.055);
-}
-
-.schedule-item {
-  border-radius: 13px;
-  border-color: rgba(130,160,170,.20);
-  background: linear-gradient(145deg, rgba(255,255,255,.035), transparent 70%), var(--surface-light);
-}
-
-.schedule-state {
-  border: 1px solid rgba(66,214,164,.20);
-  border-radius: 999px;
-  padding: 4px 9px;
-  background: rgba(66,214,164,.09);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .automation-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(66,214,164,.32);
-    box-shadow: 0 19px 42px rgba(0,0,0,.21), inset 0 1px 0 rgba(255,255,255,.07);
-  }
-
-  .automation-button:not(:disabled):hover {
-    filter: brightness(1.08);
-    transform: translateY(-1px);
-    box-shadow: 0 11px 24px rgba(39,143,112,.25), inset 0 1px 0 rgba(255,255,255,.2);
-  }
-
-  .weekday-grid label:hover {
-    border-color: var(--accent);
-  }
-}
-
-html[data-theme="light"] .automation-card {
-  background: linear-gradient(145deg, #FFFFFF, #F8FBFA);
-  border-color: #E2EBE8;
-  box-shadow: 0 10px 28px rgba(28,52,61,.065), inset 0 1px 0 #FFFFFF;
-}
-
-html[data-theme="light"] .automation-card::before {
-  background: linear-gradient(135deg, rgba(17,145,109,.045), transparent 40%);
-}
-
-html[data-theme="light"] .automation-card select,
-html[data-theme="light"] .automation-card input[type="time"] {
-  background-color: #F6FAF8;
-  border-color: #DCE8E4;
-}
-
-html[data-theme="light"] .automation-button.secondary {
-  color: #40535D;
-  background: linear-gradient(180deg, #FFFFFF, #F3F8F5);
-  border-color: #DCE8E4;
-}
-
-html[data-theme="light"] .schedule-item {
-  background: linear-gradient(145deg, #FFFFFF, #F5F9F7);
-  border-color: #E2EBE8;
-}
-
-html[data-theme="light"] .weekday-grid label:has(input:checked) {
-  background: rgba(17,145,109,.09);
-  color: #087C5B;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .automation-card,
-  .automation-button,
-  .weekday-grid label {
-    transition: none !important;
-  }
-}
-
-
-/* =========================================================
-   NOVIA HOME V4 — AUTOMATION MOBILE FIRST
-   Simple forms, comfortable touch targets, clean hierarchy
-========================================================= */
-
-.automation-panel {
-  margin-top: 25px;
-}
-
-.automation-panel .section-heading {
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.automation-panel .section-heading h2 {
-  font-size: 17px;
-}
-
-.automation-card {
-  padding: 14px;
-  margin-bottom: 11px;
-  border-radius: 15px;
-  box-shadow: 0 7px 20px rgba(0,0,0,.11), inset 0 1px 0 rgba(255,255,255,.045);
-}
-
-.automation-heading {
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.automation-icon {
-  width: 38px;
-  height: 38px;
-  flex: 0 0 38px;
-  border-radius: 11px;
-  font-size: 21px;
-}
-
-.automation-heading h3 {
-  margin-bottom: 3px;
-  font-size: 13px;
-}
-
-.automation-heading p {
-  font-size: 10px;
-  line-height: 1.4;
-}
-
-.automation-card > label,
-.schedule-time-grid label {
-  margin: 11px 0 6px;
-  font-size: 10px;
-}
-
-.automation-card select,
-.automation-card input[type="time"] {
-  min-height: 46px;
-  padding: 10px 11px;
-  border-radius: 10px;
-  font-size: 13px;
-}
-
-.schedule-time-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 9px;
-}
-
-.weekday-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 7px;
-}
-
-.weekday-grid label {
-  min-height: 40px;
-  padding: 7px 3px;
-  gap: 4px;
-  border-radius: 9px;
-  font-size: 10px;
-}
-
-.weekday-grid input {
-  width: 14px;
-  height: 14px;
-}
-
-.schedule-enable {
-  min-height: 42px;
-  margin-top: 13px !important;
-  font-size: 11px;
-}
-
-.schedule-enable input {
-  width: 18px;
-  height: 18px;
-}
-
-.automation-button {
-  min-height: 46px;
-  margin-top: 12px;
-  padding: 11px;
-  border-radius: 10px;
-  font-size: 10px;
-}
-
-.automation-status {
-  margin-top: 10px;
-  font-size: 10px;
-}
-
-.schedule-list {
-  gap: 8px;
-}
-
-.schedule-item {
-  padding: 11px;
-  border-radius: 11px;
-}
-
-.schedule-item-name {
-  font-size: 11px;
-}
-
-.schedule-item-time {
-  margin-top: 7px;
-  font-size: 12px;
-}
-
-.schedule-item-days {
-  font-size: 9px;
-}
-
-.schedule-state {
-  padding: 5px 8px;
-  font-size: 8px;
-}
-
-.schedule-empty {
-  padding: 14px;
-  font-size: 10px;
-}
-
-@media (min-width: 600px) {
-  .automation-panel {
-    margin-top: 32px;
-  }
-
-  .automation-card {
-    padding: 18px;
-    border-radius: 17px;
-  }
-
-  .automation-panel .section-heading h2 {
-    font-size: 20px;
-  }
-
-  .automation-heading h3 {
-    font-size: 15px;
-  }
-
-  .automation-heading p {
-    font-size: 11px;
-  }
-
-  .automation-card > label,
-  .schedule-time-grid label {
-    font-size: 11px;
-  }
-
-  .schedule-time-grid {
-    gap: 12px;
-  }
-}
-
-@media (max-width: 340px) {
-  .automation-card {
-    padding: 11px;
-  }
-
-  .schedule-time-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 4px;
-  }
-
-  .weekday-grid {
-    gap: 5px;
-  }
-
-  .weekday-grid label {
-    font-size: 9px;
-  }
-
-  .automation-heading {
-    gap: 8px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .automation-card,
-  .automation-button,
-  .weekday-grid label {
-    transition: none !important;
-  }
+  .weekday-grid label:has(input:checked) { outline: 2px solid Highlight; }
 }
