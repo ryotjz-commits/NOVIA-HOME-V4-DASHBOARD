@@ -1641,3 +1641,182 @@ html:not([data-theme="light"]) .theme-toggle:hover {
 /* =====================================================
    END DARK PREMIUM NEON GLASS
 ===================================================== */
+
+/* =====================================================
+   NOVIA HOME V4 — FINAL POLISH
+   Layout consistency, accessibility and responsive fixes
+   ===================================================== */
+
+/* Keep cards and their contents from forcing horizontal overflow. */
+.app-shell,
+.app-shell *,
+.app-shell *::before,
+.app-shell *::after {
+  box-sizing: border-box;
+}
+
+.app-shell {
+  min-width: 0;
+}
+
+.summary-card,
+.device-card,
+.system-panel,
+.hero-chip {
+  min-width: 0;
+}
+
+.summary-card,
+.device-card {
+  overflow-wrap: anywhere;
+}
+
+/* Make device-card layout consistent in both themes.
+   The dark theme already uses this layout; this also fixes light mode. */
+.device-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.device-card-head {
+  min-width: 0;
+}
+
+.device-card h3,
+.device-card p {
+  overflow-wrap: anywhere;
+}
+
+.toggle-button {
+  justify-content: flex-start;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle-button:disabled,
+.theme-toggle:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.theme-toggle {
+  flex: 0 0 auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.brand,
+.brand > span,
+.hero-chip > div {
+  min-width: 0;
+}
+
+.system-list div {
+  min-width: 0;
+}
+
+.system-list span,
+.system-list strong {
+  overflow-wrap: anywhere;
+}
+
+/* Clear keyboard focus without changing the visual design at rest. */
+.brand:focus-visible,
+.theme-toggle:focus-visible,
+.toggle-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .device-card,
+  .summary-card,
+  .system-panel {
+    transition:
+      border-color var(--transition, .2s ease),
+      box-shadow var(--transition, .2s ease),
+      transform var(--transition, .2s ease);
+  }
+
+  .device-card:hover {
+    border-color: var(--accent);
+  }
+
+  .toggle-button:hover,
+  .theme-toggle:hover {
+    border-color: var(--accent);
+  }
+}
+
+/* Avoid clipping controls and long labels on narrow phones. */
+@media (max-width: 560px) {
+  .topbar {
+    flex-wrap: wrap;
+    padding-block: 12px;
+  }
+
+  .welcome {
+    align-items: flex-start;
+  }
+
+  .welcome > * {
+    min-width: 0;
+  }
+
+  .summary-card,
+  .device-card {
+    min-width: 0;
+  }
+
+  .system-panel {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .app-shell {
+    width: calc(100% - 20px);
+  }
+
+  .welcome {
+    gap: 10px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .system-list div {
+    align-items: flex-start;
+  }
+}
+
+/* Respect the operating system's reduced-motion preference in both themes. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .summary-card,
+  .device-card,
+  .system-panel,
+  .hero-chip,
+  .theme-toggle,
+  .toggle-button {
+    border: 1px solid CanvasText;
+  }
+
+  .toggle-button:focus-visible,
+  .theme-toggle:focus-visible {
+    outline: 2px solid Highlight;
+  }
+}

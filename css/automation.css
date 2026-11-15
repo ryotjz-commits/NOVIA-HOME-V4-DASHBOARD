@@ -550,3 +550,156 @@ html:not([data-theme="light"]) .automation-status.error {
 /* =====================================================
    END AUTOMATION NEON GLASS
 ===================================================== */
+
+/* =====================================================
+   NOVIA HOME V4 — FINAL POLISH
+   Accessibility, interaction states and responsive fixes
+   ===================================================== */
+
+.automation-panel,
+.automation-panel * {
+  min-width: 0;
+}
+
+.automation-card {
+  overflow: hidden;
+}
+
+.automation-card select,
+.automation-card input[type="time"] {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  line-height: 1.4;
+  transition:
+    border-color var(--transition, .2s ease),
+    box-shadow var(--transition, .2s ease),
+    background-color var(--transition, .2s ease);
+}
+
+.automation-card select option {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.automation-card select:focus-visible,
+.automation-card input[type="time"]:focus-visible,
+.automation-button:focus-visible,
+.weekday-grid input:focus-visible,
+.schedule-enable input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.automation-button {
+  min-width: 0;
+  line-height: 1.4;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .automation-button:not(:disabled):hover {
+    filter: brightness(1.07);
+  }
+
+  .automation-button.secondary:not(:disabled):hover {
+    border-color: var(--accent);
+  }
+
+  .schedule-item {
+    transition:
+      border-color var(--transition, .2s ease),
+      transform var(--transition, .2s ease);
+  }
+
+  .schedule-item:hover {
+    border-color: var(--accent);
+  }
+}
+
+.weekday-grid label {
+  min-width: 0;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.weekday-grid label:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.weekday-grid input,
+.schedule-enable input {
+  flex: 0 0 auto;
+}
+
+.schedule-item-name,
+.schedule-item-time,
+.schedule-item-days {
+  overflow-wrap: anywhere;
+}
+
+.schedule-item-top {
+  min-width: 0;
+}
+
+.schedule-state {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.automation-status {
+  overflow-wrap: anywhere;
+}
+
+html[data-theme="light"] .automation-card select option {
+  color: #172B35;
+  background: #FFFFFF;
+}
+
+@media (max-width: 360px) {
+  .schedule-time-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .weekday-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .weekday-grid label {
+    gap: 4px;
+    padding-inline: 2px;
+    font-size: 9px;
+  }
+
+  .automation-panel .section-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .automation-panel *,
+  .automation-panel *::before,
+  .automation-panel *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .automation-card,
+  .schedule-item,
+  .weekday-grid label,
+  .automation-button {
+    border: 1px solid CanvasText;
+  }
+
+  .weekday-grid label:has(input:checked) {
+    outline: 2px solid Highlight;
+  }
+}
