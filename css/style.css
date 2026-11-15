@@ -772,6 +772,197 @@ footer {
   }
 }
 
+
+/* =====================================================
+   17. NOVIA HOME V4 - DARK / LIGHT THEME
+===================================================== */
+
+/* LIGHT MODE COLOR SYSTEM */
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #F3F6F8;
+  --surface: #FFFFFF;
+  --surface-light: #E8EEF1;
+
+  --border: #DCE5E9;
+
+  --text: #172B35;
+  --muted: #71818A;
+
+  --accent: #079B70;
+  --accent-dark: #087C5B;
+
+  --warning: #A87922;
+}
+
+/* LIGHT MODE GLOBAL */
+
+html[data-theme="light"],
+html[data-theme="light"] body,
+html[data-theme="light"] .app-shell {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* LIGHT MODE TOPBAR */
+
+html[data-theme="light"] .brand-mark {
+  border-color: #079B7040;
+  background: #079B7012;
+}
+
+html[data-theme="light"] .demo-pill {
+  border-color: #A8792240;
+}
+
+/* LIGHT MODE HERO */
+
+html[data-theme="light"] .hero-chip {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* LIGHT MODE SUMMARY */
+
+html[data-theme="light"] .summary-card {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* LIGHT MODE DEVICE CARD */
+
+html[data-theme="light"] .device-card {
+  background: linear-gradient(
+    145deg,
+    #FFFFFF,
+    #EDF3F5
+  );
+
+  border-color: var(--border);
+  color: var(--text);
+}
+
+html[data-theme="light"] .device-card.is-on {
+  background: linear-gradient(
+    145deg,
+    #E1F7EF,
+    #FFFFFF
+  );
+
+  border-color: var(--accent);
+}
+
+html[data-theme="light"] .device-card h3 {
+  color: #172B35;
+}
+
+html[data-theme="light"] .device-card p {
+  color: #71818A;
+}
+
+html[data-theme="light"] .device-icon {
+  color: #71818A;
+}
+
+html[data-theme="light"] .state-badge {
+  color: #71818A;
+}
+
+/* LIGHT MODE TOGGLE BUTTON */
+
+html[data-theme="light"] .toggle-button {
+  color: #40535D;
+  background: #F1F5F6;
+  border-color: #DCE5E9;
+}
+
+html[data-theme="light"] .device-card.is-on .toggle-button {
+  color: #087C5B;
+  background: #E9F8F1;
+  border-color: var(--accent);
+}
+
+html[data-theme="light"] .toggle-knob {
+  background: #B8C5CB;
+}
+
+html[data-theme="light"] .device-card.is-on .toggle-knob {
+  background: var(--accent-dark);
+}
+
+/* LIGHT MODE SYSTEM PANEL */
+
+html[data-theme="light"] .system-panel {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .system-list div {
+  border-color: var(--border);
+}
+
+/* THEME SWITCH BUTTON */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 36px;
+  padding: 8px 12px;
+
+  border: 1px solid var(--border);
+  border-radius: 30px;
+
+  color: var(--text);
+  background: var(--surface);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.theme-toggle:active {
+  transform: scale(.96);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.theme-toggle-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+}
+
+/* MOBILE NAVBAR */
+
+@media (max-width: 560px) {
+  .topbar {
+    gap: 8px;
+  }
+
+  .theme-toggle {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+}
+
+/* =====================================================
+   END DARK / LIGHT THEME
+===================================================== */
+
+
 /* =====================================================
              END NOVIA HOME V4 CSS
 ===================================================== */
