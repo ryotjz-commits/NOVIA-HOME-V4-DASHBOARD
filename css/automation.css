@@ -885,3 +885,208 @@ html[data-theme="light"] .weekday-grid label:has(input:checked) {
     transition: none !important;
   }
 }
+
+
+/* =========================================================
+   NOVIA HOME V4 — AUTOMATION MOBILE FIRST
+   Simple forms, comfortable touch targets, clean hierarchy
+========================================================= */
+
+.automation-panel {
+  margin-top: 25px;
+}
+
+.automation-panel .section-heading {
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.automation-panel .section-heading h2 {
+  font-size: 17px;
+}
+
+.automation-card {
+  padding: 14px;
+  margin-bottom: 11px;
+  border-radius: 15px;
+  box-shadow: 0 7px 20px rgba(0,0,0,.11), inset 0 1px 0 rgba(255,255,255,.045);
+}
+
+.automation-heading {
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.automation-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 11px;
+  font-size: 21px;
+}
+
+.automation-heading h3 {
+  margin-bottom: 3px;
+  font-size: 13px;
+}
+
+.automation-heading p {
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.automation-card > label,
+.schedule-time-grid label {
+  margin: 11px 0 6px;
+  font-size: 10px;
+}
+
+.automation-card select,
+.automation-card input[type="time"] {
+  min-height: 46px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.schedule-time-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.weekday-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.weekday-grid label {
+  min-height: 40px;
+  padding: 7px 3px;
+  gap: 4px;
+  border-radius: 9px;
+  font-size: 10px;
+}
+
+.weekday-grid input {
+  width: 14px;
+  height: 14px;
+}
+
+.schedule-enable {
+  min-height: 42px;
+  margin-top: 13px !important;
+  font-size: 11px;
+}
+
+.schedule-enable input {
+  width: 18px;
+  height: 18px;
+}
+
+.automation-button {
+  min-height: 46px;
+  margin-top: 12px;
+  padding: 11px;
+  border-radius: 10px;
+  font-size: 10px;
+}
+
+.automation-status {
+  margin-top: 10px;
+  font-size: 10px;
+}
+
+.schedule-list {
+  gap: 8px;
+}
+
+.schedule-item {
+  padding: 11px;
+  border-radius: 11px;
+}
+
+.schedule-item-name {
+  font-size: 11px;
+}
+
+.schedule-item-time {
+  margin-top: 7px;
+  font-size: 12px;
+}
+
+.schedule-item-days {
+  font-size: 9px;
+}
+
+.schedule-state {
+  padding: 5px 8px;
+  font-size: 8px;
+}
+
+.schedule-empty {
+  padding: 14px;
+  font-size: 10px;
+}
+
+@media (min-width: 600px) {
+  .automation-panel {
+    margin-top: 32px;
+  }
+
+  .automation-card {
+    padding: 18px;
+    border-radius: 17px;
+  }
+
+  .automation-panel .section-heading h2 {
+    font-size: 20px;
+  }
+
+  .automation-heading h3 {
+    font-size: 15px;
+  }
+
+  .automation-heading p {
+    font-size: 11px;
+  }
+
+  .automation-card > label,
+  .schedule-time-grid label {
+    font-size: 11px;
+  }
+
+  .schedule-time-grid {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 340px) {
+  .automation-card {
+    padding: 11px;
+  }
+
+  .schedule-time-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .weekday-grid {
+    gap: 5px;
+  }
+
+  .weekday-grid label {
+    font-size: 9px;
+  }
+
+  .automation-heading {
+    gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .automation-card,
+  .automation-button,
+  .weekday-grid label {
+    transition: none !important;
+  }
+}

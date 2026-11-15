@@ -2113,3 +2113,417 @@ html[data-theme="light"] .demo-pill {
     transition: none !important;
   }
 }
+
+
+/* =========================================================
+   NOVIA HOME V4 — MOBILE FIRST / MINIMAL FUTURE
+   Compact spacing, clear hierarchy, touch-friendly controls
+========================================================= */
+
+:root {
+  --radius-sm: 9px;
+  --radius-md: 13px;
+  --radius-lg: 16px;
+  --mobile-gutter: 16px;
+}
+
+/* Base layout is tuned for narrow screens first. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-width: 280px;
+  font-size: 14px;
+}
+
+.app-shell {
+  width: calc(100% - 2 * var(--mobile-gutter));
+  max-width: 1120px;
+}
+
+.topbar {
+  min-height: 62px;
+  gap: 8px;
+}
+
+.brand {
+  min-width: 0;
+  gap: 9px;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 10px;
+}
+
+.brand strong {
+  font-size: 11px;
+  letter-spacing: 1.15px;
+}
+
+.brand small {
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.demo-pill {
+  gap: 6px;
+  padding: 7px 9px;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.welcome {
+  display: block;
+  padding: 27px 0 20px;
+}
+
+.welcome h1,
+h1 {
+  font-size: clamp(27px, 8vw, 36px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.welcome-copy {
+  max-width: 42ch;
+  margin-top: 9px;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.hero-chip {
+  display: inline-flex;
+  margin-top: 15px;
+  padding: 8px 10px;
+  border-radius: 11px;
+}
+
+.chip-icon {
+  font-size: 19px;
+}
+
+.hero-chip b {
+  font-size: 11px;
+}
+
+.hero-chip small {
+  font-size: 8px;
+}
+
+.summary-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.summary-card {
+  min-height: 76px;
+  gap: 9px;
+  padding: 11px;
+  border-radius: 13px;
+}
+
+.summary-icon {
+  font-size: 20px;
+}
+
+.summary-card div {
+  gap: 3px;
+}
+
+.summary-card small {
+  font-size: 8px;
+  line-height: 1.35;
+}
+
+.summary-card strong {
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.summary-note {
+  font-size: 9px;
+}
+
+.section-block {
+  margin-top: 27px;
+}
+
+.section-heading {
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.section-heading h2 {
+  font-size: 17px;
+}
+
+.section-heading .eyebrow,
+.eyebrow {
+  margin-bottom: 5px;
+  font-size: 8px;
+  letter-spacing: 1.55px;
+}
+
+.count-label {
+  font-size: 8px;
+  letter-spacing: .65px;
+}
+
+.device-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.device-card {
+  min-height: 138px;
+  padding: 12px;
+  border-radius: 14px;
+}
+
+.device-card-head {
+  margin-bottom: 13px;
+}
+
+.device-icon {
+  font-size: 19px;
+}
+
+.state-badge {
+  font-size: 8px;
+}
+
+.device-card h3 {
+  margin-bottom: 4px;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.device-card p {
+  font-size: 8px;
+  letter-spacing: .7px;
+}
+
+.toggle-button {
+  min-height: 40px;
+  gap: 8px;
+  margin-top: 13px;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.toggle-label {
+  font-size: 9px;
+}
+
+.toggle-knob {
+  width: 27px;
+  height: 15px;
+  flex-basis: 27px;
+}
+
+.toggle-knob::after {
+  width: 9px;
+  height: 9px;
+}
+
+.device-card.is-on .toggle-knob::after {
+  transform: translateX(12px);
+}
+
+.demo-note {
+  margin-top: 10px;
+  font-size: 9px;
+}
+
+.system-panel {
+  margin-top: 26px;
+  padding: 15px;
+  border-radius: 14px;
+}
+
+.system-panel h2 {
+  margin-bottom: 10px;
+  font-size: 17px;
+}
+
+.system-list div {
+  gap: 10px;
+  padding: 11px 0;
+  font-size: 10px;
+}
+
+footer {
+  flex-wrap: wrap;
+  padding: 19px 1px;
+  margin-top: 8px;
+  font-size: 8px;
+}
+
+/* Minimal futuristic finish: use light, precise accents rather than heavy glow. */
+.summary-card,
+.device-card,
+.system-panel,
+.hero-chip {
+  box-shadow: 0 7px 20px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.045);
+}
+
+.summary-card::before,
+.device-card::before,
+.system-panel::before {
+  opacity: .38;
+}
+
+html:not([data-theme="light"]) .device-card.is-on {
+  background: linear-gradient(145deg, rgba(26,105,81,.48), rgba(25,40,50,.98));
+}
+
+.toggle-button {
+  justify-content: flex-start;
+}
+
+.theme-toggle {
+  min-width: 38px;
+  min-height: 38px;
+  padding: 8px;
+}
+
+@media (min-width: 420px) {
+  .app-shell {
+    width: calc(100% - 36px);
+  }
+
+  .welcome {
+    padding-top: 32px;
+  }
+
+  .device-card {
+    min-height: 148px;
+    padding: 14px;
+  }
+
+  .summary-card {
+    min-height: 82px;
+  }
+}
+
+@media (min-width: 600px) {
+  :root {
+    --mobile-gutter: 22px;
+  }
+
+  .topbar {
+    min-height: 70px;
+  }
+
+  .welcome {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 38px 0 25px;
+  }
+
+  .welcome h1,
+  h1 {
+    font-size: clamp(34px, 5vw, 46px);
+  }
+
+  .hero-chip {
+    flex: 0 0 auto;
+    margin-top: 0;
+  }
+
+  .summary-grid,
+  .device-grid {
+    gap: 12px;
+  }
+
+  .device-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .device-card {
+    min-height: 155px;
+    padding: 16px;
+  }
+
+  .section-block,
+  .system-panel {
+    margin-top: 32px;
+  }
+}
+
+@media (min-width: 900px) {
+  .app-shell {
+    width: calc(100% - 48px);
+  }
+
+  .device-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .summary-grid {
+    gap: 15px;
+  }
+
+  .summary-card {
+    min-height: 90px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 340px) {
+  :root {
+    --mobile-gutter: 10px;
+  }
+
+  .demo-pill {
+    padding: 6px 7px;
+    font-size: 8px;
+  }
+
+  .brand {
+    gap: 7px;
+  }
+
+  .brand strong {
+    font-size: 10px;
+    letter-spacing: .8px;
+  }
+
+  .summary-card {
+    gap: 7px;
+    padding: 9px;
+  }
+
+  .summary-card strong {
+    font-size: 10px;
+  }
+
+  .device-card {
+    padding: 10px;
+  }
+
+  .toggle-button {
+    gap: 6px;
+    padding: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
