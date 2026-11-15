@@ -1,33 +1,12 @@
 
-/*
-  =========================================
-  NOVIA HOME V4
-  LIVE BLYNK INTEGRATION
-  =========================================
-  Dashboard : GitHub Pages
-  API       : Cloudflare Worker
-  Device    : ESP32 NOVIA HOME V3
-  Datastream: V0 - V3
-
-  Firmware V3 tidak diubah.
-*/
-
 document.addEventListener("DOMContentLoaded", () => {
+  const API_URL = "https://novia-home-api.ryo-tjz.workers.dev";
 
-  const API_URL =
-    "https://novia-home-api.ryo-tjz.workers.dev";
-
-  const statusElement =
-    document.getElementById("connectionStatus");
-
-  const cards =
-    document.querySelectorAll(".device-card");
-
-  const demoNote =
-    document.querySelector(".demo-note");
-
-  let controlPin = null;
-  let refreshing = false;
+  const statusElement = document.getElementById("connectionStatus");
+  const cards = [...document.querySelectorAll(".device-card")];
+  const note = document.querySelector(".demo-note");
+  const summaryCards = [...document.querySelectorAll(".summary-card")];
+  const systemRows = [...document.querySelectorAll(".system-list div")];
 
   const channelNames = [
     "Lampu Depan",
@@ -36,254 +15,210 @@ document.addEventListener("DOMContentLoaded", () => {
     "Lampu Belakang"
   ];
 
-  // =====================================
-  // UPDATE TAMPILAN
-  // =====================================
+  let controlPin = null;
+  let refreshing = false;
+
+  function setConnection(connected) {
+    if (statusElement) {
+      statusElement.textContent = connected ? "API CONNECTED" : "API OFFLINE";
+    }
+
+    if (summaryCards[0]) {
+      const strong = summaryCards[0].querySelector("strong");
+      const small = summaryCards[0].querySelector(".summary-note");
+      if (strong) strong.textContent = connected ? "Terhubung" : "Tidak terhubung";
+      if (small) small.textContent = connected
+        ? "Cloudflare Worker aktif"
+        : "Periksa koneksi API";
+    }
+
+    if (summaryCards[1]) {
+      const strong = summaryCards[1].querySelector("strong");
+      const small = summaryCards[1].querySelector(".summary-note");
+      if (strong) strong.textContent = "4 channel terdaftar";
+      if (small) small.textContent = "Sinkronisasi Blynk IoT";
+    }
+
+    if (systemRows[2]) {
+      const label = systemRows[2].querySelector("span");
+      const value = systemRows[2].querySelector("strong");
+      if (label) label.textContent = "Komunikasi";
+      if (value) value.textContent = "Blynk IoT";
+    }
+
+    if (systemRows[4]) {
+      const value = systemRows[4].querySelector("strong");
+      if (value) value.textContent = connected
+        ? "API tersambung · Data terbaca"
+        : "Koneksi API gagal";
+      if (value) value.classList.remove("pending");
+    }
+
+    if (note) {
+      note.textContent = connected
+        ? "Status channel disinkronkan dengan Blynk IoT."
+        : "Gagal memperbarui status. Periksa koneksi internet dan API.";
+    }
+  }
 
   function updateCard(channel, value) {
-
-    const card = document.querySelector(
-      `.device-card[data-channel="${channel}"]`
+    const card = cards.find(
+      item => Number(item.dataset.channel) === channel
     );
-
     if (!card) return;
 
-    const button =
-      card.querySelector(".toggle-button");
-
-    const badge =
-      card.querySelector(".state-badge");
-
-    const label =
-      card.querySelector(".toggle-label");
-
+    const button = card.querySelector(".toggle-button");
+    const badge = card.querySelector(".state-badge");
+    const label = card.querySelector(".toggle-label");
     const isOn = value === 1;
 
     card.classList.toggle("is-on", isOn);
 
     if (button) {
+      button.setAttribute("aria-pressed", String(isOn));
       button.setAttribute(
-        "aria-pressed",
-        String(isOn)
+        "aria-label",
+        `${channelNames[channel]}: ${isOn ? "ON" : "OFF"}`
       );
-      button.disabled = false;
     }
 
-    if (badge) {
-      badge.textContent = isOn ? "ONLINE · ON" : "ONLINE · OFF";
-    }
-
-    if (label) {
-      label.textContent = isOn ? "MATIKAN" : "NYALAKAN";
-    }
+    if (badge) badge.textContent = isOn ? "ON" : "OFF";
+    if (label) label.textContent = isOn ? "MATIKAN" : "NYALAKAN";
   }
 
-  // =====================================
-  // BACA STATUS BLYNK
-  // =====================================
-
   async function loadStatus() {
-
     if (refreshing) return;
 
     refreshing = true;
 
     try {
-
-      const response = await fetch(
-        `${API_URL}/api/status`,
-        {
-          method: "GET",
-          cache: "no-store"
-        }
-      );
+      const response = await fetch(`${API_URL}/api/status`, {
+        method: "GET",
+        cache: "no-store"
+      });
 
       if (!response.ok) {
-        throw new Error("API status failed");
+        throw new Error(`HTTP ${response.status}`);
       }
 
       const data = await response.json();
 
       if (!data.success || !data.channels) {
-        throw new Error("Invalid API response");
+        throw new Error("Respons API tidak valid");
       }
 
-      for (let i = 0; i < 4; i++) {
+      const values = [0, 1, 2, 3].map(index =>
+        Number(data.channels[`V${index}`])
+      );
 
-        const value = Number(
-          data.channels[`V${i}`]
-        );
-
-        if (value !== 0 && value !== 1) {
-          throw new Error("Invalid channel value");
-        }
-
-        updateCard(i, value);
+      if (values.some(value => value !== 0 && value !== 1)) {
+        throw new Error("Nilai datastream tidak valid");
       }
 
-      if (statusElement) {
-        statusElement.textContent = "CONNECTED";
-      }
-
-      if (demoNote) {
-        demoNote.textContent =
-          "Status perangkat diperbarui melalui Blynk IoT.";
-      }
+      values.forEach((value, index) => updateCard(index, value));
+      setConnection(true);
 
     } catch (error) {
-
-      if (statusElement) {
-        statusElement.textContent = "CONNECTION ERROR";
-      }
-
-      if (demoNote) {
-        demoNote.textContent =
-          "Gagal membaca status perangkat. Periksa koneksi API.";
-      }
-
-      console.error("NOVIA HOME:", error);
+      setConnection(false);
+      console.error("NOVIA HOME status:", error);
 
     } finally {
       refreshing = false;
     }
   }
 
-  // =====================================
-  // KIRIM PERINTAH KE WORKER
-  // =====================================
-
-  async function controlDevice(channel, value) {
-
+  async function controlDevice(channel, value, button) {
     if (!controlPin) {
-
-      controlPin = window.prompt(
+      const enteredPin = window.prompt(
         "Masukkan PIN kontrol NOVIA HOME:"
       );
 
-      if (!controlPin) {
-        controlPin = null;
-        return;
-      }
+      if (!enteredPin) return;
+      controlPin = enteredPin;
     }
 
-    const card = document.querySelector(
-      `.device-card[data-channel="${channel}"]`
-    );
-
-    const button =
-      card?.querySelector(".toggle-button");
-
-    if (!button) return;
+    const label = button.querySelector(".toggle-label");
+    const previousLabel = label ? label.textContent : "";
 
     button.disabled = true;
+    if (label) label.textContent = "MENGIRIM...";
 
     try {
+      const response = await fetch(`${API_URL}/api/control`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          pin: controlPin,
+          channel,
+          value
+        })
+      });
 
-      const response = await fetch(
-        `${API_URL}/api/control`,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            pin: controlPin,
-            channel,
-            value
-          })
-        }
-      );
-
-      const result = await response.json();
+      const result = await response.json().catch(() => ({}));
 
       if (response.status === 401) {
         controlPin = null;
-        throw new Error("PIN kontrol tidak valid");
+        throw new Error("PIN kontrol salah.");
       }
 
       if (!response.ok || !result.success) {
-        throw new Error(
-          result.error || "Perintah gagal"
-        );
+        throw new Error(result.error || "Perintah gagal");
       }
 
       if (statusElement) {
-        statusElement.textContent = "UPDATING";
+        statusElement.textContent = "MENYINKRONKAN...";
       }
 
-      // Baca kembali nilai aktual dari Blynk
       await loadStatus();
 
     } catch (error) {
+      if (label) label.textContent = previousLabel;
 
-      alert(
-        `Gagal mengontrol ${channelNames[channel]}:\n${error.message}`
+      window.alert(
+        `Gagal mengontrol ${channelNames[channel]}: ${error.message}`
       );
 
-      console.error("NOVIA CONTROL:", error);
-
+      console.error("NOVIA HOME control:", error);
       await loadStatus();
 
     } finally {
-
       button.disabled = false;
-
     }
   }
 
-  // =====================================
-  // EVENT TOMBOL
-  // =====================================
-
-  cards.forEach((card) => {
-
-    const button =
-      card.querySelector(".toggle-button");
-
+  cards.forEach(card => {
+    const button = card.querySelector(".toggle-button");
     if (!button) return;
 
-    const channel = Number(
-      card.dataset.channel
-    );
+    const channel = Number(card.dataset.channel);
 
-    if (
-      !Number.isInteger(channel) ||
-      channel < 0 ||
-      channel > 3
-    ) return;
+    if (!Number.isInteger(channel) || channel < 0 || channel > 3) {
+      return;
+    }
 
     button.addEventListener("click", () => {
-
       if (button.disabled) return;
 
       const currentState =
         button.getAttribute("aria-pressed") === "true";
 
-      const nextValue = currentState ? 0 : 1;
-
-      controlDevice(channel, nextValue);
-
+      controlDevice(channel, currentState ? 0 : 1, button);
     });
-
   });
 
-  // =====================================
-  // START INTEGRATION
-  // =====================================
-
   if (statusElement) {
-    statusElement.textContent = "CONNECTING...";
+    statusElement.textContent = "MENGHUBUNGKAN...";
+  }
+
+  if (note) {
+    note.textContent = "Menghubungkan dashboard dengan Blynk IoT...";
   }
 
   loadStatus();
 
-  // Sinkronisasi otomatis setiap 5 detik
-  setInterval(loadStatus, 5000);
+  window.setInterval(loadStatus, 5000);
 
-  console.log(
-    "NOVIA HOME V4 - Blynk integration initialized"
-  );
-
+  console.log("NOVIA HOME V4 - Live integration active");
 });
