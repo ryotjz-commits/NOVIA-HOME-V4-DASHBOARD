@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "novia-home-v4-v1";
+const CACHE_NAME = "novia-home-v4-v2";
 
 const APP_FILES = [
   "./",
@@ -8,6 +8,8 @@ const APP_FILES = [
   "./js/app.js",
   "./manifest.json",
   "./assets/icon.svg"
+  "./css/automation.css",
+"./js/automation.js",
 ];
 
 self.addEventListener("install", event => {
