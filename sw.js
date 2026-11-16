@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "novia-home-v4-v3";
+const CACHE_NAME = "novia-home-v4-v2";
 
 const APP_FILES = [
   "./",
