@@ -1,92 +1,84 @@
-/* =========================================================
-   NOVIA HOME V4 — AUTOMATION
-   Consolidated • mobile-first • dark/light theme
-   Replace the old automation.css with this file.
-========================================================= */
+
+/* =========================================
+   NOVIA HOME V4 - AUTOMATION PREMIUM
+   Compatible with Dark / Light Theme
+========================================= */
 
 .automation-panel {
-  margin-top: 24px;
+  margin-top: 28px;
   color: var(--text);
 }
 
 .automation-panel .section-heading {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin-bottom: 12px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .automation-panel .section-heading h2 {
-  margin: 2px 0;
-  color: var(--text);
-  font-size: 18px;
+  margin: 4px 0;
+  font-size: 21px;
   font-weight: 700;
-  letter-spacing: -.02em;
 }
 
 .automation-panel .eyebrow {
   margin: 0;
   color: var(--accent);
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.4px;
+  letter-spacing: 2px;
+  font-weight: 800;
 }
 
 .automation-panel .count-label {
+  font-size: 9px;
   color: var(--muted);
-  font-size: 10px;
-  font-weight: 600;
+  letter-spacing: 1px;
 }
 
 .automation-card {
-  margin: 0 0 12px;
-  padding: 14px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 15px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, .07);
+  border-radius: 17px;
+  padding: 19px;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.08);
 }
 
 .automation-heading {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 13px;
+  margin-bottom: 20px;
 }
 
 .automation-icon {
+  width: 43px;
+  height: 43px;
   display: grid;
-  flex: 0 0 40px;
-  width: 40px;
-  height: 40px;
   place-items: center;
+  border-radius: 13px;
+  background: rgba(66,214,164,.12);
   color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-  border-radius: 11px;
-  font-size: 21px;
+  font-size: 25px;
 }
 
 .automation-heading h3 {
-  margin: 0 0 3px;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 700;
+  margin: 0 0 5px;
+  font-size: 15px;
 }
 
 .automation-heading p {
   margin: 0;
-  color: var(--muted);
   font-size: 11px;
-  line-height: 1.45;
+  color: var(--muted);
 }
 
 .automation-card > label,
 .schedule-time-grid label {
   display: block;
-  margin: 11px 0 6px;
+  margin: 13px 0 7px;
   color: var(--muted);
   font-size: 11px;
   font-weight: 600;
@@ -94,11 +86,9 @@
 
 .automation-card select,
 .automation-card input[type="time"] {
-  box-sizing: border-box;
   width: 100%;
-  min-width: 0;
-  min-height: 44px;
-  padding: 10px 11px;
+  min-height: 45px;
+  padding: 11px 13px;
   color: var(--text);
   background: var(--surface-light);
   border: 1px solid var(--border);
@@ -107,7 +97,6 @@
   font: inherit;
   font-size: 13px;
   color-scheme: dark;
-  transition: border-color .16s ease, box-shadow .16s ease;
 }
 
 html[data-theme="light"] .automation-card select,
@@ -115,46 +104,36 @@ html[data-theme="light"] .automation-card input[type="time"] {
   color-scheme: light;
 }
 
-.automation-card select:focus-visible,
-.automation-card input:focus-visible,
-.automation-button:focus-visible {
-  border-color: var(--accent);
-  outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
-  outline-offset: 2px;
-}
-
 .automation-card select:focus,
 .automation-card input[type="time"]:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 
 .automation-button {
   display: block;
   width: 100%;
-  min-height: 44px;
-  margin-top: 12px;
-  padding: 11px 13px;
-  color: #fff;
+  min-height: 45px;
+  margin-top: 14px;
+  padding: 12px;
+  border: 0;
+  border-radius: 11px;
   background: var(--accent);
-  border: 1px solid transparent;
-  border-radius: 10px;
-  font: inherit;
+  color: #10251e;
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .45px;
+  font-weight: 800;
+  letter-spacing: .8px;
   cursor: pointer;
-  transition: filter .16s ease, transform .16s ease, background-color .16s ease;
+  transition: .2s ease;
+}
+
+.automation-button:active {
+  transform: scale(.98);
 }
 
 .automation-button.secondary {
   color: var(--text);
   background: var(--surface-light);
-  border-color: var(--border);
-}
-
-.automation-button:active:not(:disabled) {
-  transform: translateY(1px);
+  border: 1px solid var(--border);
 }
 
 .automation-button:disabled {
@@ -164,115 +143,97 @@ html[data-theme="light"] .automation-card input[type="time"] {
 
 .automation-status {
   min-height: 18px;
-  margin: 10px 0 0;
+  margin: 13px 0 0;
   color: var(--muted);
   font-size: 11px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
+  line-height: 1.6;
 }
 
-.automation-status.success { color: var(--accent); }
-.automation-status.error { color: #d96b6b; }
+.automation-status.success {
+  color: var(--accent);
+}
+
+.automation-status.error {
+  color: #e58d8d;
+}
 
 .schedule-time-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 9px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .weekday-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 7px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
   margin-top: 10px;
 }
 
 .weekday-grid label {
   display: flex;
-  min-width: 0;
-  min-height: 40px;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 6px 3px;
+  min-height: 37px;
+  padding: 7px 4px;
   color: var(--text);
   background: var(--surface-light);
   border: 1px solid var(--border);
   border-radius: 9px;
   font-size: 10px;
-  font-weight: 600;
   cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color .16s ease, border-color .16s ease;
 }
 
-.weekday-grid label:has(input:checked) {
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
-  border-color: var(--accent);
-}
-
-.weekday-grid label:focus-within {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.weekday-grid input,
-.schedule-enable input {
-  flex: 0 0 auto;
-  width: 15px;
-  height: 15px;
-  margin: 0;
+.weekday-grid input {
+  width: 13px;
+  height: 13px;
   accent-color: var(--accent);
+  margin: 0;
 }
 
 .schedule-enable {
   display: flex !important;
-  min-height: 42px;
   align-items: center;
   gap: 9px;
-  margin-top: 13px !important;
+  margin-top: 18px !important;
   color: var(--text) !important;
-  font-size: 11px;
 }
 
 .schedule-enable input {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
 }
 
 .schedule-list {
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 
 .schedule-item {
-  min-width: 0;
-  padding: 11px;
+  padding: 13px;
+  border-radius: 11px;
   background: var(--surface-light);
   border: 1px solid var(--border);
-  border-radius: 11px;
 }
 
 .schedule-item-top {
   display: flex;
-  min-width: 0;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 8px;
 }
 
 .schedule-item-name {
-  color: var(--text);
   font-size: 12px;
   font-weight: 700;
 }
 
 .schedule-item-time {
-  margin-top: 7px;
-  color: var(--accent);
+  margin-top: 9px;
   font-size: 13px;
+  color: var(--accent);
   font-weight: 700;
 }
 
@@ -282,88 +243,39 @@ html[data-theme="light"] .automation-card input[type="time"] {
   font-size: 10px;
 }
 
-.schedule-item-name,
-.schedule-item-time,
-.schedule-item-days {
-  overflow-wrap: anywhere;
+.schedule-empty {
+  padding: 17px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
 }
 
 .schedule-state {
-  flex: 0 0 auto;
-  padding: 4px 8px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: rgba(66,214,164,.12);
   color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-  border-radius: 999px;
   font-size: 9px;
   font-weight: 700;
-  white-space: nowrap;
 }
 
 .schedule-state.off {
+  background: rgba(130,147,157,.12);
   color: var(--muted);
-  background: color-mix(in srgb, var(--muted) 12%, transparent);
-  border-color: var(--border);
 }
 
-.schedule-empty {
-  padding: 15px;
-  color: var(--muted);
-  background: var(--surface);
-  border: 1px dashed var(--border);
-  border-radius: 10px;
-  font-size: 11px;
-  text-align: center;
-}
-
-html[data-theme="light"] .automation-status.error { color: #b94343; }
-html[data-theme="light"] .automation-card select option {
-  color: var(--text);
-  background: var(--surface);
-}
-
-@media (max-width: 340px) {
-  .automation-card { padding: 11px; }
-  .schedule-time-grid { grid-template-columns: minmax(0, 1fr); gap: 4px; }
-  .weekday-grid { gap: 5px; }
-  .weekday-grid label { gap: 3px; padding-inline: 2px; font-size: 9px; }
-  .automation-panel .section-heading { align-items: flex-start; }
-}
-
-@media (min-width: 600px) {
-  .automation-panel { margin-top: 30px; }
-  .automation-panel .section-heading h2 { font-size: 20px; }
-  .automation-card { padding: 18px; border-radius: 16px; }
-  .automation-heading h3 { font-size: 15px; }
-  .automation-heading p { font-size: 12px; }
-  .schedule-time-grid { gap: 12px; }
-  .weekday-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .automation-button:not(:disabled):hover { filter: brightness(1.06); }
-  .automation-button.secondary:not(:disabled):hover,
-  .schedule-item:hover,
-  .weekday-grid label:hover { border-color: var(--accent); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .automation-panel *,
-  .automation-panel *::before,
-  .automation-panel *::after {
-    scroll-behavior: auto !important;
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
+@media (max-width: 420px) {
+  .automation-card {
+    padding: 15px;
   }
-}
 
-@media (forced-colors: active) {
-  .automation-card,
-  .schedule-item,
-  .weekday-grid label,
-  .automation-button {
-    border: 1px solid CanvasText;
+  .automation-panel .section-heading h2 {
+    font-size: 18px;
   }
-  .weekday-grid label:has(input:checked) { outline: 2px solid Highlight; }
+
+  .weekday-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
