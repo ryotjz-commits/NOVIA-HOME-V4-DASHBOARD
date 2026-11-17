@@ -31,17 +31,31 @@
     content="NOVIA HOME"
   >
 
-  <title>NOVIA HOME V5 | Smart Control</title>
+  <title>NOVIA HOME | Smart Control</title>
 
   <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./assets/icon.svg">
 
+  <!-- Apply saved theme before styles render to avoid a theme flash. -->
+  <script>
+    (() => {
+      try {
+        const theme = localStorage.getItem("novia-home-theme");
+        if (theme === "light" || theme === "dark") {
+          document.documentElement.setAttribute("data-theme", theme);
+          const themeColor = document.querySelector('meta[name="theme-color"]');
+          if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f3f6f7" : "#0d141a");
+        }
+      } catch (_) {}
+    })();
+  </script>
+
   <!-- STYLESHEET -->
   <link rel="stylesheet" href="./css/style.css?v=20261117-v5p4">
   <link rel="stylesheet" href="./css/automation.css?v=20261115a1">
-  <link rel="stylesheet" href="./css/refined.css?v=20261117a1">
+  <link rel="stylesheet" href="./css/refined.css?v=20261117-uiux-r1">
 </head>
 
 <body>
@@ -105,7 +119,7 @@
 
         <span>
           <b>ESP32</b>
-          <small>ESP32</small>
+          <small>CONTROLLER</small>
         </span>
 
       </div>
@@ -257,7 +271,7 @@
         </div>
 
         <div>
-          <span>Komunikasi rencana</span>
+          <span>Komunikasi</span>
           <strong>Blynk IoT</strong>
         </div>
 
@@ -648,11 +662,8 @@
   ========================================== -->
 
   <footer>
-
     <span>NOVIA HOME</span>
-
-    <span>SMART HOME</span>
-
+    <span>ESP32 · BLYNK IoT</span>
   </footer>
 
 </div>
@@ -662,7 +673,7 @@
      APPLICATION JAVASCRIPT
 ========================================== -->
 
-<script src="./js/app.js?v=20261117-v5p4"></script>
+<script src="./js/app.js?v=20261117-uiux-r1"></script>
   <script src="./js/automation.js?v=20261115a1"></script>
 
 
