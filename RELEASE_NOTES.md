@@ -1,12 +1,20 @@
-# NOVIA HOME V5.2 — Minimal Elegant
+# NOVIA HOME V4 — Stable UI/UX Release 1.0
 
-- Replaced Summer/Soft Ceramic colors with a restrained neutral palette and muted teal accent.
-- Simplified light and dark backgrounds and reduced decorative gradients/shadows.
-- Removed duplicate `.summary-grid` declaration.
-- Replaced overlapping UIUX skin overrides with a small responsive safety layer.
-- Added narrow-screen safeguards for header, device cards, controls, and bottom navigation.
-- Updated theme-color and Service Worker cache version.
+**Tanggal rilis:** 2026-11-17
 
-Application logic, Worker endpoint, Blynk calls, device control handlers, automation JavaScript, and ESP32 firmware are unchanged.
+## Ringkasan
+Rilis stabil untuk penyempurnaan tampilan dashboard NOVIA HOME V4, tema Dark/Light, responsivitas, dan cache PWA/offline.
 
-Visual appearance and real-device responsiveness still require browser/device testing after deployment.
+## Yang difinalkan
+- Konsistensi desain dan komponen pada layar ponsel maupun desktop.
+- Penanganan tema tersimpan agar tampilan awal lebih konsisten.
+- Warna browser mengikuti tema aktif.
+- Strategi cache Service Worker lebih aman terhadap cache aplikasi lain pada origin yang sama.
+- Fallback offline dibatasi pada navigasi dokumen.
+- Versi aset dan cache diperbarui untuk memaksa browser mengambil paket rilis terbaru.
+
+## Kompatibilitas
+Rilis ini ditujukan sebagai pembaruan dashboard. Firmware ESP32, konfigurasi Blynk, dan Worker aktif tidak perlu diganti untuk menerapkan perubahan UI/UX ini.
+
+## Validasi
+Pemeriksaan sintaks, struktur HTML, referensi elemen, dan integritas ZIP dapat dilakukan secara statis. Status stabil pada perangkat nyata baru dapat dipastikan setelah checklist pasca-deploy dijalankan.
