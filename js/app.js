@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "Lampu Depan",
     "Lampu Tengah",
     "Lampu Kamar",
-    "Lampu Belakang"
+    "Kipas Angin"
   ];
 
   let controlPin = null;
@@ -291,3 +291,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log("NOVIA HOME V4 - Live integration active");
 });
+    
