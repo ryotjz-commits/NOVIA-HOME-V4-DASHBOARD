@@ -1107,3 +1107,14 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom, 0px)); }
   .main-tab { min-height: 51px; gap: 3px; padding: 6px 2px; font-size: 9px; }
   .main-tab span { font-size: 18px; }
 }
+
+
+/* V5 Phase 4 — safe command feedback */
+.toggle-button:disabled {
+  cursor: wait;
+  opacity: .68;
+  filter: saturate(.72);
+}
+.toggle-button:disabled .toggle-label {
+  letter-spacing: .04em;
+}
