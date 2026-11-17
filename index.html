@@ -10,7 +10,7 @@
 
   <meta
     name="theme-color"
-    content="#0d1319"
+    content="#252820"
   >
 
   <meta
@@ -34,11 +34,12 @@
   <title>NOVIA HOME | Smart Control</title>
 
   <!-- PWA -->
-<link rel="stylesheet" href="./css/style.css?v=20261118-uiux-r2">
-<link rel="stylesheet" href="./css/automation.css?v=20261118-uiux-r2">
-<link rel="stylesheet" href="./css/refined.css?v=20261118-uiux-r2">
-<link rel="stylesheet" href="./css/uiux-r2.css?v=20261118-uiux-r2">
-  <!-- Apply saved theme before styles render to avoid a theme flash. -->
+  <!-- NOVIA HOME V5 — SINGLE STYLESHEET LOAD -->
+  <link rel="stylesheet" href="./css/style.css?v=20261118-v5-ceramic">
+  <link rel="stylesheet" href="./css/automation.css?v=20261118-v5-ceramic">
+  <link rel="stylesheet" href="./css/refined.css?v=20261118-v5-ceramic">
+  <link rel="stylesheet" href="./css/uiux-r2.css?v=20261118-v5-ceramic">
+<!-- Apply saved theme before styles render to avoid a theme flash. -->
   <script>
     (() => {
       try {
@@ -46,17 +47,13 @@
         if (theme === "light" || theme === "dark") {
           document.documentElement.setAttribute("data-theme", theme);
           const themeColor = document.querySelector('meta[name="theme-color"]');
-          if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f3f6f7" : "#0d141a");
+          if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f2eee4" : "#252820");
         }
       } catch (_) {}
     })();
   </script>
 
   <!-- STYLESHEET -->
-<link rel="stylesheet" href="./css/style.css?v=20261117-v5p4">
-<link rel="stylesheet" href="./css/automation.css?v=20261115a1">
-<link rel="stylesheet" href="./css/refined.css?v=20261117-stable-uiux-r1">
-
 </head>
 
 <body>

@@ -1,5 +1,5 @@
 /* NOVIA HOME V4 — resilient offline cache */
-const CACHE_NAME = "novia-home-v4-stable-uiux-20261117-r1";
+const CACHE_NAME = "novia-home-v5-realistic-ceramic-20261118";
 const CACHE_PREFIX = "novia-home-";
 
 const APP_FILES = [
@@ -8,6 +8,7 @@ const APP_FILES = [
   "./css/style.css",
   "./css/automation.css",
   "./css/refined.css",
+  "./css/uiux-r2.css",
   "./js/app.js",
   "./js/automation.js",
   "./manifest.json",

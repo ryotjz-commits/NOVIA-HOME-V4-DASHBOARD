@@ -1,20 +1,21 @@
-# NOVIA HOME V4 — Stable UI/UX Release 1.0
+# NOVIA HOME V5 — REALISTIC SOFT CERAMIC
 
-**Tanggal rilis:** 2026-11-17
+## Perubahan visual
+- Palet Soft Pastel Earth untuk Light Mode dan Dark Mode.
+- Permukaan kartu dengan highlight dan bayangan lembut bergaya soft ceramic.
+- Tombol perangkat memiliki kedalaman visual yang lebih terasa.
+- Bottom navigation dan panel monitoring mengikuti token warna yang sama.
+- File CSS dimuat satu kali; duplikasi stylesheet pada index.html dihapus.
+- Cache-busting stylesheet diseragamkan ke versi V5.
 
-## Ringkasan
-Rilis stabil untuk penyempurnaan tampilan dashboard NOVIA HOME V4, tema Dark/Light, responsivitas, dan cache PWA/offline.
+## Batas perubahan
+- Tidak mengubah Worker API, D1, endpoint, kontrol relay, timer, jadwal, atau firmware.
+- JavaScript aplikasi hanya mengubah warna meta theme-color agar sesuai dengan tema baru.
+- Struktur HTML, ID, data attributes, dan event handler dipertahankan.
 
-## Yang difinalkan
-- Konsistensi desain dan komponen pada layar ponsel maupun desktop.
-- Penanganan tema tersimpan agar tampilan awal lebih konsisten.
-- Warna browser mengikuti tema aktif.
-- Strategi cache Service Worker lebih aman terhadap cache aplikasi lain pada origin yang sama.
-- Fallback offline dibatasi pada navigasi dokumen.
-- Versi aset dan cache diperbarui untuk memaksa browser mengambil paket rilis terbaru.
-
-## Kompatibilitas
-Rilis ini ditujukan sebagai pembaruan dashboard. Firmware ESP32, konfigurasi Blynk, dan Worker aktif tidak perlu diganti untuk menerapkan perubahan UI/UX ini.
-
-## Validasi
-Pemeriksaan sintaks, struktur HTML, referensi elemen, dan integritas ZIP dapat dilakukan secara statis. Status stabil pada perangkat nyata baru dapat dipastikan setelah checklist pasca-deploy dijalankan.
+## File utama
+- css/style.css: token warna dan layout inti.
+- css/automation.css: komponen otomasi.
+- css/refined.css: monitoring dan riwayat.
+- css/uiux-r2.css: lapisan visual Realistic Soft Ceramic.
+- css/theme-reference.css: file kompatibilitas, tidak mendefinisikan ulang palet.
