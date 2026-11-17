@@ -1,6 +1,9 @@
 /* =========================================================
-   NOVIA HOME V4 — THEME COMPATIBILITY FILE
-   Earth-tone light/dark tokens are centralized in style.css.
-   This file intentionally contains no duplicate variables
-   or component selectors.
+   NOVIA HOME V4/V5 — THEME REFERENCE
+
+   Intentionally contains no component selectors or color
+   overrides. The unified Warm Red palette is centralized in
+   style.css so the same theme is not redefined in multiple
+   files. Kept as an empty compatibility file because the
+   current HTML may still link to it.
 ========================================================= */
