@@ -41,3 +41,7 @@ in this public repository.
 Phase 2 menambahkan riwayat perubahan status API dan jaringan browser pada dashboard. Riwayat disimpan lokal di browser/perangkat menggunakan `localStorage`, dibatasi hingga 50 kejadian terbaru, dan dapat dihapus melalui tombol Hapus Riwayat. Data tidak dikirim ke Cloudflare Worker atau Blynk.
 
 Riwayat mencatat perubahan status (misalnya API terputus dan pulih), bukan setiap polling berkala. Jika penyimpanan browser diblokir atau penuh, dashboard tetap dapat digunakan tetapi riwayat mungkin tidak tersimpan.
+
+
+## V5 Phase 2.1 — Navigasi tab
+Dashboard menggunakan tiga tab utama agar tampilan lebih ringkas: **Kontrol Saklar**, **Monitoring**, dan **Otomasi**. Tab Kontrol Saklar menjadi halaman awal; panel lain disembunyikan sampai dipilih. Riwayat koneksi dan reliability monitor tetap tersedia pada tab Monitoring.

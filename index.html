@@ -122,7 +122,19 @@
 
     </section>
 
+    <nav class="main-tabs" role="tablist" aria-label="Navigasi dashboard">
+      <button class="main-tab is-active" id="tabControl" type="button" role="tab" aria-selected="true" aria-controls="panelControl" data-tab="panelControl">
+        <span aria-hidden="true">⌁</span> Kontrol Saklar
+      </button>
+      <button class="main-tab" id="tabMonitor" type="button" role="tab" aria-selected="false" aria-controls="panelMonitor" data-tab="panelMonitor">
+        <span aria-hidden="true">◉</span> Monitoring
+      </button>
+      <button class="main-tab" id="tabAutomation" type="button" role="tab" aria-selected="false" aria-controls="panelAutomation" data-tab="panelAutomation">
+        <span aria-hidden="true">◷</span> Otomasi
+      </button>
+    </nav>
 
+    <div class="tab-panel" id="panelMonitor" role="tabpanel" aria-labelledby="tabMonitor" hidden>
     <!-- =========================================
          SUMMARY SECTION
     ========================================== -->
@@ -232,6 +244,9 @@
     </section>
 
 
+    </div>
+
+    <div class="tab-panel is-active" id="panelControl" role="tabpanel" aria-labelledby="tabControl">
     <!-- =========================================
          DEVICE CONTROL
     ========================================== -->
@@ -446,6 +461,9 @@
     </section>
 
 
+    </div>
+
+    <div class="tab-panel" id="panelAutomation" role="tabpanel" aria-labelledby="tabAutomation" hidden>
 <!-- =========================================
      NOVIA HOME AUTOMATION PANEL
 ========================================== -->
@@ -634,6 +652,7 @@
       </div>
 
     </section>
+    </div>
 
   </main>
 
@@ -657,7 +676,7 @@
      APPLICATION JAVASCRIPT
 ========================================== -->
 
-<script src="./js/app.js?v=20261117-v5-reliability2"></script>
+<script src="./js/app.js?v=20261117-v5-tabs1"></script>
   <script src="./js/automation.js?v=20261115a1"></script>
 
 
