@@ -1023,3 +1023,26 @@ html[data-theme="light"] .system-list div {
 .health-footnote{margin:12px 2px 0;color:var(--muted);font-size:11px;line-height:1.55}
 .monitor-refresh:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media(max-width:520px){.health-grid{grid-template-columns:1fr}.health-meta{grid-template-columns:1fr 1fr}.health-meta>div:first-child{grid-column:1/-1}}
+
+
+/* =========================================================
+   NOVIA HOME V5 PHASE 2 — CONNECTION HISTORY
+   Additive styles; no V4 component rules are replaced.
+========================================================= */
+.reliability-history{position:relative}
+.history-clear{padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--muted);font:inherit;font-size:9px;font-weight:800;letter-spacing:.06em;cursor:pointer}
+.history-clear:hover{border-color:var(--danger,#e47b7b);color:var(--danger,#e47b7b)}
+.history-clear:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.history-description{margin:12px 0;color:var(--muted);font-size:11px;line-height:1.55}
+.history-summary{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;color:var(--muted);font-size:10px}
+.connection-history-list{display:grid;gap:0;margin:12px 0 0;padding:0;list-style:none}
+.history-entry{position:relative;display:grid;grid-template-columns:12px minmax(0,1fr);gap:11px;padding:12px 4px;border-bottom:1px solid var(--line)}
+.history-marker{width:8px;height:8px;margin:5px 0 0 1px;border-radius:50%;background:#d5a34d;box-shadow:0 0 0 4px rgba(213,163,77,.12)}
+.history-online .history-marker{background:#35c98a;box-shadow:0 0 0 4px rgba(53,201,138,.12)}
+.history-offline .history-marker{background:#e36c76;box-shadow:0 0 0 4px rgba(227,108,118,.12)}
+.history-content{display:grid;gap:4px;min-width:0}
+.history-content strong{font-size:12px;color:var(--text)}
+.history-content span{font-size:11px;line-height:1.45;color:var(--muted)}
+.history-content time{font-size:10px;color:var(--muted);opacity:.8}
+.history-empty{padding:18px 8px;text-align:center;color:var(--muted);font-size:11px}
+@media(max-width:520px){.history-summary{font-size:9px}.history-clear{padding:8px;font-size:8px}}
