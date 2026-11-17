@@ -279,3 +279,103 @@ html[data-theme="light"] .automation-card input[type="time"] {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+
+/* =========================================================
+   NOVIA HOME V4 — AUTOMATION MOBILE-FIRST FINAL OVERRIDES
+   Load after automation.css and refined.css.
+========================================================= */
+.automation-panel { min-width:0; margin-top:22px; color:var(--text); }
+.automation-panel .section-heading { align-items:flex-end; gap:8px; margin-bottom:13px; }
+.automation-panel .section-heading h2 { margin:0; color:var(--text); font-size:19px; line-height:1.2; }
+.automation-card {
+  min-width:0;
+  margin:0 0 12px;
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--surface);
+  color:var(--text);
+  box-shadow:0 10px 25px rgba(0,0,0,.16);
+}
+.automation-heading { align-items:center; gap:11px; margin-bottom:15px; }
+.automation-icon {
+  width:39px; height:39px; flex:0 0 39px;
+  border-radius:12px;
+  display:grid; place-items:center;
+  background:color-mix(in srgb,var(--accent) 13%,var(--surface-light));
+  color:var(--accent); font-size:21px;
+}
+.automation-heading h3 { margin:0 0 4px; color:var(--text); font-size:14px; }
+.automation-heading p { margin:0; color:var(--muted); font-size:10px; line-height:1.45; }
+.automation-card > label,.schedule-time-grid label {
+  display:block; margin:13px 0 7px; color:var(--muted); font-size:10px; font-weight:650;
+}
+.automation-card select,.automation-card input[type="time"] {
+  display:block; width:100%; min-width:0; min-height:45px;
+  padding:10px 12px; border:1px solid var(--border);
+  border-radius:11px; background:var(--surface-light);
+  color:var(--text); font:inherit; font-size:13px;
+  color-scheme:dark;
+}
+html[data-theme="light"] .automation-card select,
+html[data-theme="light"] .automation-card input[type="time"] { color-scheme:light; }
+.automation-card select:focus,.automation-card input[type="time"]:focus {
+  outline:2px solid color-mix(in srgb,var(--accent) 25%,transparent);
+  border-color:var(--accent);
+}
+.automation-button {
+  display:block; width:100%; min-height:45px; margin-top:13px; padding:11px 13px;
+  border:1px solid transparent; border-radius:12px;
+  background:linear-gradient(135deg,#079dbb,#087b9d);
+  color:#fff; font-size:11px; font-weight:800; letter-spacing:.04em;
+  cursor:pointer; touch-action:manipulation;
+}
+.automation-button.secondary {
+  color:var(--text); background:var(--surface-light); border-color:var(--border);
+}
+.automation-button:active { transform:scale(.985); }
+.automation-button:disabled { opacity:.55; cursor:not-allowed; }
+.automation-status { min-height:18px; margin:11px 0 0; color:var(--muted); font-size:10px; line-height:1.5; }
+.automation-status.success { color:var(--accent); }
+.automation-status.error { color:var(--danger,#e58d8d); }
+.schedule-time-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.weekday-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; margin-top:10px; }
+.weekday-grid label {
+  display:flex; align-items:center; justify-content:center; gap:5px;
+  min-width:0; min-height:39px; padding:6px 3px;
+  border:1px solid var(--border); border-radius:10px;
+  background:var(--surface-light); color:var(--text);
+  font-size:10px; font-weight:700; cursor:pointer;
+}
+.weekday-grid label:has(input:checked) {
+  color:var(--accent); border-color:var(--accent);
+  background:color-mix(in srgb,var(--accent) 13%,var(--surface));
+}
+.weekday-grid input { width:14px; height:14px; margin:0; accent-color:var(--accent); }
+.schedule-enable { display:flex !important; align-items:center; gap:9px; margin-top:16px !important; color:var(--text) !important; }
+.schedule-enable input { width:17px; height:17px; accent-color:var(--accent); }
+.schedule-list { display:grid; gap:9px; }
+.schedule-item { min-width:0; padding:12px; border:1px solid var(--border); border-radius:12px; background:var(--surface-light); }
+.schedule-item-top { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.schedule-item-name { min-width:0; color:var(--text); font-size:12px; font-weight:750; overflow-wrap:anywhere; }
+.schedule-item-time { margin-top:8px; color:var(--accent); font-size:13px; font-weight:750; }
+.schedule-item-days { margin-top:4px; color:var(--muted); font-size:10px; line-height:1.4; }
+.schedule-empty { padding:16px 10px; border:1px dashed var(--border); border-radius:11px; color:var(--muted); text-align:center; font-size:11px; }
+.schedule-state { padding:5px 8px; border-radius:20px; background:color-mix(in srgb,var(--accent) 14%,var(--surface)); color:var(--accent); font-size:9px; font-weight:800; white-space:nowrap; }
+.schedule-state.off { background:var(--surface-light); color:var(--muted); }
+html[data-theme="light"] .automation-card { background:linear-gradient(145deg,#fff,#f1f6f6); box-shadow:0 9px 23px rgba(23,43,53,.06); }
+html[data-theme="light"] .automation-card select,
+html[data-theme="light"] .automation-card input[type="time"] { background:#fff; color:#172b35; }
+html[data-theme="light"] .automation-button:not(.secondary) { background:linear-gradient(180deg,#0aa87a,#079b70); color:#fff; }
+html[data-theme="light"] .automation-button.secondary { background:#edf1f3; color:#40535d; }
+@media (min-width:600px) {
+  .automation-card { padding:18px; }
+  .automation-panel .section-heading h2 { font-size:20px; }
+}
+@media (max-width:360px) {
+  .automation-card { padding:12px; }
+  .schedule-time-grid { gap:8px; }
+  .weekday-grid { gap:5px; }
+  .weekday-grid label { min-height:36px; font-size:9px; }
+}

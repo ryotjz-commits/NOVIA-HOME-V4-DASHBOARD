@@ -358,3 +358,276 @@ button:disabled { cursor: not-allowed; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+
+/* =========================================================
+   NOVIA HOME V4 — FINAL MOBILE-FIRST NEON GLASS OVERRIDES
+   Load this file AFTER style.css and automation.css.
+   Keeps existing HTML classes, IDs and JS behavior.
+========================================================= */
+
+:root {
+  --bg: #031322;
+  --surface: rgba(12, 39, 59, .88);
+  --surface-light: rgba(9, 31, 49, .94);
+  --border: rgba(91, 205, 237, .28);
+  --text: #e8f8ff;
+  --muted: #9ab9c9;
+  --accent: #20e8f5;
+  --accent-dark: #087f9c;
+  --accent-strong: #11bad0;
+  --warning: #ffd580;
+  --danger: #ff9292;
+  --radius-sm: 11px;
+  --radius-md: 15px;
+  --radius-lg: 20px;
+  --shadow: 0 12px 28px rgba(0,0,0,.22);
+  --ease: 180ms ease;
+}
+
+html[data-theme="light"] {
+  --bg: #f3f6f7;
+  --surface: #fff;
+  --surface-light: #edf3f5;
+  --border: rgba(35,58,69,.13);
+  --text: #172b35;
+  --muted: #71818a;
+  --accent: #079b70;
+  --accent-dark: #087c5b;
+  --accent-strong: #0aa87a;
+  --warning: #987334;
+  --danger: #b94d4d;
+  --shadow: 0 10px 26px rgba(31,54,65,.07);
+}
+
+html, body { min-height:100%; background:var(--bg); color:var(--text); }
+body {
+  margin:0;
+  padding-bottom:calc(88px + env(safe-area-inset-bottom, 0px));
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.app-shell { width:calc(100% - 28px); max-width:880px; margin-inline:auto; background:transparent; }
+
+/* Dark ambient backdrop */
+html:not([data-theme="light"]) body {
+  background:
+    radial-gradient(ellipse at 85% 43%,rgba(0,111,255,.20),transparent 34%),
+    radial-gradient(ellipse at 12% 72%,rgba(0,213,255,.13),transparent 38%),
+    linear-gradient(160deg,#02101e 0%,#05243b 52%,#031322 100%);
+  background-attachment:fixed;
+}
+
+/* Header and hero */
+.topbar { min-height:62px; gap:8px; border-color:var(--border); }
+.brand { gap:9px; min-width:0; }
+.brand strong { font-size:11px; letter-spacing:1px; }
+.brand small { font-size:8px; }
+.brand-mark { flex:0 0 36px; width:36px; height:36px; }
+.demo-pill { max-width:42%; padding:7px 9px; font-size:8px; white-space:nowrap; }
+.welcome { align-items:flex-start; padding:28px 0 22px; gap:12px; }
+.welcome > div:first-child { min-width:0; }
+h1 { font-size:clamp(29px,8vw,43px)!important; line-height:1.08; letter-spacing:-.045em; }
+.welcome-copy { font-size:12px; line-height:1.65; }
+.hero-chip { flex:0 0 auto; padding:8px; gap:7px; border-radius:13px; }
+.hero-chip b { font-size:11px; }
+.hero-chip small { font-size:8px; }
+
+/* Summary: 2 columns on phones */
+.summary-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+.summary-card { min-height:88px; min-width:0; padding:11px; gap:8px; border-radius:16px; }
+.summary-icon { font-size:21px; }
+.summary-card small { font-size:8px; }
+.summary-card strong { font-size:11px; line-height:1.3; overflow-wrap:anywhere; }
+.summary-note { font-size:9px; line-height:1.35; }
+
+/* Sections and device cards */
+.section-block { margin:25px 0 26px; }
+.section-heading { align-items:flex-end; gap:8px; margin-bottom:13px; }
+.section-heading h2,.automation-panel .section-heading h2 { font-size:19px; line-height:1.2; }
+.eyebrow { font-size:9px; letter-spacing:1.6px; }
+.count-label { font-size:8px; white-space:nowrap; }
+.device-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.device-card {
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:176px;
+  padding:13px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:linear-gradient(145deg,rgba(31,72,96,.86),rgba(7,34,55,.94));
+  box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.device-card.is-on {
+  border-color:rgba(32,232,245,.65);
+  background:linear-gradient(145deg,rgba(16,91,104,.88),rgba(7,37,57,.96));
+  box-shadow:0 0 16px rgba(0,213,255,.13),var(--shadow);
+}
+.device-card-head { margin-bottom:25px; }
+.device-icon { width:30px; height:30px; font-size:19px; color:#78ddeb; background:rgba(0,191,220,.10); }
+.state-badge { font-size:9px; padding:4px 7px; }
+.device-card h3 { margin:0 0 5px; color:var(--text); font-size:13px; line-height:1.25; overflow-wrap:anywhere; }
+.device-card > p { font-size:8px; letter-spacing:.07em; line-height:1.4; color:var(--muted); }
+.device-card.is-on .state-badge { color:#35f1ff; }
+
+/* Toggle fills the remaining card width and stays easy to tap */
+.toggle-button {
+  width:100%;
+  min-height:44px;
+  margin-top:auto;
+  padding:9px 10px;
+  gap:9px;
+  border-radius:13px;
+  background:rgba(2,19,34,.82);
+  border-color:rgba(104,203,232,.34);
+  color:#e8f8ff;
+}
+.toggle-knob { width:34px; height:19px; flex:0 0 34px; background:#285b6d; }
+.toggle-knob::after { width:13px; height:13px; top:3px; left:3px; background:#9cefff; }
+.toggle-label { font-size:9px; letter-spacing:.02em; }
+.device-card.is-on .toggle-button {
+  color:#fff;
+  background:linear-gradient(135deg,#079dbb,#087b9d);
+  border-color:#20e8f5;
+  box-shadow:0 0 13px rgba(0,220,255,.18);
+}
+.device-card.is-on .toggle-knob { background:#20d8e9; }
+.device-card.is-on .toggle-knob::after { transform:translateX(15px); background:#fff; }
+.demo-note { font-size:10px; line-height:1.55; }
+
+/* Summary and system panels */
+.summary-card,.system-panel,.reliability-panel,.reliability-history {
+  border:1px solid var(--border);
+  background:var(--surface);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+}
+.system-panel { margin-top:25px; padding:15px; }
+.system-list > div { gap:8px; padding:11px 0; }
+.system-list span,.system-list strong { font-size:10px; overflow-wrap:anywhere; }
+footer { padding:17px 2px 20px; font-size:9px; }
+
+/* BOTTOM TAB BAR — fixed, thumb-friendly, no sticky-top conflict */
+.main-tabs {
+  position:fixed !important;
+  top:auto !important;
+  left:50%;
+  bottom:calc(7px + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%);
+  z-index:1000;
+  width:min(560px,calc(100% - 20px));
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:5px;
+  margin:0;
+  padding:6px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:rgba(5,25,42,.94);
+  box-shadow:0 10px 30px rgba(0,0,0,.30),0 0 18px rgba(0,190,230,.08);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+html[data-theme="light"] .main-tabs {
+  background:rgba(255,255,255,.96);
+  box-shadow:0 8px 25px rgba(25,50,60,.14);
+}
+.main-tab {
+  min-width:0;
+  min-height:48px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  padding:6px 3px;
+  border:1px solid transparent;
+  border-radius:12px;
+  background:transparent;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.15;
+  font-weight:750;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.main-tab span { font-size:18px; line-height:1; }
+.main-tab.is-active {
+  color:var(--accent);
+  background:color-mix(in srgb,var(--accent) 13%,transparent);
+  border-color:color-mix(in srgb,var(--accent) 28%,transparent);
+}
+.tab-panel { min-width:0; animation:noviaTabIn .18s ease both; }
+.tab-panel[hidden] { display:none !important; }
+@keyframes noviaTabIn { from { opacity:.7; transform:translateY(3px); } to { opacity:1; transform:translateY(0); } }
+
+/* Light theme overrides: preserve the original clean white look */
+html[data-theme="light"] body { background:var(--bg); }
+html[data-theme="light"] .device-card {
+  background:linear-gradient(145deg,#fff,#edf4f5);
+  border-color:#dce7e9;
+  box-shadow:0 9px 24px rgba(23,43,53,.07);
+}
+html[data-theme="light"] .device-card.is-on {
+  background:linear-gradient(145deg,#e5f9ef,#f7fcf9);
+  border-color:#9fe3c8;
+  box-shadow:0 0 0 1px rgba(7,155,112,.10),0 12px 27px rgba(7,155,112,.12);
+}
+html[data-theme="light"] .device-card h3 { color:#172b35; }
+html[data-theme="light"] .device-card > p { color:#71818a; }
+html[data-theme="light"] .toggle-button { color:#40535d; background:#edf1f3; border-color:#dce5e9; }
+html[data-theme="light"] .device-card.is-on .toggle-button {
+  color:#fff; background:linear-gradient(180deg,#0aa87a,#079b70);
+  border-color:#079b70; box-shadow:0 5px 13px rgba(7,155,112,.23);
+}
+html[data-theme="light"] .toggle-label { color:inherit; }
+html[data-theme="light"] .toggle-knob { background:#b8c5cb; }
+html[data-theme="light"] .device-card.is-on .toggle-knob { background:#0ac07f; }
+
+/* Tablet / desktop progressively enhance layout */
+@media (min-width:600px) {
+  body { padding-bottom:24px; }
+  .app-shell { width:min(100% - 40px,880px); }
+  .topbar { min-height:70px; }
+  .welcome { padding:38px 0 28px; }
+  .device-grid { gap:14px; }
+  .device-card { min-height:190px; padding:18px; }
+  .device-card-head { margin-bottom:30px; }
+  .main-tabs {
+    position:sticky !important;
+    top:10px !important;
+    left:auto;
+    bottom:auto;
+    transform:none;
+    width:100%;
+    max-width:880px;
+    margin:0 auto 18px;
+  }
+  .main-tab { min-height:42px; flex-direction:row; font-size:11px; }
+  .main-tab span { font-size:17px; }
+}
+@media (min-width:900px) {
+  .app-shell { width:min(100% - 48px,880px); }
+  .summary-grid { gap:14px; }
+  .device-grid { gap:16px; }
+}
+
+/* Narrow phones: retain two-column device grid without clipping */
+@media (max-width:360px) {
+  .app-shell { width:calc(100% - 20px); }
+  .welcome { padding-top:23px; }
+  .hero-chip { display:none; }
+  .device-grid,.summary-grid { gap:8px; }
+  .device-card { min-height:166px; padding:10px; }
+  .device-card-head { margin-bottom:22px; }
+  .device-card h3 { font-size:11px; }
+  .toggle-button { min-height:42px; gap:6px; padding:7px; }
+  .toggle-label { font-size:8px; }
+  .summary-card { padding:9px; }
+  .summary-card strong { font-size:10px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+}
