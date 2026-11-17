@@ -1,7 +1,6 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   const API_URL = "https://novia-home-api.ryo-tjz.workers.dev";
-  
+
   // ==========================================
   // NOVIA HOME V4 - THEME SWITCHER
   // ==========================================
@@ -67,11 +66,17 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTheme(currentTheme);
 
   // ==========================================
-  // END THEME SWITCHER
+  // API REAL-TIME MONITOR
   // ==========================================
-  
+
+  const API_CHECK_INTERVAL = 5000;
+  const API_TIMEOUT = 3000;
 
   const statusElement = document.getElementById("connectionStatus");
+  const statusPill = statusElement
+    ? statusElement.closest(".demo-pill")
+    : null;
+
   const cards = [...document.querySelectorAll(".device-card")];
   const note = document.querySelector(".demo-note");
   const summaryCards = [...document.querySelectorAll(".summary-card")];
@@ -86,19 +91,80 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let controlPin = null;
   let refreshing = false;
+  let lastSuccessfulCheck = null;
+  let lastLatency = null;
 
-  function setConnection(connected) {
+  function formatClock(date) {
+    if (!date) return "Belum pernah";
+    return date.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    });
+  }
+
+  function setConnection(state, latency = null) {
+    const connected = state === "online";
+    const checking = state === "checking";
+
+    if (connected) {
+      lastSuccessfulCheck = new Date();
+      lastLatency = latency;
+    }
+
+    const lastSeenText = formatClock(lastSuccessfulCheck);
+    const latencyText = lastLatency === null
+      ? "--"
+      : `${lastLatency} ms`;
+
     if (statusElement) {
-      statusElement.textContent = connected ? "API CONNECTED" : "API OFFLINE";
+      if (connected) {
+        statusElement.textContent = `API ONLINE · ${latencyText}`;
+      } else if (checking) {
+        statusElement.textContent = "API CONNECTING...";
+      } else {
+        statusElement.textContent = "API OFFLINE";
+      }
+
+      statusElement.title =
+        `Last seen: ${lastSeenText}` +
+        (lastLatency === null ? "" : ` | Respons terakhir: ${latencyText}`);
+    }
+
+    if (statusPill) {
+      statusPill.classList.toggle("is-online", connected);
+      statusPill.classList.toggle("is-offline", state === "offline");
+      statusPill.classList.toggle("is-checking", checking);
+      statusPill.setAttribute(
+        "aria-label",
+        connected
+          ? `API online, respons ${latencyText}, terakhir terlihat ${lastSeenText}`
+          : checking
+            ? "Sedang memeriksa koneksi API"
+            : `API offline, terakhir terlihat ${lastSeenText}`
+      );
     }
 
     if (summaryCards[0]) {
       const strong = summaryCards[0].querySelector("strong");
       const small = summaryCards[0].querySelector(".summary-note");
-      if (strong) strong.textContent = connected ? "Terhubung" : "Tidak terhubung";
-      if (small) small.textContent = connected
-        ? "Cloudflare Worker aktif"
-        : "Periksa koneksi API";
+
+      if (strong) {
+        strong.textContent = connected
+          ? "Terhubung"
+          : checking
+            ? "Memeriksa..."
+            : "Tidak terhubung";
+      }
+
+      if (small) {
+        small.textContent = connected
+          ? `Worker aktif · ${latencyText} · ${lastSeenText}`
+          : checking
+            ? "Memeriksa API..."
+            : `Last seen: ${lastSeenText}`;
+      }
     }
 
     if (summaryCards[1]) {
@@ -117,16 +183,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (systemRows[4]) {
       const value = systemRows[4].querySelector("strong");
-      if (value) value.textContent = connected
-        ? "API tersambung · Data terbaca"
-        : "Koneksi API gagal";
-      if (value) value.classList.remove("pending");
+      if (value) {
+        value.textContent = connected
+          ? `API sehat · ${latencyText}`
+          : checking
+            ? "Memeriksa koneksi API..."
+            : `API gagal · Last seen ${lastSeenText}`;
+        value.classList.remove("pending");
+      }
     }
 
     if (note) {
       note.textContent = connected
-        ? "Status channel disinkronkan dengan Blynk IoT."
-        : "Gagal memperbarui status. Periksa koneksi internet dan API.";
+        ? `Status channel disinkronkan dengan Blynk IoT. Respons API ${latencyText}.`
+        : checking
+          ? "Memeriksa koneksi API dan sinkronisasi channel..."
+          : "Gagal memperbarui status. Dashboard akan mencoba kembali otomatis.";
     }
   }
 
@@ -156,14 +228,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function loadStatus() {
+    // Cegah request status bertumpuk.
     if (refreshing) return;
 
     refreshing = true;
+    setConnection("checking");
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(
+      () => controller.abort(),
+      API_TIMEOUT
+    );
+
+    const startedAt = performance.now();
 
     try {
       const response = await fetch(`${API_URL}/api/status`, {
         method: "GET",
-        cache: "no-store"
+        cache: "no-store",
+        signal: controller.signal,
+        headers: {
+          "Accept": "application/json"
+        }
       });
 
       if (!response.ok) {
@@ -172,7 +258,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await response.json();
 
-      if (!data.success || !data.channels) {
+      if (
+        data.success !== true ||
+        !data.channels ||
+        typeof data.channels !== "object"
+      ) {
         throw new Error("Respons API tidak valid");
       }
 
@@ -184,14 +274,25 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error("Nilai datastream tidak valid");
       }
 
+      const latency = Math.max(
+        0,
+        Math.round(performance.now() - startedAt)
+      );
+
       values.forEach((value, index) => updateCard(index, value));
-      setConnection(true);
+      setConnection("online", latency);
 
     } catch (error) {
-      setConnection(false);
-      console.error("NOVIA HOME status:", error);
+      setConnection("offline");
+
+      if (error.name === "AbortError") {
+        console.warn(`NOVIA HOME API timeout (${API_TIMEOUT} ms)`);
+      } else {
+        console.error("NOVIA HOME status:", error);
+      }
 
     } finally {
+      window.clearTimeout(timeoutId);
       refreshing = false;
     }
   }
@@ -277,18 +378,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  if (statusElement) {
-    statusElement.textContent = "MENGHUBUNGKAN...";
-  }
-
-  if (note) {
-    note.textContent = "Menghubungkan dashboard dengan Blynk IoT...";
-  }
-
+  setConnection("checking");
   loadStatus();
 
-  window.setInterval(loadStatus, 5000);
+  // Monitoring otomatis: cek ulang setiap 5 detik.
+  window.setInterval(loadStatus, API_CHECK_INTERVAL);
 
-  console.log("NOVIA HOME V4 - Live integration active");
+  console.log(
+    "NOVIA HOME V4 - API Real-Time Monitor active",
+    `interval=${API_CHECK_INTERVAL}ms`,
+    `timeout=${API_TIMEOUT}ms`
+  );
 });
-    
