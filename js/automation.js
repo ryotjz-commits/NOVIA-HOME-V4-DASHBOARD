@@ -80,6 +80,119 @@
     button.disabled = busy;
   }
 
+/* =====================================
+   LIVE COUNTDOWN ENGINE
+===================================== */
+
+let activeTimers = [];
+let serverTimeOffset = 0;
+let countdownInterval = null;
+let timerSyncInterval = null;
+
+function formatCountdown(seconds) {
+  const safe = Math.max(0, seconds);
+
+  const hours = Math.floor(safe / 3600);
+  const minutes = Math.floor((safe % 3600) / 60);
+  const secs = safe % 60;
+
+  if (hours > 0) {
+    return [
+      String(hours).padStart(2, "0"),
+      String(minutes).padStart(2, "0"),
+      String(secs).padStart(2, "0")
+    ].join(":");
+  }
+
+  return [
+    String(minutes).padStart(2, "0"),
+    String(secs).padStart(2, "0")
+  ].join(":");
+}
+
+function renderTimerCountdown() {
+  const panel = $("timerCountdown");
+
+  if (!panel) return;
+
+  const channel = Number($("timerChannel").value);
+
+  const timer = activeTimers.find(
+    item => item.channel === channel
+  );
+
+  if (!timer) {
+    panel.hidden = true;
+    return;
+  }
+
+  panel.hidden = false;
+
+  const now = Math.floor(
+    (Date.now() + serverTimeOffset) / 1000
+  );
+
+  const remaining = Math.max(
+    0,
+    timer.deadline_at - now
+  );
+
+  const duration = Math.max(
+    1,
+    timer.duration_seconds
+  );
+
+  const progress = Math.min(
+    100,
+    Math.max(0, remaining / duration * 100)
+  );
+
+  $("timerCountdownValue").textContent =
+    formatCountdown(remaining);
+
+  $("timerCountdownBadge").textContent =
+    remaining > 0 ? "AKTIF" : "WAKTU HABIS";
+
+  $("timerDeviceName").textContent =
+    DEVICE_NAMES[channel];
+
+  $("timerRemainingLabel").textContent =
+    remaining > 0
+      ? "Perangkat akan mati otomatis"
+      : "Menunggu konfirmasi OFF dari Worker";
+
+  $("timerProgressBar").style.width =
+    progress + "%";
+}
+
+async function loadActiveTimers() {
+  try {
+    const data = await request("/api/timer");
+
+    if (!Array.isArray(data.timers)) {
+      throw new Error("Data timer tidak valid");
+    }
+
+    serverTimeOffset =
+      Number(data.server_now) * 1000 - Date.now();
+
+    activeTimers = data.timers.map(timer => ({
+      channel: Number(timer.channel),
+      started_at: Number(timer.started_at),
+      deadline_at: Number(timer.deadline_at),
+      duration_seconds: Number(timer.duration_seconds)
+    }));
+
+    renderTimerCountdown();
+
+  } catch (error) {
+    console.warn(
+      "NOVIA HOME timer synchronization:",
+      error
+    );
+  }
+}
+   
   // =====================================
   // TIMER
   // =====================================
