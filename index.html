@@ -210,6 +210,27 @@
       <p class="health-footnote">Status API menunjukkan jalur Cloudflare Worker ke Blynk berhasil membaca 4 datastream. Status ESP32 secara langsung belum dapat dipastikan dari endpoint ini.</p>
     </section>
 
+    <!-- =========================================
+         RELIABILITY HISTORY - V5 PHASE 2
+    ========================================== -->
+    <section class="section-block reliability-history" aria-labelledby="historyTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">CONNECTION EVENTS</p>
+          <h2 id="historyTitle">Riwayat koneksi</h2>
+        </div>
+        <button type="button" class="history-clear" id="clearConnectionHistory">HAPUS RIWAYAT</button>
+      </div>
+      <p class="history-description">Mencatat perubahan status jaringan browser dan API. Riwayat disimpan di perangkat ini, maksimal 50 kejadian.</p>
+      <div class="history-summary" aria-live="polite">
+        <span id="historyCount">0 kejadian tersimpan</span>
+        <span id="historyStorageState">Penyimpanan lokal</span>
+      </div>
+      <ol class="connection-history-list" id="connectionHistoryList" aria-live="polite">
+        <li class="history-empty">Belum ada riwayat koneksi.</li>
+      </ol>
+    </section>
+
 
     <!-- =========================================
          DEVICE CONTROL
@@ -636,7 +657,7 @@
      APPLICATION JAVASCRIPT
 ========================================== -->
 
-<script src="./js/app.js?v=20261117-v5-reliability1"></script>
+<script src="./js/app.js?v=20261117-v5-reliability2"></script>
   <script src="./js/automation.js?v=20261115a1"></script>
 
 

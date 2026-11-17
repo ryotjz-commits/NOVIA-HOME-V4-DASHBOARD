@@ -34,3 +34,10 @@ Dashboard development is separated from the firmware project.
 
 Never store Blynk Auth Token or WiFi passwords
 in this public repository.
+
+
+## NOVIA HOME V5 Phase 2 — Connection History
+
+Phase 2 menambahkan riwayat perubahan status API dan jaringan browser pada dashboard. Riwayat disimpan lokal di browser/perangkat menggunakan `localStorage`, dibatasi hingga 50 kejadian terbaru, dan dapat dihapus melalui tombol Hapus Riwayat. Data tidak dikirim ke Cloudflare Worker atau Blynk.
+
+Riwayat mencatat perubahan status (misalnya API terputus dan pulih), bukan setiap polling berkala. Jika penyimpanan browser diblokir atau penuh, dashboard tetap dapat digunakan tetapi riwayat mungkin tidak tersimpan.
