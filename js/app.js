@@ -71,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const API_CHECK_INTERVAL = 5000;
   const API_TIMEOUT = 3000;
+  const CONTROL_TIMEOUT = 10000;
 
   const statusElement = document.getElementById("connectionStatus");
   const statusPill = statusElement
@@ -96,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let consecutiveFailures = 0;
   let nextCheckTimer = null;
   let requestInFlight = false;
+  let controlInFlight = false;
+  let refreshAfterCurrentRequest = false;
   let previousApiState = null;
   let previousBrowserState = null;
   const HISTORY_KEY = "novia-home-connection-history-v1";
@@ -455,71 +458,94 @@ document.addEventListener("DOMContentLoaded", () => {
       refreshing = false;
       requestInFlight = false;
       if (refreshButton) refreshButton.disabled = false;
-      const retryDelay = consecutiveFailures === 0
-        ? API_CHECK_INTERVAL
-        : Math.min(API_CHECK_INTERVAL * (2 ** Math.min(consecutiveFailures, 3)), 30000);
+      const retryDelay = refreshAfterCurrentRequest
+        ? 500
+        : consecutiveFailures === 0
+          ? API_CHECK_INTERVAL
+          : Math.min(API_CHECK_INTERVAL * (2 ** Math.min(consecutiveFailures, 3)), 30000);
+      refreshAfterCurrentRequest = false;
       scheduleNextCheck(retryDelay);
     }
   }
 
   async function controlDevice(channel, value, button) {
-    if (!controlPin) {
-      const enteredPin = window.prompt(
-        "Masukkan PIN kontrol NOVIA HOME:"
-      );
+    // Satu perintah kontrol pada satu waktu untuk mencegah klik berulang
+    // atau perintah bersamaan yang dapat saling menimpa.
+    if (controlInFlight || !button || button.disabled) return;
 
+    if (!navigator.onLine) {
+      window.alert("Perangkat sedang offline. Periksa koneksi sebelum mengirim perintah.");
+      return;
+    }
+
+    if (!controlPin) {
+      const enteredPin = window.prompt("Masukkan PIN kontrol NOVIA HOME:");
       if (!enteredPin) return;
       controlPin = enteredPin;
     }
 
     const label = button.querySelector(".toggle-label");
     const previousLabel = label ? label.textContent : "";
+    const controlButtons = cards
+      .map(card => card.querySelector(".toggle-button"))
+      .filter(Boolean);
 
-    button.disabled = true;
+    controlInFlight = true;
+    controlButtons.forEach(item => { item.disabled = true; });
     if (label) label.textContent = "MENGIRIM...";
+    if (note) note.textContent = `Mengirim perintah ${value ? "ON" : "OFF"} ke ${channelNames[channel]}...`;
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), CONTROL_TIMEOUT);
 
     try {
       const response = await fetch(`${API_URL}/api/control`, {
         method: "POST",
+        cache: "no-store",
+        signal: controller.signal,
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Accept": "application/json"
         },
-        body: JSON.stringify({
-          pin: controlPin,
-          channel,
-          value
-        })
+        body: JSON.stringify({ pin: controlPin, channel, value })
       });
 
       const result = await response.json().catch(() => ({}));
 
       if (response.status === 401) {
         controlPin = null;
-        throw new Error("PIN kontrol salah.");
+        throw new Error("PIN kontrol salah. Masukkan PIN kembali saat mencoba lagi.");
       }
-
       if (!response.ok || !result.success) {
-        throw new Error(result.error || "Perintah gagal");
+        throw new Error(result.error || `Perintah gagal (HTTP ${response.status})`);
       }
 
-      if (statusElement) {
-        statusElement.textContent = "MENYINKRONKAN...";
-      }
-
-      await loadStatus();
+      if (statusElement) statusElement.textContent = "PERINTAH DITERIMA · MENYINKRONKAN";
+      if (note) note.textContent = `Perintah ${value ? "ON" : "OFF"} diterima untuk ${channelNames[channel]}. Memverifikasi status dari API...`;
 
     } catch (error) {
+      const message = error.name === "AbortError"
+        ? "Waktu tunggu habis. Perintah mungkin sudah diterima perangkat; status akan diperiksa ulang. Jangan langsung mengirim perintah yang sama berulang kali."
+        : error.message;
       if (label) label.textContent = previousLabel;
-
-      window.alert(
-        `Gagal mengontrol ${channelNames[channel]}: ${error.message}`
-      );
-
+      if (note) note.textContent = `Kontrol ${channelNames[channel]} belum terkonfirmasi: ${message}`;
+      window.alert(`NOVIA HOME — ${channelNames[channel]}: ${message}`);
       console.error("NOVIA HOME control:", error);
-      await loadStatus();
 
     } finally {
-      button.disabled = false;
+      window.clearTimeout(timeoutId);
+      controlInFlight = false;
+      controlButtons.forEach(item => { item.disabled = false; });
+
+      // Jika polling status sedang berjalan saat perintah selesai, minta
+      // satu verifikasi segera setelah polling tersebut selesai.
+      if (refreshing) {
+        refreshAfterCurrentRequest = true;
+      } else {
+        if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+        nextCheckTimer = null;
+        loadStatus();
+      }
     }
   }
 
@@ -594,7 +620,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Polling adaptif: 5 detik saat sehat, backoff sampai 30 detik saat gagal.
 
   console.log(
-    "NOVIA HOME V5 - Reliability Monitor + Connection History active",
+    "NOVIA HOME V5 - Reliability + Safe Control active",
     `interval=${API_CHECK_INTERVAL}ms`,
     `timeout=${API_TIMEOUT}ms`
   );
