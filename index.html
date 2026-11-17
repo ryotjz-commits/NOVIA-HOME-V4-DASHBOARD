@@ -563,6 +563,35 @@
     <button type="button" id="cancelTimer" class="automation-button secondary">
       BATALKAN TIMER
     </button>
+    
+<!-- LIVE TIMER COUNTDOWN -->
+
+<div id="timerCountdown" class="timer-countdown" hidden>
+
+  <div class="timer-countdown-header">
+    <span>SISA WAKTU</span>
+    <span id="timerCountdownBadge">AKTIF</span>
+  </div>
+
+  <div id="timerCountdownValue"
+       class="timer-countdown-value">
+    00:00
+  </div>
+
+  <div class="timer-progress-track">
+    <div id="timerProgressBar"
+         class="timer-progress-bar">
+    </div>
+  </div>
+
+  <div class="timer-countdown-footer">
+    <span id="timerDeviceName">Perangkat</span>
+    <span id="timerRemainingLabel">
+      Timer berjalan
+    </span>
+  </div>
+
+</div>
 
     <p id="timerStatus" class="automation-status" role="status">
       Belum ada timer yang diatur.
