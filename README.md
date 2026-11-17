@@ -45,3 +45,14 @@ Riwayat mencatat perubahan status (misalnya API terputus dan pulih), bukan setia
 
 ## V5 Phase 2.1 — Navigasi tab
 Dashboard menggunakan tiga tab utama agar tampilan lebih ringkas: **Kontrol Saklar**, **Monitoring**, dan **Otomasi**. Tab Kontrol Saklar menjadi halaman awal; panel lain disembunyikan sampai dipilih. Riwayat koneksi dan reliability monitor tetap tersedia pada tab Monitoring.
+
+
+## NOVIA HOME V5 — Tab Control sebagai halaman utama
+- Dashboard selalu membuka tab **Kontrol Saklar** saat pertama kali dimuat atau di-refresh.
+- Navigasi tiga tab dipindahkan ke bagian bawah agar mudah dijangkau pada HP.
+- Monitoring memuat reliability monitor, riwayat koneksi, dan ringkasan sistem.
+- Otomasi berisi timer, jadwal harian, dan jadwal tersimpan.
+- Navigasi hanya menyembunyikan/menampilkan panel; proses polling API dan kontrol relay tetap berjalan.
+- Cache Service Worker diperbarui agar browser mengambil aset dashboard terbaru.
+
+Perubahan ini hanya pada dashboard web. Firmware ESP32 dan Cloudflare Worker tidak diubah.
