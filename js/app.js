@@ -599,3 +599,43 @@ document.addEventListener("DOMContentLoaded", () => {
     `timeout=${API_TIMEOUT}ms`
   );
 });
+
+
+// NOVIA HOME V5: navigasi tab utama
+document.addEventListener("DOMContentLoaded", () => {
+  const tabs = Array.from(document.querySelectorAll(".main-tab[data-tab]"));
+  const panels = Array.from(document.querySelectorAll(".tab-panel"));
+  if (!tabs.length || !panels.length) return;
+
+  function activateTab(tab, updateHash = true) {
+    const targetId = tab.dataset.tab;
+    tabs.forEach(item => {
+      const active = item === tab;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-selected", String(active));
+      item.tabIndex = active ? 0 : -1;
+    });
+    panels.forEach(panel => {
+      const active = panel.id === targetId;
+      panel.hidden = !active;
+      panel.classList.toggle("is-active", active);
+    });
+    if (updateHash) history.replaceState(null, "", `#${targetId}`);
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateTab(tab));
+    tab.addEventListener("keydown", event => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const next = tabs[(index + direction + tabs.length) % tabs.length];
+      activateTab(next);
+      next.focus();
+    });
+  });
+
+  const requested = document.querySelector(`.main-tab[data-tab="${location.hash.slice(1)}"]`);
+  if (requested) activateTab(requested, false);
+  else activateTab(tabs[0], false);
+});
