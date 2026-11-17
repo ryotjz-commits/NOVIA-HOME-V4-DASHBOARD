@@ -96,6 +96,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let consecutiveFailures = 0;
   let nextCheckTimer = null;
   let requestInFlight = false;
+  let previousApiState = null;
+  let previousBrowserState = null;
+  const HISTORY_KEY = "novia-home-connection-history-v1";
+  const HISTORY_LIMIT = 50;
+  const historyList = document.getElementById("connectionHistoryList");
+  const historyCount = document.getElementById("historyCount");
+  const historyStorageState = document.getElementById("historyStorageState");
+  const clearHistoryButton = document.getElementById("clearConnectionHistory");
   const refreshButton = document.getElementById("refreshStatus");
   const browserHealth = document.getElementById("browserHealth");
   const apiHealth = document.getElementById("apiHealth");
@@ -106,6 +114,103 @@ document.addEventListener("DOMContentLoaded", () => {
     const value = document.getElementById(textId);
     if (value) value.textContent = message;
   }
+
+  // ==========================================
+  // CONNECTION HISTORY - LOCAL DEVICE STORAGE
+  // ==========================================
+
+  function readConnectionHistory() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+      return Array.isArray(parsed) ? parsed.filter(item =>
+        item && typeof item.time === "string" &&
+        typeof item.source === "string" &&
+        typeof item.title === "string" &&
+        typeof item.detail === "string"
+      ).slice(0, HISTORY_LIMIT) : [];
+    } catch (error) {
+      if (historyStorageState) historyStorageState.textContent = "Penyimpanan tidak tersedia";
+      return [];
+    }
+  }
+
+  let connectionHistory = readConnectionHistory();
+
+  function renderConnectionHistory() {
+    if (historyCount) {
+      historyCount.textContent = `${connectionHistory.length} kejadian tersimpan`;
+    }
+    if (!historyList) return;
+
+    historyList.replaceChildren();
+    if (!connectionHistory.length) {
+      const empty = document.createElement("li");
+      empty.className = "history-empty";
+      empty.textContent = "Belum ada riwayat koneksi.";
+      historyList.appendChild(empty);
+      return;
+    }
+
+    connectionHistory.forEach(item => {
+      const entry = document.createElement("li");
+      entry.className = `history-entry history-${item.state || "info"}`;
+
+      const marker = document.createElement("span");
+      marker.className = "history-marker";
+      marker.setAttribute("aria-hidden", "true");
+
+      const content = document.createElement("div");
+      content.className = "history-content";
+      const heading = document.createElement("strong");
+      heading.textContent = item.title;
+      const detail = document.createElement("span");
+      detail.textContent = item.detail;
+      const time = document.createElement("time");
+      const date = new Date(item.time);
+      time.dateTime = item.time;
+      time.textContent = Number.isNaN(date.getTime()) ? item.time : date.toLocaleString("id-ID", {
+        day: "2-digit", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+      });
+      content.append(heading, detail, time);
+      entry.append(marker, content);
+      historyList.appendChild(entry);
+    });
+  }
+
+  function recordConnectionEvent(source, state, title, detail) {
+    const item = {
+      time: new Date().toISOString(),
+      source, state, title, detail
+    };
+    connectionHistory.unshift(item);
+    connectionHistory = connectionHistory.slice(0, HISTORY_LIMIT);
+    try {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(connectionHistory));
+      if (historyStorageState) historyStorageState.textContent = "Tersimpan di perangkat ini";
+    } catch (error) {
+      if (historyStorageState) historyStorageState.textContent = "Gagal menyimpan riwayat";
+      console.warn("NOVIA HOME: riwayat tidak dapat disimpan", error);
+    }
+    renderConnectionHistory();
+  }
+
+  if (clearHistoryButton) {
+    clearHistoryButton.addEventListener("click", () => {
+      if (!connectionHistory.length) return;
+      if (!window.confirm("Hapus seluruh riwayat koneksi pada perangkat ini?")) return;
+      connectionHistory = [];
+      try {
+        localStorage.removeItem(HISTORY_KEY);
+        if (historyStorageState) historyStorageState.textContent = "Tersimpan di perangkat ini";
+      } catch (error) {
+        if (historyStorageState) historyStorageState.textContent = "Penyimpanan tidak tersedia";
+      }
+      renderConnectionHistory();
+    });
+  }
+
+  renderConnectionHistory();
 
   function updateReliability(state, latency = null) {
     const browserOnline = navigator.onLine;
@@ -142,9 +247,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function setConnection(state, latency = null) {
+  function setConnection(state, latency = null, recordTransition = true) {
     const connected = state === "online";
     const checking = state === "checking";
+
+    if (recordTransition && state !== "checking" && state !== previousApiState) {
+      if (state === "online") {
+        recordConnectionEvent("API", "online", previousApiState === "offline" ? "API pulih" : "API terhubung", latency === null ? "Layanan API berhasil dijangkau." : `Layanan API merespons dalam ${latency} ms.`);
+      } else if (state === "offline") {
+        recordConnectionEvent("API", "offline", previousApiState === "online" ? "API terputus" : "API tidak tersedia", "Dashboard gagal membaca status dari API.");
+      }
+      previousApiState = state;
+    }
 
     if (connected) {
       lastSuccessfulCheck = new Date();
@@ -440,7 +554,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function recordBrowserNetworkState(isOnline) {
+    const state = isOnline ? "online" : "offline";
+    if (state === previousBrowserState) return;
+    if (previousBrowserState !== null) {
+      recordConnectionEvent(
+        "Browser", state,
+        isOnline ? "Jaringan browser pulih" : "Jaringan browser terputus",
+        isOnline ? "Perangkat kembali memiliki koneksi jaringan." : "Browser mendeteksi perangkat tidak memiliki koneksi jaringan."
+      );
+    }
+    previousBrowserState = state;
+  }
+
+  recordBrowserNetworkState(navigator.onLine);
+
   window.addEventListener("online", () => {
+    recordBrowserNetworkState(true);
     updateReliability(lastSuccessfulCheck ? "online" : "checking");
     if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
     nextCheckTimer = null;
@@ -448,7 +578,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.addEventListener("offline", () => {
-    setConnection("offline");
+    recordBrowserNetworkState(false);
+    // Jaringan browser putus tidak otomatis membuktikan API server ikut offline.
+    setConnection("offline", null, false);
   });
 
   document.addEventListener("visibilitychange", () => {
@@ -462,7 +594,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Polling adaptif: 5 detik saat sehat, backoff sampai 30 detik saat gagal.
 
   console.log(
-    "NOVIA HOME V4 - API Real-Time Monitor active",
+    "NOVIA HOME V5 - Reliability Monitor + Connection History active",
     `interval=${API_CHECK_INTERVAL}ms`,
     `timeout=${API_TIMEOUT}ms`
   );
