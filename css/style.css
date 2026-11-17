@@ -966,3 +966,36 @@ html[data-theme="light"] .system-list div {
 /* =====================================================
              END NOVIA HOME V4 CSS
 ===================================================== */
+
+
+/* ==========================================
+   NOVIA HOME V4 - API LIVE STATUS
+========================================== */
+.demo-pill.is-online {
+  color: var(--success, #78c99a);
+  border-color: rgba(120, 201, 154, 0.38);
+}
+
+.demo-pill.is-online .pulse {
+  background: var(--success, #78c99a);
+  box-shadow: 0 0 0 4px rgba(120, 201, 154, 0.12);
+}
+
+.demo-pill.is-offline {
+  color: var(--danger, #e47b7b);
+  border-color: rgba(228, 123, 123, 0.4);
+}
+
+.demo-pill.is-offline .pulse {
+  background: var(--danger, #e47b7b);
+  box-shadow: 0 0 0 4px rgba(228, 123, 123, 0.12);
+}
+
+.demo-pill.is-checking {
+  color: var(--warning);
+  border-color: #E3C78B55;
+}
+
+.demo-pill.is-checking .pulse {
+  background: var(--warning);
+}
