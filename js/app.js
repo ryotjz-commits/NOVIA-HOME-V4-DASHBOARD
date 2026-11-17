@@ -93,6 +93,44 @@ document.addEventListener("DOMContentLoaded", () => {
   let refreshing = false;
   let lastSuccessfulCheck = null;
   let lastLatency = null;
+  let consecutiveFailures = 0;
+  let nextCheckTimer = null;
+  let requestInFlight = false;
+  const refreshButton = document.getElementById("refreshStatus");
+  const browserHealth = document.getElementById("browserHealth");
+  const apiHealth = document.getElementById("apiHealth");
+
+  function setHealthCard(element, textId, state, message) {
+    if (!element) return;
+    element.dataset.health = state;
+    const value = document.getElementById(textId);
+    if (value) value.textContent = message;
+  }
+
+  function updateReliability(state, latency = null) {
+    const browserOnline = navigator.onLine;
+    setHealthCard(browserHealth, "browserHealthText", browserOnline ? "online" : "offline", browserOnline ? "Browser online" : "Tidak ada jaringan");
+    const apiMessage = state === "online"
+      ? "Terhubung · Blynk terbaca"
+      : state === "checking"
+        ? "Memeriksa layanan..."
+        : "Tidak terjangkau";
+    setHealthCard(apiHealth, "apiHealthText", state, apiMessage);
+    const sync = document.getElementById("lastSyncText");
+    const latencyNode = document.getElementById("latencyText");
+    const failures = document.getElementById("failureCountText");
+    if (sync) sync.textContent = formatClock(lastSuccessfulCheck);
+    if (latencyNode) latencyNode.textContent = lastLatency === null ? "--" : `${lastLatency} ms`;
+    if (failures) failures.textContent = String(consecutiveFailures);
+  }
+
+  function scheduleNextCheck(delay) {
+    if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+    nextCheckTimer = window.setTimeout(() => {
+      nextCheckTimer = null;
+      loadStatus();
+    }, delay);
+  }
 
   function formatClock(date) {
     if (!date) return "Belum pernah";
@@ -117,6 +155,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const latencyText = lastLatency === null
       ? "--"
       : `${lastLatency} ms`;
+
+    updateReliability(state, latency);
 
     if (statusElement) {
       if (connected) {
@@ -229,10 +269,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadStatus() {
     // Cegah request status bertumpuk.
-    if (refreshing) return;
+    if (refreshing || document.visibilityState === "hidden") return;
 
     refreshing = true;
-    setConnection("checking");
+    requestInFlight = true;
+    if (!lastSuccessfulCheck) setConnection("checking");
+    else updateReliability("checking");
+    if (refreshButton) refreshButton.disabled = true;
 
     const controller = new AbortController();
     const timeoutId = window.setTimeout(
@@ -280,9 +323,11 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       values.forEach((value, index) => updateCard(index, value));
+      consecutiveFailures = 0;
       setConnection("online", latency);
 
     } catch (error) {
+      consecutiveFailures += 1;
       setConnection("offline");
 
       if (error.name === "AbortError") {
@@ -294,6 +339,12 @@ document.addEventListener("DOMContentLoaded", () => {
     } finally {
       window.clearTimeout(timeoutId);
       refreshing = false;
+      requestInFlight = false;
+      if (refreshButton) refreshButton.disabled = false;
+      const retryDelay = consecutiveFailures === 0
+        ? API_CHECK_INTERVAL
+        : Math.min(API_CHECK_INTERVAL * (2 ** Math.min(consecutiveFailures, 3)), 30000);
+      scheduleNextCheck(retryDelay);
     }
   }
 
@@ -381,8 +432,34 @@ document.addEventListener("DOMContentLoaded", () => {
   setConnection("checking");
   loadStatus();
 
-  // Monitoring otomatis: cek ulang setiap 5 detik.
-  window.setInterval(loadStatus, API_CHECK_INTERVAL);
+  if (refreshButton) {
+    refreshButton.addEventListener("click", () => {
+      if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+      nextCheckTimer = null;
+      loadStatus();
+    });
+  }
+
+  window.addEventListener("online", () => {
+    updateReliability(lastSuccessfulCheck ? "online" : "checking");
+    if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+    nextCheckTimer = null;
+    loadStatus();
+  });
+
+  window.addEventListener("offline", () => {
+    setConnection("offline");
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && !requestInFlight) {
+      if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+      nextCheckTimer = null;
+      loadStatus();
+    }
+  });
+
+  // Polling adaptif: 5 detik saat sehat, backoff sampai 30 detik saat gagal.
 
   console.log(
     "NOVIA HOME V4 - API Real-Time Monitor active",
