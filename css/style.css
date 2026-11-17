@@ -1046,3 +1046,53 @@ html[data-theme="light"] .system-list div {
 .history-content time{font-size:10px;color:var(--muted);opacity:.8}
 .history-empty{padding:18px 8px;text-align:center;color:var(--muted);font-size:11px}
 @media(max-width:520px){.history-summary{font-size:9px}.history-clear{padding:8px;font-size:8px}}
+
+
+/* =====================================================
+   V5 PHASE 2.1 — SIMPLE TAB NAVIGATION
+===================================================== */
+.main-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin: 8px 0 24px;
+  padding: 7px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px #00000018;
+}
+.main-tab {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+.main-tab span { font-size: 16px; }
+.main-tab.is-active {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 13%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.main-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tab-panel[hidden] { display: none !important; }
+.tab-panel { min-width: 0; animation: tabFade .18s ease; }
+@keyframes tabFade { from { opacity: .65; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 480px) {
+  .main-tabs { gap: 4px; padding: 5px; margin-bottom: 18px; }
+  .main-tab { min-height: 43px; gap: 4px; padding: 8px 3px; font-size: 10px; }
+  .main-tab span { font-size: 14px; }
+}
