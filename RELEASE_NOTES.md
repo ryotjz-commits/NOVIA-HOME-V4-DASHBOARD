@@ -1,10 +1,12 @@
-# NOVIA HOME V5.1 — SUMMER LIVING
+# NOVIA HOME V5.2 — Minimal Elegant
 
-- Replaced muted monochrome earth palette with brighter summer colors: aqua, sky blue, mint, soft coral and sunshine.
-- Dark theme now uses deep ocean teal with clearer, brighter accents.
-- Light theme now uses fresh white, airy mint and sky-tinted ambient backgrounds.
-- Refined ceramic material treatment with directional highlights, layered shadows and clearer ON state.
-- CSS-only visual update; no API, Blynk, Worker, D1, relay, firmware or automation behavior intentionally changed.
-- Updated stylesheet cache query version.
+- Replaced Summer/Soft Ceramic colors with a restrained neutral palette and muted teal accent.
+- Simplified light and dark backgrounds and reduced decorative gradients/shadows.
+- Removed duplicate `.summary-grid` declaration.
+- Replaced overlapping UIUX skin overrides with a small responsive safety layer.
+- Added narrow-screen safeguards for header, device cards, controls, and bottom navigation.
+- Updated theme-color and Service Worker cache version.
 
-Please test both themes on mobile after deployment and clear the installed PWA cache if old styles remain.
+Application logic, Worker endpoint, Blynk calls, device control handlers, automation JavaScript, and ESP32 firmware are unchanged.
+
+Visual appearance and real-device responsiveness still require browser/device testing after deployment.
