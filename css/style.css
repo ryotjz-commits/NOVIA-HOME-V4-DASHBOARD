@@ -999,3 +999,27 @@ html[data-theme="light"] .system-list div {
 .demo-pill.is-checking .pulse {
   background: var(--warning);
 }
+
+
+/* =========================================================
+   NOVIA HOME V5 PHASE 1 — RELIABILITY MONITOR
+   Additive styles; existing V4 components remain unchanged.
+========================================================= */
+.reliability-panel{position:relative}
+.monitor-refresh{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid var(--line);border-radius:11px;background:var(--panel-highlight);color:var(--text);font:inherit;font-size:10px;font-weight:800;letter-spacing:.08em;cursor:pointer}
+.monitor-refresh:disabled{opacity:.55;cursor:wait}
+.health-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+.health-item{display:flex;align-items:center;gap:11px;min-width:0;padding:14px;border:1px solid var(--line);border-radius:13px;background:var(--panel-glass,rgba(255,255,255,.025))}
+.health-item>div{display:grid;gap:5px;min-width:0}
+.health-item small{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.08em}
+.health-item strong{font-size:13px;overflow-wrap:anywhere}
+.health-dot{width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:#d5a34d;box-shadow:0 0 0 4px rgba(213,163,77,.12)}
+.health-item[data-health="online"] .health-dot{background:#35c98a;box-shadow:0 0 0 4px rgba(53,201,138,.13)}
+.health-item[data-health="offline"] .health-dot{background:#e36c76;box-shadow:0 0 0 4px rgba(227,108,118,.13)}
+.health-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.health-meta>div{display:grid;gap:5px;padding:11px 12px;border:1px solid var(--line);border-radius:11px}
+.health-meta span{color:var(--muted);font-size:10px}
+.health-meta strong{font-size:12px;overflow-wrap:anywhere}
+.health-footnote{margin:12px 2px 0;color:var(--muted);font-size:11px;line-height:1.55}
+.monitor-refresh:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:520px){.health-grid{grid-template-columns:1fr}.health-meta{grid-template-columns:1fr 1fr}.health-meta>div:first-child{grid-column:1/-1}}
