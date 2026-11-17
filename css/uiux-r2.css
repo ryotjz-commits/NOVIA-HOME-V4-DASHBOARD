@@ -1,123 +1,53 @@
-/* =========================================================
-   NOVIA HOME V5.1 — SUMMER LIVING / REALISTIC SOFT CERAMIC
-   Visual-only skin. No layout, handlers, API or device logic.
-========================================================= */
-.app-shell { isolation: isolate; }
-.topbar {
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
-  box-shadow: 0 1px 0 rgba(255,255,255,.07);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+/* NOVIA HOME V5.2 — RESPONSIVE SAFETY LAYER
+   Layout safeguards only. Core component styling stays in style.css. */
+
+.app-shell, main, .tab-panel, .section-block, .automation-panel,
+.reliability-panel, .reliability-history { min-width: 0; }
+
+.device-card, .summary-card, .automation-card, .health-item,
+.health-meta > div, .schedule-item, .system-list { min-width: 0; }
+
+.device-card h3, .summary-card strong, .health-item strong,
+.health-meta strong, .schedule-item-name, .system-list strong {
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
-.brand-mark {
-  background: linear-gradient(145deg, color-mix(in srgb,var(--surface-raised) 92%,white), var(--surface-soft));
-  border: 1px solid var(--border-strong);
-  color: var(--accent);
-  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.78), 0 7px 16px rgba(26,70,66,.12), 0 1px 2px rgba(26,70,66,.08);
+
+button, select, input { max-width: 100%; }
+button { touch-action: manipulation; }
+
+@media (max-width: 420px) {
+  .topbar { flex-wrap: wrap; padding-block: 9px; }
+  .brand { flex: 1 1 auto; }
+  .demo-pill { flex: 0 1 auto; max-width: 48%; }
+  .theme-toggle { flex: 0 0 auto; }
+  .welcome { min-width: 0; }
+  .welcome h1 { overflow-wrap: normal; }
+  .device-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .device-card { min-width: 0; }
+  .toggle-button { min-width: 0; }
+  .toggle-label { overflow-wrap: anywhere; }
 }
-.demo-pill, .theme-toggle {
-  border-color: var(--border-strong);
-  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.82), 0 5px 13px rgba(26,70,66,.08);
+
+@media (max-width: 350px) {
+  .app-shell { width: calc(100% - 20px); }
+  .topbar { column-gap: 6px; }
+  .demo-pill { max-width: 43%; font-size: 7px; }
+  .device-grid { gap: 7px; }
+  .device-card { padding: 9px; }
+  .device-card-head { margin-bottom: 17px; }
+  .toggle-button { gap: 5px; padding-inline: 7px; }
+  .toggle-label { font-size: 7px; }
+  .main-tabs { width: calc(100% - 14px); }
 }
-.welcome {
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  background:
-    radial-gradient(circle at 88% 12%, color-mix(in srgb,var(--sky) 28%,transparent), transparent 38%),
-    radial-gradient(circle at 8% 100%, color-mix(in srgb,var(--accent) 18%,transparent), transparent 42%),
-    linear-gradient(145deg,var(--surface-raised),var(--surface-light));
-  box-shadow: 0 17px 34px rgba(38,91,84,.12), inset 0 1.5px 0 rgba(255,255,255,.84), inset 0 -1px 0 rgba(84,128,117,.07);
+
+@media (min-width: 760px) {
+  .app-shell { width: min(calc(100% - 64px), 960px); }
+  .device-grid { gap: 16px; }
 }
-.hero-chip, .summary-card, .system-panel,
-.reliability-panel, .reliability-history, .automation-card {
-  box-shadow: 0 12px 25px rgba(38,91,84,.10), inset 0 1.5px 0 rgba(255,255,255,.84), inset 0 -1px 0 rgba(84,128,117,.06);
+
+@media (prefers-reduced-motion: reduce) {
+  .device-card, .toggle-button, .main-tab, .theme-toggle {
+    transition: none !important;
+  }
 }
-.device-card {
-  position: relative;
-  isolation: isolate;
-  border-color: var(--border-strong);
-  border-radius: 25px;
-  background:
-    radial-gradient(ellipse at 15% 0%, rgba(255,255,255,.98), transparent 48%),
-    linear-gradient(145deg, color-mix(in srgb,var(--surface-raised) 96%,white),var(--surface-light) 72%,var(--surface));
-  box-shadow:
-    0 15px 28px rgba(34,86,79,.12),
-    0 3px 7px rgba(34,86,79,.07),
-    inset 0 1.5px 0 rgba(255,255,255,.94),
-    inset 0 -1px 0 rgba(78,125,113,.08);
-}
-.device-card > * { position: relative; z-index: 1; }
-.device-card::before {
-  content: ""; position: absolute; inset: 1px 1px auto; height: 38%;
-  border-radius: inherit;
-  background: linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,0));
-  pointer-events: none; z-index: 0;
-}
-.device-card.is-on {
-  border-color: color-mix(in srgb,var(--accent) 65%,var(--border-strong));
-  background:
-    radial-gradient(ellipse at 85% 5%, color-mix(in srgb,var(--warning) 18%,transparent), transparent 40%),
-    linear-gradient(145deg,color-mix(in srgb,var(--accent) 23%,var(--surface-raised)),color-mix(in srgb,var(--accent) 13%,var(--surface)));
-  box-shadow: 0 15px 30px rgba(40,125,103,.17), 0 0 0 1px color-mix(in srgb,var(--accent) 16%,transparent), inset 0 1.5px 0 rgba(255,255,255,.9);
-}
-.device-icon {
-  border: 1px solid color-mix(in srgb,var(--border-strong) 70%,transparent);
-  background: linear-gradient(145deg,var(--surface-raised),var(--surface-soft));
-  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.88), 0 4px 9px rgba(34,86,79,.08);
-}
-.device-card:nth-child(4n+1) .device-icon { color: var(--sky); }
-.device-card:nth-child(4n+2) .device-icon { color: var(--warning); }
-.device-card:nth-child(4n+3) .device-icon { color: var(--coral); }
-.device-card:nth-child(4n+4) .device-icon { color: var(--accent-dark); }
-.state-badge { box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 2px 5px rgba(34,86,79,.05); }
-.toggle-button {
-  position: relative; overflow: hidden; min-height: 48px; border-radius: 15px;
-  background: linear-gradient(155deg,var(--surface-soft),var(--surface-light));
-  box-shadow: inset 0 2px 4px rgba(39,76,69,.10), inset 0 1px 0 rgba(255,255,255,.9), 0 4px 9px rgba(34,86,79,.07);
-}
-.toggle-button::after {
-  content: ""; position: absolute; inset: 1px 1px auto; height: 46%; border-radius: inherit;
-  background: linear-gradient(180deg,rgba(255,255,255,.34),transparent); pointer-events: none;
-}
-.toggle-knob {
-  border: 1px solid rgba(76,112,102,.18);
-  box-shadow: inset 0 1px 2px rgba(37,72,65,.16), 0 1px 1px rgba(255,255,255,.55);
-}
-.toggle-knob::after {
-  box-shadow: 0 2px 5px rgba(31,64,58,.22), inset 0 1px 0 rgba(255,255,255,.98);
-}
-.device-card.is-on .toggle-button {
-  color: #153D38;
-  background: linear-gradient(145deg,#B7EBDD 0%,#83D8C2 48%,#62C4AA 100%);
-  border-color: rgba(255,255,255,.48);
-  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.72), 0 7px 16px rgba(45,153,127,.22);
-}
-.device-card.is-on .toggle-knob { background: rgba(255,255,255,.62); }
-.device-card.is-on .toggle-knob::after { transform: translateX(15px); background: #fff; }
-.main-tabs {
-  border-color: var(--border-strong);
-  background: color-mix(in srgb,var(--surface-raised) 91%,transparent);
-  box-shadow: 0 14px 30px rgba(34,86,79,.14), inset 0 1.5px 0 rgba(255,255,255,.88);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-}
-.main-tab.is-active {
-  color: var(--text);
-  background: linear-gradient(145deg,color-mix(in srgb,var(--sky) 25%,var(--surface-raised)),color-mix(in srgb,var(--accent) 18%,var(--surface)));
-  border-color: color-mix(in srgb,var(--accent) 38%,var(--border));
-  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.9), 0 4px 10px rgba(34,86,79,.08);
-}
-.automation-icon, .health-item, .health-meta > div, .schedule-item, .system-list {
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.58), 0 3px 8px rgba(34,86,79,.05);
-}
-.automation-button:not(.secondary) {
-  color: #173D38;
-  background: linear-gradient(145deg,#B7EBDD,#79D2BB 55%,#55B99F);
-  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.72), 0 6px 14px rgba(45,153,127,.18);
-}
-button, .device-card, .summary-card, .automation-card { -webkit-tap-highlight-color: transparent; }
-@media (hover:hover) {
-  .device-card:hover { transform: translateY(-2px); }
-  .toggle-button:hover { filter: brightness(1.035) saturate(1.04); }
-  .main-tab:hover:not(.is-active) { background: color-mix(in srgb,var(--sky) 13%,var(--surface)); }
-}
-@media (prefers-reduced-motion: reduce) { .device-card:hover { transform: none; } }
