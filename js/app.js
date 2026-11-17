@@ -635,7 +635,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const requested = document.querySelector(`.main-tab[data-tab="${location.hash.slice(1)}"]`);
-  if (requested) activateTab(requested, false);
-  else activateTab(tabs[0], false);
+  // Selalu mulai dari Kontrol Saklar. Hash lama tidak boleh membuat
+  // dashboard terbuka di tab Monitoring/Otomasi setelah refresh.
+  const defaultTab = document.querySelector('.main-tab[data-tab="panelControl"]') || tabs[0];
+  activateTab(defaultTab, false);
 });
