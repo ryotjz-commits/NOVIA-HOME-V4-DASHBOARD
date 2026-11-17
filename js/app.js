@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
-      themeColor.setAttribute("content", theme === "light" ? "#f2eee4" : "#252820");
+      themeColor.setAttribute("content", theme === "light" ? "#f3f6f7" : "#0d1319");
     }
 
     const isLight = theme === "light";
