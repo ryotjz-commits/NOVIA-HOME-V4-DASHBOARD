@@ -10,12 +10,12 @@
 
   <meta
     name="theme-color"
-    content="#101820"
+    content="#0d1319"
   >
 
   <meta
     name="description"
-    content="NOVIA HOME V5 - Smart Home Control Center untuk mengontrol dan memantau perangkat rumah berbasis ESP32 dan Blynk IoT."
+    content="NOVIA HOME Smart Home Control untuk mengontrol dan memantau perangkat rumah berbasis ESP32 dan Blynk IoT."
   >
 
   <meta name="application-name" content="NOVIA HOME">
@@ -41,6 +41,7 @@
   <!-- STYLESHEET -->
   <link rel="stylesheet" href="./css/style.css?v=20261117-v5p4">
   <link rel="stylesheet" href="./css/automation.css?v=20261115a1">
+  <link rel="stylesheet" href="./css/refined.css?v=20261117a1">
 </head>
 
 <body>
@@ -93,19 +94,8 @@
 
       <div>
 
-        <p class="eyebrow">
-          HOME AUTOMATION
-        </p>
-
-        <h1>
-          Kontrol rumah,<br>
-          <span>dalam satu tempat.</span>
-        </h1>
-
-        <p class="welcome-copy">
-          Dashboard SMART HOME V5 ·
-          Empat channel kontrol
-        </p>
+        <p class="eyebrow">SMART HOME</p>
+        <h1>Kontrol rumah<br><span>lebih sederhana.</span></h1>
 
       </div>
 
@@ -115,7 +105,7 @@
 
         <span>
           <b>ESP32</b>
-          <small>DEVKIT V1</small>
+          <small>ESP32</small>
         </span>
 
       </div>
@@ -195,11 +185,11 @@
     <section class="section-block reliability-panel" aria-labelledby="reliabilityTitle">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">SYSTEM HEALTH</p>
-          <h2 id="reliabilityTitle">Reliability monitor</h2>
+          <p class="eyebrow">STATUS SISTEM</p>
+          <h2 id="reliabilityTitle">Kondisi sistem</h2>
         </div>
         <button type="button" class="monitor-refresh" id="refreshStatus" aria-label="Perbarui status koneksi">
-          ↻ <span>REFRESH</span>
+          ↻ <span>PERBARUI</span>
         </button>
       </div>
 
@@ -219,7 +209,7 @@
         <div><span>Waktu respons</span><strong id="latencyText">--</strong></div>
         <div><span>Kegagalan beruntun</span><strong id="failureCountText">0</strong></div>
       </div>
-      <p class="health-footnote">Status API menunjukkan jalur Cloudflare Worker ke Blynk berhasil membaca 4 datastream. Status ESP32 secara langsung belum dapat dipastikan dari endpoint ini.</p>
+
     </section>
 
     <!-- =========================================
@@ -228,12 +218,12 @@
     <section class="section-block reliability-history" aria-labelledby="historyTitle">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">CONNECTION EVENTS</p>
+          <p class="eyebrow">AKTIVITAS</p>
           <h2 id="historyTitle">Riwayat koneksi</h2>
         </div>
-        <button type="button" class="history-clear" id="clearConnectionHistory">HAPUS RIWAYAT</button>
+        <button type="button" class="history-clear" id="clearConnectionHistory">HAPUS</button>
       </div>
-      <p class="history-description">Mencatat perubahan status jaringan browser dan API. Riwayat disimpan di perangkat ini, maksimal 50 kejadian.</p>
+
       <div class="history-summary" aria-live="polite">
         <span id="historyCount">0 kejadian tersimpan</span>
         <span id="historyStorageState">Penyimpanan lokal</span>
@@ -250,11 +240,8 @@
 
     <section class="section-block system-panel">
 
-      <p class="eyebrow">
-        INFORMASI
-      </p>
-
-      <h2>System overview</h2>
+      <p class="eyebrow">INFORMASI</p>
+      <h2>Detail sistem</h2>
 
 
       <div class="system-list">
@@ -303,16 +290,14 @@
 
         <div>
 
-          <p class="eyebrow">
-            KONTROL PERANGKAT
-          </p>
+          <p class="eyebrow">KONTROL</p>
 
-          <h2>Device control</h2>
+          <h2>Perangkat</h2>
 
         </div>
 
         <span class="count-label">
-          04 CHANNELS
+          4 PERANGKAT
         </span>
 
       </div>
@@ -342,7 +327,7 @@
 
           <h3>Lampu Depan</h3>
 
-          <p>CHANNEL 01 · V0</p>
+          <p>VIRTUAL PIN 0</p>
 
           <button
             type="button"
@@ -386,7 +371,7 @@
 
           <h3>Lampu Tengah</h3>
 
-          <p>CHANNEL 02 · V1</p>
+          <p>VIRTUAL PIN 1</p>
 
           <button
             type="button"
@@ -430,7 +415,7 @@
 
           <h3>Lampu Kamar</h3>
 
-          <p>CHANNEL 03 · V2</p>
+          <p>VIRTUAL PIN 2</p>
 
           <button
             type="button"
@@ -474,13 +459,13 @@
 
           <h3>Kipas Angin</h3>
 
-          <p>CHANNEL 04 · V3</p>
+          <p>VIRTUAL PIN 3</p>
 
           <button
             type="button"
             class="toggle-button"
             aria-pressed="false"
-            aria-label="Kontrol Lampu Belakang"
+            aria-label="Kontrol Kipas Angin"
           >
 
             <span
@@ -518,10 +503,10 @@
 
   <div class="section-heading">
     <div>
-      <p class="eyebrow">SMART AUTOMATION</p>
-      <h2>Automation control</h2>
+      <p class="eyebrow">OTOMASI</p>
+      <h2>Pengaturan otomatis</h2>
     </div>
-    <span class="count-label">TIMER & SCHEDULE</span>
+    
   </div>
 
   <!-- TIMER -->
@@ -531,7 +516,7 @@
       <span class="automation-icon">◷</span>
       <div>
         <h3>Timer otomatis</h3>
-        <p>Atur durasi sebelum perangkat OFF</p>
+        <p>Matikan perangkat setelah durasi tertentu</p>
       </div>
     </div>
 
@@ -577,7 +562,7 @@
       <span class="automation-icon">◷</span>
       <div>
         <h3>Jadwal harian</h3>
-        <p>Atur waktu ON dan OFF otomatis</p>
+        <p>Jadwalkan waktu nyala dan mati</p>
       </div>
     </div>
 
@@ -640,7 +625,7 @@
       <span class="automation-icon">▤</span>
       <div>
         <h3>Jadwal tersimpan</h3>
-        <p>Data jadwal dari database NOVIA HOME</p>
+        
       </div>
     </div>
 
@@ -664,9 +649,9 @@
 
   <footer>
 
-    <span>NOVIA HOME V5</span>
+    <span>NOVIA HOME</span>
 
-    <span>SMART HOME SYSTEM</span>
+    <span>SMART HOME</span>
 
   </footer>
 

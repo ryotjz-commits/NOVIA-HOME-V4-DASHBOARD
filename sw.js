@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "novia-home-v5-phase4-safe-control";
+const CACHE_NAME = "novia-home-v5-refined-ui-20261117";
 
 const APP_FILES = [
   "./",
@@ -9,6 +9,7 @@ const APP_FILES = [
   "./manifest.json",
   "./assets/icon.svg",
   "./css/automation.css",
+  "./css/refined.css",
   "./js/automation.js",
 ];
 

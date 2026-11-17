@@ -1,16 +1,16 @@
 
 {
   "id": "./",
-  "name": "NOVIA HOME V5",
+  "name": "NOVIA HOME",
   "short_name": "NOVIA HOME",
-  "description": "NOVIA HOME V5 Smart Home Control Center",
+  "description": "NOVIA HOME Smart Home Control Center",
   "lang": "id",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#101820",
-  "theme_color": "#101820",
+  "background_color": "#0d1319",
+  "theme_color": "#0d1319",
   "icons": [
     {
       "src": "assets/icon.svg",
