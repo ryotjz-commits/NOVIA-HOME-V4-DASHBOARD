@@ -152,9 +152,9 @@ html[data-theme="light"] .automation-card input[type="time"] { color-scheme: lig
 .timer-countdown {
   margin-top: 18px;
   padding: 20px;
-  border: 1px solid var(--border-color, rgba(255,255,255,.1));
+  border: 1px solid var(--border);
   border-radius: 18px;
-  background: var(--card-inner, rgba(255,255,255,.035));
+  background: var(--surface-soft);
 }
 
 .timer-countdown[hidden] {
@@ -173,11 +173,11 @@ html[data-theme="light"] .automation-card input[type="time"] { color-scheme: lig
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: var(--text-muted, #999);
+  color: var(--muted);
 }
 
 #timerCountdownBadge {
-  color: #299d75;
+  color: var(--success);
 }
 
 .timer-countdown-value {
@@ -188,27 +188,27 @@ html[data-theme="light"] .automation-card input[type="time"] { color-scheme: lig
   font-variant-numeric: tabular-nums;
   letter-spacing: 2px;
   line-height: 1.2;
-  color: #e98c91;
+  color: var(--accent-strong);
 }
 
 .timer-progress-track {
   height: 7px;
   overflow: hidden;
   border-radius: 20px;
-  background: rgba(128,128,128,.2);
+  background: color-mix(in srgb,var(--muted) 22%,var(--surface-soft));
 }
 
 .timer-progress-bar {
   width: 100%;
   height: 100%;
   border-radius: inherit;
-  background: #299d75;
+  background: var(--success);
   transition: width .8s linear;
 }
 
 .timer-countdown-footer {
   margin-top: 12px;
   font-size: 11px;
-  color: var(--text-muted, #999);
+  color: var(--muted);
 }
 

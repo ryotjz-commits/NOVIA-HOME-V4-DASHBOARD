@@ -1,9 +1,9 @@
 /* =========================================================
-   NOVIA HOME V4/V5 — THEME REFERENCE
+   NOVIA HOME V4/V5 — JEWEL TONES THEME REFERENCE
 
-   Intentionally contains no component selectors or color
-   overrides. The unified Warm Red palette is centralized in
-   style.css so the same theme is not redefined in multiple
-   files. Kept as an empty compatibility file because the
-   current HTML may still link to it.
+   Palette is centralized in style.css.
+   Dark: midnight sapphire surfaces with sapphire, emerald,
+   amethyst, ruby and restrained gold accents.
+   Light: pearl/blue-grey surfaces with the same jewel accents.
+   This file intentionally contains no overrides.
 ========================================================= */

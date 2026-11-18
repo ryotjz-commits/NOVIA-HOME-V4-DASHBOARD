@@ -7,25 +7,30 @@
 ========================================================= */
 
 /* 01. COLOR TOKENS */
+/* 01. COLOR TOKENS — HARMONIZED JEWEL TONES
+   Sapphire = primary, Emerald = success, Ruby = danger,
+   Amethyst = secondary accent, Gold = caution.
+*/
 :root {
   color-scheme: dark;
-  --bg: #100a08;
-  --surface: #211915;
-  --surface-light: #2b201b;
-  --surface-raised: #30231e;
-  --surface-soft: #261c18;
-  --border: rgba(211,178,164,.17);
-  --border-strong: rgba(224,190,176,.28);
-  --line: rgba(211,178,164,.17);
-  --text: #f4e9e5;
-  --muted: #a99c98;
-  --accent: #d77b78;
-  --accent-strong: #e58c87;
-  --accent-dark: #a84f50;
-  --warning: #d8b17d;
-  --danger: #e28b88;
-  --success: #78c99a;
-  --shadow: 0 12px 30px rgba(0,0,0,.22);
+  --bg: #091321;
+  --surface: #111f33;
+  --surface-light: #1a2b43;
+  --surface-raised: #1b2d48;
+  --surface-soft: #15263d;
+  --border: rgba(151,181,222,.16);
+  --border-strong: rgba(151,181,222,.29);
+  --line: rgba(151,181,222,.16);
+  --text: #edf3ff;
+  --muted: #9eafc9;
+  --accent: #79a9f2;
+  --accent-strong: #9bc1ff;
+  --accent-dark: #416fb8;
+  --accent-secondary: #ad91e8;
+  --warning: #e5bd72;
+  --danger: #e78391;
+  --success: #68c9a0;
+  --shadow: 0 14px 34px rgba(2,8,20,.30);
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 18px;
@@ -35,23 +40,24 @@
 
 html[data-theme="light"] {
   color-scheme: light;
-  --bg: #f7f3f1;
+  --bg: #f2f5fb;
   --surface: #ffffff;
-  --surface-light: #f4eeeb;
+  --surface-light: #edf2fa;
   --surface-raised: #ffffff;
-  --surface-soft: #f5efed;
-  --border: rgba(130,65,60,.13);
-  --border-strong: rgba(160,65,60,.23);
-  --line: rgba(130,65,60,.13);
-  --text: #352321;
-  --muted: #907773;
-  --accent: #c65353;
-  --accent-strong: #dc6865;
-  --accent-dark: #a83e43;
-  --warning: #b98745;
-  --danger: #c65353;
-  --success: #258b61;
-  --shadow: 0 10px 26px rgba(90,40,35,.07);
+  --surface-soft: #eaf0f9;
+  --border: rgba(55,82,125,.14);
+  --border-strong: rgba(55,82,125,.25);
+  --line: rgba(55,82,125,.14);
+  --text: #1c2b45;
+  --muted: #687995;
+  --accent: #3869b2;
+  --accent-strong: #28589f;
+  --accent-dark: #244b88;
+  --accent-secondary: #7958b5;
+  --warning: #98702e;
+  --danger: #b64e64;
+  --success: #237c5c;
+  --shadow: 0 10px 28px rgba(38,61,100,.09);
 }
 
 /* 02. RESET & DOCUMENT */
@@ -75,15 +81,15 @@ body {
 }
 html:not([data-theme="light"]) body {
   background:
-    radial-gradient(ellipse at 82% 12%, rgba(150,70,62,.12), transparent 36%),
-    radial-gradient(ellipse at 10% 78%, rgba(92,48,38,.12), transparent 40%),
-    linear-gradient(155deg, #0d0807 0%, #17100d 55%, #100a08 100%);
+    radial-gradient(ellipse at 82% 12%, rgba(72,112,184,.17), transparent 36%),
+    radial-gradient(ellipse at 10% 78%, rgba(40,139,116,.10), transparent 40%),
+    linear-gradient(155deg, #081321 0%, #101e34 55%, #0a1728 100%);
   background-attachment: fixed;
 }
 html[data-theme="light"] body {
   background:
-    radial-gradient(ellipse at 88% 8%, rgba(198,83,83,.045), transparent 36%),
-    linear-gradient(155deg, #faf7f5 0%, #f5efec 58%, #f8f4f1 100%);
+    radial-gradient(ellipse at 88% 8%, rgba(56,105,178,.075), transparent 36%),
+    linear-gradient(155deg, #f8faff 0%, #edf2fa 58%, #f5f7fc 100%);
   background-attachment: fixed;
 }
 button, select, input { font: inherit; -webkit-tap-highlight-color: transparent; }
