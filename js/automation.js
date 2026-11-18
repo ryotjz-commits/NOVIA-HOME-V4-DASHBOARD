@@ -19,7 +19,7 @@
     "Lampu Depan",
     "Lampu Tengah",
     "Lampu Kamar",
-    "Lampu Belakang"
+    "Kipas Angin"
   ];
 
   const DAY_NAMES = [
