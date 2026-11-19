@@ -1,0 +1,93 @@
+name: NOVIA HOME - Build APK + ESP32 BIN
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'android/**'
+      - 'firmware/**'
+      - '.github/workflows/build-all.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install Android SDK packages
+        run: |
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_HOME" --licenses || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-35" "build-tools;35.0.0"
+      - name: Set up Gradle 8.9
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Build debug APK
+        run: gradle --no-daemon assembleDebug
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NOVIA-HOME-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
+
+  build-firmware:
+    name: Build ESP32 DevKit V1 Firmware
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Set up Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
+      - name: Configure Arduino CLI
+        run: |
+          arduino-cli config init
+          arduino-cli core update-index
+          arduino-cli core install esp32:esp32@3.0.7
+          arduino-cli lib install Blynk
+      - name: Inject private Blynk token (GitHub Secret)
+        env:
+          BLYNK_AUTH_TOKEN: ${{ secrets.BLYNK_AUTH_TOKEN }}
+        run: |
+          if [ -n "$BLYNK_AUTH_TOKEN" ]; then
+            printf '#pragma once\n#define BLYNK_AUTH_TOKEN "%s"\n' "$BLYNK_AUTH_TOKEN" > firmware/NOVIA_HOME_V4_4/secrets.h
+          else
+            echo '::warning::GitHub Secret BLYNK_AUTH_TOKEN is empty. Firmware will compile without Blynk authentication.'
+            printf '#pragma once\n#define BLYNK_AUTH_TOKEN ""\n' > firmware/NOVIA_HOME_V4_4/secrets.h
+          fi
+      - name: Build ESP32 firmware
+        run: |
+          arduino-cli compile --verbose --fqbn esp32:esp32:esp32 \
+            --libraries "$HOME/Arduino/libraries" \
+            --output-dir "$GITHUB_WORKSPACE/out-firmware" \
+            firmware/NOVIA_HOME_V4_4
+      - name: Rename firmware output
+        run: |
+          mkdir -p release
+          cp out-firmware/*.bin release/NOVIA-HOME-ESP32.bin
+          cp out-firmware/*.elf release/NOVIA-HOME-ESP32.elf || true
+          cp out-firmware/*.map release/NOVIA-HOME-ESP32.map || true
+      - name: Upload firmware artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NOVIA-HOME-ESP32-FIRMWARE-BIN
+          path: release/*
+          if-no-files-found: error
+          retention-days: 30
+          
