@@ -37,8 +37,14 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+      - name: Verify Android Gradle project
+        run: |
+          test -f settings.gradle
+          test -f build.gradle
+          test -f app/build.gradle
+          grep -q "id 'com.android.application' version '8.7.3'" build.gradle
       - name: Build debug APK
-        run: gradle --no-daemon assembleDebug
+        run: gradle --no-daemon --stacktrace assembleDebug
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
