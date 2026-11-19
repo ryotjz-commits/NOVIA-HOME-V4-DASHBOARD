@@ -56,6 +56,7 @@
 <link rel="stylesheet" href="./css/style.css?v=20261117-v5p4">
 <link rel="stylesheet" href="./css/automation.css?v=20261115a1">
 <link rel="stylesheet" href="./css/refined.css?v=20261117-stable-uiux-r1">
+<link rel="stylesheet" href="./css/connection-mode.css?v=20261120-ap-router-r1">
 
 </head>
 
@@ -125,6 +126,33 @@
 
       </div>
 
+    </section>
+
+
+    <!-- LOCAL CONNECTION SELECTOR: AP / ROUTER -->
+    <section class="connection-mode" aria-labelledby="connectionModeTitle">
+      <div class="connection-mode-heading">
+        <p class="eyebrow">KONEKSI LOKAL</p>
+        <h2 id="connectionModeTitle">Pilih akses perangkat</h2>
+        <p>Dashboard online ini sebagai pintu masuk. Kontrol lokal dibuka dari dashboard yang disediakan ESP32.</p>
+      </div>
+      <div class="connection-mode-actions">
+        <button type="button" class="connection-mode-card" id="openApMode">
+          <span class="connection-mode-icon" aria-hidden="true">⌁</span>
+          <strong>MODE AP</strong>
+          <span>Langsung ke ESP32</span>
+          <small>192.168.4.1</small>
+        </button>
+        <div class="connection-mode-card router-card">
+          <span class="connection-mode-icon" aria-hidden="true">⌘</span>
+          <strong>MODE ROUTER</strong>
+          <span>ESP32 di Wi-Fi rumah</span>
+          <label for="routerDeviceIp">IP ESP32</label>
+          <input id="routerDeviceIp" type="text" inputmode="decimal" autocomplete="off" placeholder="Contoh: 192.168.1.25" maxlength="15">
+          <button type="button" class="connection-open-router" id="openRouterMode">BUKA DASHBOARD LOKAL</button>
+        </div>
+      </div>
+      <p class="connection-mode-note" id="connectionModeNote" role="status">Mode Router: HP dan ESP32 harus tersambung ke router yang sama. IP dapat dilihat di router atau Serial Monitor ESP32.</p>
     </section>
 
     <nav class="main-tabs" role="tablist" aria-label="Navigasi dashboard">
@@ -734,6 +762,7 @@ if ("serviceWorker" in navigator) {
 
 </script>
 
+<script src="./js/connection-mode.js?v=20261120-ap-router-r1"></script>
 </body>
                                    </html>
                                    

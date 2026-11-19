@@ -1,5 +1,5 @@
 /* NOVIA HOME V4 — resilient offline cache */
-const CACHE_NAME = "novia-home-v4-stable-uiux-20261117-r1";
+const CACHE_NAME = "novia-home-v4-ap-router-20261120-r1";
 const CACHE_PREFIX = "novia-home-";
 
 const APP_FILES = [
@@ -8,7 +8,9 @@ const APP_FILES = [
   "./css/style.css",
   "./css/automation.css",
   "./css/refined.css",
+  "./css/connection-mode.css",
   "./js/app.js",
+  "./js/connection-mode.js",
   "./js/automation.js",
   "./manifest.json",
   "./assets/icon.svg"
