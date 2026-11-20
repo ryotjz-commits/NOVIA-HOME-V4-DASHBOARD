@@ -772,6 +772,327 @@ footer {
   }
 }
 
+
+/* =====================================================
+   17. NOVIA HOME V4 - DARK / LIGHT THEME
+===================================================== */
+
+/* LIGHT MODE COLOR SYSTEM */
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #F3F6F8;
+  --surface: #FFFFFF;
+  --surface-light: #E8EEF1;
+
+  --border: #DCE5E9;
+
+  --text: #172B35;
+  --muted: #71818A;
+
+  --accent: #079B70;
+  --accent-dark: #087C5B;
+
+  --warning: #A87922;
+}
+
+/* LIGHT MODE GLOBAL */
+
+html[data-theme="light"],
+html[data-theme="light"] body,
+html[data-theme="light"] .app-shell {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* LIGHT MODE TOPBAR */
+
+html[data-theme="light"] .brand-mark {
+  border-color: #079B7040;
+  background: #079B7012;
+}
+
+html[data-theme="light"] .demo-pill {
+  border-color: #A8792240;
+}
+
+/* LIGHT MODE HERO */
+
+html[data-theme="light"] .hero-chip {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* LIGHT MODE SUMMARY */
+
+html[data-theme="light"] .summary-card {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* LIGHT MODE DEVICE CARD */
+
+html[data-theme="light"] .device-card {
+  background: linear-gradient(
+    145deg,
+    #FFFFFF,
+    #EDF3F5
+  );
+
+  border-color: var(--border);
+  color: var(--text);
+}
+
+html[data-theme="light"] .device-card.is-on {
+  background: linear-gradient(
+    145deg,
+    #E1F7EF,
+    #FFFFFF
+  );
+
+  border-color: var(--accent);
+}
+
+html[data-theme="light"] .device-card h3 {
+  color: #172B35;
+}
+
+html[data-theme="light"] .device-card p {
+  color: #71818A;
+}
+
+html[data-theme="light"] .device-icon {
+  color: #71818A;
+}
+
+html[data-theme="light"] .state-badge {
+  color: #71818A;
+}
+
+/* LIGHT MODE TOGGLE BUTTON */
+
+html[data-theme="light"] .toggle-button {
+  color: #40535D;
+  background: #F1F5F6;
+  border-color: #DCE5E9;
+}
+
+html[data-theme="light"] .device-card.is-on .toggle-button {
+  color: #087C5B;
+  background: #E9F8F1;
+  border-color: var(--accent);
+}
+
+html[data-theme="light"] .toggle-knob {
+  background: #B8C5CB;
+}
+
+html[data-theme="light"] .device-card.is-on .toggle-knob {
+  background: var(--accent-dark);
+}
+
+/* LIGHT MODE SYSTEM PANEL */
+
+html[data-theme="light"] .system-panel {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+html[data-theme="light"] .system-list div {
+  border-color: var(--border);
+}
+
+/* THEME SWITCH BUTTON */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 36px;
+  padding: 8px 12px;
+
+  border: 1px solid var(--border);
+  border-radius: 30px;
+
+  color: var(--text);
+  background: var(--surface);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.theme-toggle:active {
+  transform: scale(.96);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.theme-toggle-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+}
+
+/* MOBILE NAVBAR */
+
+@media (max-width: 560px) {
+  .topbar {
+    gap: 8px;
+  }
+
+  .theme-toggle {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+}
+
+/* =====================================================
+   END DARK / LIGHT THEME
+===================================================== */
+
+
 /* =====================================================
              END NOVIA HOME V4 CSS
 ===================================================== */
+
+
+/* ==========================================
+   NOVIA HOME V4 - API LIVE STATUS
+========================================== */
+.demo-pill.is-online {
+  color: var(--success, #78c99a);
+  border-color: rgba(120, 201, 154, 0.38);
+}
+
+.demo-pill.is-online .pulse {
+  background: var(--success, #78c99a);
+  box-shadow: 0 0 0 4px rgba(120, 201, 154, 0.12);
+}
+
+.demo-pill.is-offline {
+  color: var(--danger, #e47b7b);
+  border-color: rgba(228, 123, 123, 0.4);
+}
+
+.demo-pill.is-offline .pulse {
+  background: var(--danger, #e47b7b);
+  box-shadow: 0 0 0 4px rgba(228, 123, 123, 0.12);
+}
+
+.demo-pill.is-checking {
+  color: var(--warning);
+  border-color: #E3C78B55;
+}
+
+.demo-pill.is-checking .pulse {
+  background: var(--warning);
+}
+
+
+/* =========================================================
+   NOVIA HOME V5 PHASE 1 — RELIABILITY MONITOR
+   Additive styles; existing V4 components remain unchanged.
+========================================================= */
+.reliability-panel{position:relative}
+.monitor-refresh{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid var(--line);border-radius:11px;background:var(--panel-highlight);color:var(--text);font:inherit;font-size:10px;font-weight:800;letter-spacing:.08em;cursor:pointer}
+.monitor-refresh:disabled{opacity:.55;cursor:wait}
+.health-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+.health-item{display:flex;align-items:center;gap:11px;min-width:0;padding:14px;border:1px solid var(--line);border-radius:13px;background:var(--panel-glass,rgba(255,255,255,.025))}
+.health-item>div{display:grid;gap:5px;min-width:0}
+.health-item small{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.08em}
+.health-item strong{font-size:13px;overflow-wrap:anywhere}
+.health-dot{width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:#d5a34d;box-shadow:0 0 0 4px rgba(213,163,77,.12)}
+.health-item[data-health="online"] .health-dot{background:#35c98a;box-shadow:0 0 0 4px rgba(53,201,138,.13)}
+.health-item[data-health="offline"] .health-dot{background:#e36c76;box-shadow:0 0 0 4px rgba(227,108,118,.13)}
+.health-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.health-meta>div{display:grid;gap:5px;padding:11px 12px;border:1px solid var(--line);border-radius:11px}
+.health-meta span{color:var(--muted);font-size:10px}
+.health-meta strong{font-size:12px;overflow-wrap:anywhere}
+.health-footnote{margin:12px 2px 0;color:var(--muted);font-size:11px;line-height:1.55}
+.monitor-refresh:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:520px){.health-grid{grid-template-columns:1fr}.health-meta{grid-template-columns:1fr 1fr}.health-meta>div:first-child{grid-column:1/-1}}
+
+
+/* =========================================================
+   NOVIA HOME V5 PHASE 2 — CONNECTION HISTORY
+   Additive styles; no V4 component rules are replaced.
+========================================================= */
+.reliability-history{position:relative}
+.history-clear{padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--muted);font:inherit;font-size:9px;font-weight:800;letter-spacing:.06em;cursor:pointer}
+.history-clear:hover{border-color:var(--danger,#e47b7b);color:var(--danger,#e47b7b)}
+.history-clear:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.history-description{margin:12px 0;color:var(--muted);font-size:11px;line-height:1.55}
+.history-summary{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;color:var(--muted);font-size:10px}
+.connection-history-list{display:grid;gap:0;margin:12px 0 0;padding:0;list-style:none}
+.history-entry{position:relative;display:grid;grid-template-columns:12px minmax(0,1fr);gap:11px;padding:12px 4px;border-bottom:1px solid var(--line)}
+.history-marker{width:8px;height:8px;margin:5px 0 0 1px;border-radius:50%;background:#d5a34d;box-shadow:0 0 0 4px rgba(213,163,77,.12)}
+.history-online .history-marker{background:#35c98a;box-shadow:0 0 0 4px rgba(53,201,138,.12)}
+.history-offline .history-marker{background:#e36c76;box-shadow:0 0 0 4px rgba(227,108,118,.12)}
+.history-content{display:grid;gap:4px;min-width:0}
+.history-content strong{font-size:12px;color:var(--text)}
+.history-content span{font-size:11px;line-height:1.45;color:var(--muted)}
+.history-content time{font-size:10px;color:var(--muted);opacity:.8}
+.history-empty{padding:18px 8px;text-align:center;color:var(--muted);font-size:11px}
+@media(max-width:520px){.history-summary{font-size:9px}.history-clear{padding:8px;font-size:8px}}
+
+
+/* =====================================================
+   V5 PHASE 2.1 — SIMPLE TAB NAVIGATION
+===================================================== */
+.main-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin: 8px 0 24px;
+  padding: 7px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px #00000018;
+}
+.main-tab {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+.main-tab span { font-size: 16px; }
+.main-tab.is-active {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 13%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.main-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tab-panel[hidden] { display: none !important; }
+.tab-panel { min-width: 0; animation: tabFade .18s ease; }
+@keyframes tabFade { from { opacity: .65; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 480px) {
+  .main-tabs { gap: 4px; padding: 5px; margin-bottom: 18px; }
+  .main-tab { min-height: 43px; gap: 4px; padding: 8px 3px; font-size: 10px; }
+  .main-tab span { font-size: 14px; }
+}
