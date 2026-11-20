@@ -10,12 +10,12 @@
 
   <meta
     name="theme-color"
-    content="#101820"
+    content="#0d1319"
   >
 
   <meta
     name="description"
-    content="NOVIA HOME V4 - Smart Home Control Center untuk mengontrol dan memantau perangkat rumah berbasis ESP32 dan Blynk IoT."
+    content="NOVIA HOME Smart Home Control untuk mengontrol dan memantau perangkat rumah berbasis ESP32 dan Blynk IoT."
   >
 
   <meta name="application-name" content="NOVIA HOME">
@@ -31,16 +31,33 @@
     content="NOVIA HOME"
   >
 
-  <title>NOVIA HOME V4 | Smart Control</title>
+  <title>NOVIA HOME | Smart Control</title>
 
   <!-- PWA -->
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="./assets/icon.svg">
+<link rel="stylesheet" href="./css/style.css?v=20261118-uiux-r2">
+<link rel="stylesheet" href="./css/automation.css?v=20261118-uiux-r2">
+<link rel="stylesheet" href="./css/refined.css?v=20261118-uiux-r2">
+<link rel="stylesheet" href="./css/uiux-r2.css?v=20261118-uiux-r2">
+  <!-- Apply saved theme before styles render to avoid a theme flash. -->
+  <script>
+    (() => {
+      try {
+        const theme = localStorage.getItem("novia-home-theme");
+        if (theme === "light" || theme === "dark") {
+          document.documentElement.setAttribute("data-theme", theme);
+          const themeColor = document.querySelector('meta[name="theme-color"]');
+          if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f3f6f7" : "#0d141a");
+        }
+      } catch (_) {}
+    })();
+  </script>
 
   <!-- STYLESHEET -->
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/automation.css?v=20261115a1">
+<link rel="stylesheet" href="./css/style.css?v=20261117-v5p4">
+<link rel="stylesheet" href="./css/automation.css?v=20261115a1">
+<link rel="stylesheet" href="./css/refined.css?v=20261117-stable-uiux-r1">
+<link rel="stylesheet" href="./css/connection-mode.css?v=20261120-ap-router-r1">
+
 </head>
 
 <body>
@@ -93,19 +110,8 @@
 
       <div>
 
-        <p class="eyebrow">
-          HOME AUTOMATION
-        </p>
-
-        <h1>
-          Kontrol rumah,<br>
-          <span>dalam satu tempat.</span>
-        </h1>
-
-        <p class="welcome-copy">
-          Dashboard SMART HOME V4 ·
-          Empat channel kontrol
-        </p>
+        <p class="eyebrow">SMART HOME</p>
+        <h1>Kontrol rumah<br><span>lebih sederhana.</span></h1>
 
       </div>
 
@@ -115,7 +121,7 @@
 
         <span>
           <b>ESP32</b>
-          <small>DEVKIT V1</small>
+          <small>CONTROLLER</small>
         </span>
 
       </div>
@@ -123,6 +129,45 @@
     </section>
 
 
+    <!-- LOCAL CONNECTION SELECTOR: AP / ROUTER -->
+    <section class="connection-mode" aria-labelledby="connectionModeTitle">
+      <div class="connection-mode-heading">
+        <p class="eyebrow">KONEKSI LOKAL</p>
+        <h2 id="connectionModeTitle">Pilih akses perangkat</h2>
+        <p>Dashboard online ini sebagai pintu masuk. Kontrol lokal dibuka dari dashboard yang disediakan ESP32.</p>
+      </div>
+      <div class="connection-mode-actions">
+        <button type="button" class="connection-mode-card" id="openApMode">
+          <span class="connection-mode-icon" aria-hidden="true">⌁</span>
+          <strong>MODE AP</strong>
+          <span>Langsung ke ESP32</span>
+          <small>192.168.4.1</small>
+        </button>
+        <div class="connection-mode-card router-card">
+          <span class="connection-mode-icon" aria-hidden="true">⌘</span>
+          <strong>MODE ROUTER</strong>
+          <span>ESP32 di Wi-Fi rumah</span>
+          <label for="routerDeviceIp">IP ESP32</label>
+          <input id="routerDeviceIp" type="text" inputmode="decimal" autocomplete="off" placeholder="Contoh: 192.168.1.25" maxlength="15">
+          <button type="button" class="connection-open-router" id="openRouterMode">BUKA DASHBOARD LOKAL</button>
+        </div>
+      </div>
+      <p class="connection-mode-note" id="connectionModeNote" role="status">Mode Router: HP dan ESP32 harus tersambung ke router yang sama. IP dapat dilihat di router atau Serial Monitor ESP32.</p>
+    </section>
+
+    <nav class="main-tabs" role="tablist" aria-label="Navigasi dashboard">
+      <button class="main-tab is-active" id="tabControl" type="button" role="tab" aria-selected="true" aria-controls="panelControl" data-tab="panelControl">
+        <span aria-hidden="true">⌁</span> Kontrol Saklar
+      </button>
+      <button class="main-tab" id="tabMonitor" type="button" role="tab" aria-selected="false" aria-controls="panelMonitor" data-tab="panelMonitor">
+        <span aria-hidden="true">◉</span> Monitoring
+      </button>
+      <button class="main-tab" id="tabAutomation" type="button" role="tab" aria-selected="false" aria-controls="panelAutomation" data-tab="panelAutomation">
+        <span aria-hidden="true">◷</span> Otomasi
+      </button>
+    </nav>
+
+    <div class="tab-panel" id="panelMonitor" role="tabpanel" aria-labelledby="tabMonitor" hidden>
     <!-- =========================================
          SUMMARY SECTION
     ========================================== -->
@@ -177,6 +222,108 @@
 
 
     <!-- =========================================
+         RELIABILITY MONITOR - V5 PHASE 1
+    ========================================== -->
+
+    <section class="section-block reliability-panel" aria-labelledby="reliabilityTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">STATUS SISTEM</p>
+          <h2 id="reliabilityTitle">Kondisi sistem</h2>
+        </div>
+        <button type="button" class="monitor-refresh" id="refreshStatus" aria-label="Perbarui status koneksi">
+          ↻ <span>PERBARUI</span>
+        </button>
+      </div>
+
+      <div class="health-grid">
+        <article class="health-item" id="browserHealth" data-health="checking">
+          <span class="health-dot" aria-hidden="true"></span>
+          <div><small>JARINGAN BROWSER</small><strong id="browserHealthText">Memeriksa...</strong></div>
+        </article>
+        <article class="health-item" id="apiHealth" data-health="checking">
+          <span class="health-dot" aria-hidden="true"></span>
+          <div><small>CLOUD API · BLYNK DATA</small><strong id="apiHealthText">Memeriksa...</strong></div>
+        </article>
+      </div>
+
+      <div class="health-meta">
+        <div><span>Sinkronisasi terakhir</span><strong id="lastSyncText">Belum tersedia</strong></div>
+        <div><span>Waktu respons</span><strong id="latencyText">--</strong></div>
+        <div><span>Kegagalan beruntun</span><strong id="failureCountText">0</strong></div>
+      </div>
+
+    </section>
+
+    <!-- =========================================
+         RELIABILITY HISTORY - V5 PHASE 2
+    ========================================== -->
+    <section class="section-block reliability-history" aria-labelledby="historyTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">AKTIVITAS</p>
+          <h2 id="historyTitle">Riwayat koneksi</h2>
+        </div>
+        <button type="button" class="history-clear" id="clearConnectionHistory">HAPUS</button>
+      </div>
+
+      <div class="history-summary" aria-live="polite">
+        <span id="historyCount">0 kejadian tersimpan</span>
+        <span id="historyStorageState">Penyimpanan lokal</span>
+      </div>
+      <ol class="connection-history-list" id="connectionHistoryList" aria-live="polite">
+        <li class="history-empty">Belum ada riwayat koneksi.</li>
+      </ol>
+    </section>
+
+
+    <!-- =========================================
+         SYSTEM OVERVIEW
+    ========================================== -->
+
+    <section class="section-block system-panel">
+
+      <p class="eyebrow">INFORMASI</p>
+      <h2>Detail sistem</h2>
+
+
+      <div class="system-list">
+
+        <div>
+          <span>Platform</span>
+          <strong>SMART HOME V4</strong>
+        </div>
+
+        <div>
+          <span>Controller</span>
+          <strong>ESP32 DevKit V1</strong>
+        </div>
+
+        <div>
+          <span>Komunikasi</span>
+          <strong>Blynk IoT</strong>
+        </div>
+
+        <div>
+          <span>Hosting dashboard</span>
+          <strong>GitHub Pages</strong>
+        </div>
+
+        <div>
+          <span>Status integrasi</span>
+          <strong class="pending">
+            Memeriksa koneksi...
+          </strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    </div>
+
+    <div class="tab-panel is-active" id="panelControl" role="tabpanel" aria-labelledby="tabControl">
+    <!-- =========================================
          DEVICE CONTROL
     ========================================== -->
 
@@ -186,16 +333,14 @@
 
         <div>
 
-          <p class="eyebrow">
-            KONTROL PERANGKAT
-          </p>
+          <p class="eyebrow">KONTROL</p>
 
-          <h2>Device control</h2>
+          <h2>Perangkat</h2>
 
         </div>
 
         <span class="count-label">
-          04 CHANNELS
+          4 PERANGKAT
         </span>
 
       </div>
@@ -225,7 +370,7 @@
 
           <h3>Lampu Depan</h3>
 
-          <p>CHANNEL 01 · V0</p>
+          <p>VIRTUAL PIN 0</p>
 
           <button
             type="button"
@@ -269,7 +414,7 @@
 
           <h3>Lampu Tengah</h3>
 
-          <p>CHANNEL 02 · V1</p>
+          <p>VIRTUAL PIN 1</p>
 
           <button
             type="button"
@@ -313,7 +458,7 @@
 
           <h3>Lampu Kamar</h3>
 
-          <p>CHANNEL 03 · V2</p>
+          <p>VIRTUAL PIN 2</p>
 
           <button
             type="button"
@@ -357,13 +502,13 @@
 
           <h3>Kipas Angin</h3>
 
-          <p>CHANNEL 04 · V3</p>
+          <p>VIRTUAL PIN 3</p>
 
           <button
             type="button"
             class="toggle-button"
             aria-pressed="false"
-            aria-label="Kontrol Lampu Belakang"
+            aria-label="Kontrol Kipas Angin"
           >
 
             <span
@@ -390,6 +535,9 @@
     </section>
 
 
+    </div>
+
+    <div class="tab-panel" id="panelAutomation" role="tabpanel" aria-labelledby="tabAutomation" hidden>
 <!-- =========================================
      NOVIA HOME AUTOMATION PANEL
 ========================================== -->
@@ -398,10 +546,10 @@
 
   <div class="section-heading">
     <div>
-      <p class="eyebrow">SMART AUTOMATION</p>
-      <h2>Automation control</h2>
+      <p class="eyebrow">OTOMASI</p>
+      <h2>Pengaturan otomatis</h2>
     </div>
-    <span class="count-label">TIMER & SCHEDULE</span>
+    
   </div>
 
   <!-- TIMER -->
@@ -411,7 +559,7 @@
       <span class="automation-icon">◷</span>
       <div>
         <h3>Timer otomatis</h3>
-        <p>Atur durasi sebelum perangkat OFF</p>
+        <p>Matikan perangkat setelah durasi tertentu</p>
       </div>
     </div>
 
@@ -443,6 +591,35 @@
     <button type="button" id="cancelTimer" class="automation-button secondary">
       BATALKAN TIMER
     </button>
+    
+<!-- LIVE TIMER COUNTDOWN -->
+
+<div id="timerCountdown" class="timer-countdown" hidden>
+
+  <div class="timer-countdown-header">
+    <span>SISA WAKTU</span>
+    <span id="timerCountdownBadge">AKTIF</span>
+  </div>
+
+  <div id="timerCountdownValue"
+       class="timer-countdown-value">
+    00:00
+  </div>
+
+  <div class="timer-progress-track">
+    <div id="timerProgressBar"
+         class="timer-progress-bar">
+    </div>
+  </div>
+
+  <div class="timer-countdown-footer">
+    <span id="timerDeviceName">Perangkat</span>
+    <span id="timerRemainingLabel">
+      Timer berjalan
+    </span>
+  </div>
+
+</div>
 
     <p id="timerStatus" class="automation-status" role="status">
       Belum ada timer yang diatur.
@@ -457,7 +634,7 @@
       <span class="automation-icon">◷</span>
       <div>
         <h3>Jadwal harian</h3>
-        <p>Atur waktu ON dan OFF otomatis</p>
+        <p>Jadwalkan waktu nyala dan mati</p>
       </div>
     </div>
 
@@ -520,7 +697,7 @@
       <span class="automation-icon">▤</span>
       <div>
         <h3>Jadwal tersimpan</h3>
-        <p>Data jadwal dari database NOVIA HOME</p>
+        
       </div>
     </div>
 
@@ -533,51 +710,7 @@
 </section>
 
 
-    <!-- =========================================
-         SYSTEM OVERVIEW
-    ========================================== -->
-
-    <section class="section-block system-panel">
-
-      <p class="eyebrow">
-        INFORMASI
-      </p>
-
-      <h2>System overview</h2>
-
-
-      <div class="system-list">
-
-        <div>
-          <span>Platform</span>
-          <strong>SMART HOME V4</strong>
-        </div>
-
-        <div>
-          <span>Controller</span>
-          <strong>ESP32 DevKit V1</strong>
-        </div>
-
-        <div>
-          <span>Komunikasi rencana</span>
-          <strong>Blynk IoT</strong>
-        </div>
-
-        <div>
-          <span>Hosting dashboard</span>
-          <strong>GitHub Pages</strong>
-        </div>
-
-        <div>
-          <span>Status integrasi</span>
-          <strong class="pending">
-            Memeriksa koneksi...
-          </strong>
-        </div>
-
-      </div>
-
-    </section>
+    </div>
 
   </main>
 
@@ -587,11 +720,8 @@
   ========================================== -->
 
   <footer>
-
-    <span>NOVIA HOME V4</span>
-
-    <span>SMART HOME SYSTEM</span>
-
+    <span>NOVIA HOME</span>
+    <span>ESP32 · BLYNK IoT</span>
   </footer>
 
 </div>
@@ -601,7 +731,7 @@
      APPLICATION JAVASCRIPT
 ========================================== -->
 
-<script src="./js/app.js?v=20261115d5"></script>
+<script src="./js/app.js?v=20261117-stable-uiux-r1"></script>
   <script src="./js/automation.js?v=20261115a1"></script>
 
 
@@ -632,6 +762,7 @@ if ("serviceWorker" in navigator) {
 
 </script>
 
+<script src="./js/connection-mode.js?v=20261120-ap-router-r1"></script>
 </body>
                                    </html>
                                    
