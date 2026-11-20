@@ -34,26 +34,29 @@
   <title>NOVIA HOME | Smart Control</title>
 
   <!-- PWA -->
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./css/style.css?v=20261120-online-r2">
-  <link rel="stylesheet" href="./css/automation.css?v=20261120-online-r2">
-  <link rel="stylesheet" href="./css/refined.css?v=20261120-online-r2">
-  <link rel="stylesheet" href="./css/connection-mode.css?v=20261120-online-r2">
-
-  <!-- Terapkan tema tersimpan sebelum halaman dirender. -->
+<link rel="stylesheet" href="./css/style.css?v=20261118-uiux-r2">
+<link rel="stylesheet" href="./css/automation.css?v=20261118-uiux-r2">
+<link rel="stylesheet" href="./css/refined.css?v=20261118-uiux-r2">
+  <!-- Apply saved theme before styles render to avoid a theme flash. -->
   <script>
     (() => {
       try {
         const theme = localStorage.getItem("novia-home-theme");
         if (theme === "light" || theme === "dark") {
           document.documentElement.setAttribute("data-theme", theme);
-          const meta = document.querySelector('meta[name="theme-color"]');
-          if (meta) meta.setAttribute("content", theme === "light" ? "#f3f6f7" : "#0d1319");
+          const themeColor = document.querySelector('meta[name="theme-color"]');
+          if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f3f6f7" : "#0d141a");
         }
       } catch (_) {}
     })();
   </script>
+
+  <!-- STYLESHEET -->
+<link rel="stylesheet" href="./css/style.css?v=20261117-v5p4">
+<link rel="stylesheet" href="./css/automation.css?v=20261115a1">
+<link rel="stylesheet" href="./css/refined.css?v=20261117-stable-uiux-r1">
+<link rel="stylesheet" href="./css/connection-mode.css?v=20261120-ap-router-r1">
+
 </head>
 
 <body>
@@ -235,11 +238,15 @@
       <div class="health-grid">
         <article class="health-item" id="browserHealth" data-health="checking">
           <span class="health-dot" aria-hidden="true"></span>
-          <div><small>JARINGAN BROWSER</small><strong id="browserHealthText">Memeriksa...</strong></div>
+          <div><small>JARINGAN HP / BROWSER</small><strong id="browserHealthText">Memeriksa...</strong></div>
+        </article>
+        <article class="health-item" id="deviceHealth" data-health="checking">
+          <span class="health-dot" aria-hidden="true"></span>
+          <div><small>ESP32 · STATUS PERANGKAT</small><strong id="deviceHealthText">Memeriksa perangkat...</strong></div>
         </article>
         <article class="health-item" id="apiHealth" data-health="checking">
           <span class="health-dot" aria-hidden="true"></span>
-          <div><small>CLOUD API · BLYNK DATA</small><strong id="apiHealthText">Memeriksa...</strong></div>
+          <div><small>CLOUD API · BLYNK</small><strong id="apiHealthText">Memeriksa...</strong></div>
         </article>
       </div>
 
@@ -247,7 +254,9 @@
         <div><span>Sinkronisasi terakhir</span><strong id="lastSyncText">Belum tersedia</strong></div>
         <div><span>Waktu respons</span><strong id="latencyText">--</strong></div>
         <div><span>Kegagalan beruntun</span><strong id="failureCountText">0</strong></div>
+        <div><span>Terakhir ESP32 online</span><strong id="deviceLastSeenText">Belum tersedia</strong></div>
       </div>
+      <p class="health-footnote" id="deviceHealthNote">Status ESP32 diperiksa melalui koneksi perangkat ke Blynk Cloud. Dashboard dapat memantau dari jaringan seluler maupun Wi-Fi.</p>
 
     </section>
 
@@ -727,8 +736,8 @@
      APPLICATION JAVASCRIPT
 ========================================== -->
 
-<script src="./js/app.js?v=20261120-online-r2"></script>
-  <script src="./js/automation.js?v=20261120-online-r2"></script>
+<script src="./js/app.js?v=20261117-stable-uiux-r1"></script>
+  <script src="./js/automation.js?v=20261115a1"></script>
 
 
 <!-- =========================================
@@ -758,7 +767,7 @@ if ("serviceWorker" in navigator) {
 
 </script>
 
-<script src="./js/connection-mode.js?v=20261120-online-r2"></script>
+<script src="./js/connection-mode.js?v=20261120-ap-router-r1"></script>
 </body>
                                    </html>
                                    
