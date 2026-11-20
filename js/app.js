@@ -114,7 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const clearHistoryButton = document.getElementById("clearConnectionHistory");
   const refreshButton = document.getElementById("refreshStatus");
   const browserHealth = document.getElementById("browserHealth");
+  const deviceHealth = document.getElementById("deviceHealth");
+  const deviceLastSeenText = document.getElementById("deviceLastSeenText");
+  const deviceHealthNote = document.getElementById("deviceHealthNote");
   const apiHealth = document.getElementById("apiHealth");
+  let esp32Online = null;
+  let lastDeviceOnlineAt = null;
 
   function setHealthCard(element, textId, state, message) {
     if (!element) return;
@@ -224,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const browserOnline = navigator.onLine;
     setHealthCard(browserHealth, "browserHealthText", browserOnline ? "online" : "offline", browserOnline ? "Browser online" : "Tidak ada jaringan");
     const apiMessage = state === "online"
-      ? "Terhubung · Blynk terbaca"
+      ? "Cloud API terhubung"
       : state === "checking"
         ? "Memeriksa layanan..."
         : "Tidak terjangkau";
@@ -236,6 +241,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (latencyNode) latencyNode.textContent = lastLatency === null ? "--" : `${lastLatency} ms`;
     if (failures) failures.textContent = String(consecutiveFailures);
   }
+
+  function updateDeviceHealth(isOnline) {
+    esp32Online = isOnline;
+    if (isOnline === true) lastDeviceOnlineAt = new Date();
+    const known = typeof isOnline === "boolean";
+    const message = !known ? "Status ESP32 belum dapat diverifikasi" : isOnline ? "ESP32 ONLINE · terhubung ke Blynk" : "ESP32 OFFLINE · tidak terhubung ke Blynk";
+    setHealthCard(deviceHealth, "deviceHealthText", !known ? "checking" : isOnline ? "online" : "offline", message);
+    if (deviceLastSeenText) deviceLastSeenText.textContent = lastDeviceOnlineAt ? formatClock(lastDeviceOnlineAt) : "Belum pernah online";
+    if (deviceHealthNote) {
+      deviceHealthNote.textContent = !known
+        ? "Cloud API belum dapat memverifikasi kondisi ESP32. Periksa koneksi internet HP atau layanan Cloudflare/Blynk."
+        : isOnline
+          ? "ESP32 terdeteksi aktif oleh Blynk Cloud. Pemantauan tetap berjalan meskipun HP memakai jaringan seluler."
+          : "ESP32 tidak terdeteksi online oleh Blynk Cloud. Periksa daya ESP32, Wi-Fi router, internet, dan koneksi Blynk. Status relay yang tampil adalah data terakhir yang tersimpan.";
+    }
+    cards.forEach(card => {
+      const button = card.querySelector(".toggle-button");
+      if (button) {
+        button.disabled = !isOnline || controlInFlight;
+        button.title = isOnline ? "Kontrol relay" : "Kontrol dinonaktifkan: ESP32 offline";
+      }
+      card.classList.toggle("device-unreachable", !isOnline);
+    });
+    if (known && previousDeviceState !== null && previousDeviceState !== isOnline) {
+      recordConnectionEvent("ESP32", isOnline ? "online" : "offline", isOnline ? "ESP32 kembali online" : "ESP32 offline", isOnline ? "Perangkat kembali terdeteksi oleh Blynk Cloud." : "Blynk Cloud tidak lagi mendeteksi perangkat.");
+    }
+    if (known) previousDeviceState = isOnline;
+  }
+  let previousDeviceState = null;
 
   function scheduleNextCheck(delay) {
     if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
@@ -425,6 +459,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (
         data.success !== true ||
+        typeof data.deviceOnline !== "boolean" ||
         !data.channels ||
         typeof data.channels !== "object"
       ) {
@@ -445,11 +480,13 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       values.forEach((value, index) => updateCard(index, value));
+      updateDeviceHealth(data.deviceOnline);
       consecutiveFailures = 0;
       setConnection("online", latency);
 
     } catch (error) {
       consecutiveFailures += 1;
+      updateDeviceHealth(null);
       setConnection("offline");
 
       if (error.name === "AbortError") {
@@ -540,7 +577,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } finally {
       window.clearTimeout(timeoutId);
       controlInFlight = false;
-      controlButtons.forEach(item => { item.disabled = false; });
+      controlButtons.forEach(item => { item.disabled = esp32Online !== true; });
 
       // Jika polling status sedang berjalan saat perintah selesai, minta
       // satu verifikasi segera setelah polling tersebut selesai.
