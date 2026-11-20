@@ -76,34 +76,35 @@
   // =====================================
 
   async function request(path, options = {}) {
-    const response = await fetch(
-      API_URL + path,
-      {
-        cache: "no-store",
-        ...options
-      }
-    );
-
-    let data;
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 8000);
 
     try {
-      data = await response.json();
-    } catch {
-      throw new Error(
-        "Respons Worker tidak valid"
-      );
-    }
+      const response = await fetch(API_URL + path, {
+        cache: "no-store",
+        ...options,
+        signal: options.signal || controller.signal
+      });
 
-    if (
-      !response.ok ||
-      data.success !== true
-    ) {
-      throw new Error(
-        data.error || "Permintaan gagal"
-      );
-    }
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error("Respons Worker tidak valid");
+      }
 
-    return data;
+      if (!response.ok || data.success !== true) {
+        throw new Error(data.error || `Permintaan gagal (HTTP ${response.status})`);
+      }
+      return data;
+    } catch (error) {
+      if (error && error.name === "AbortError") {
+        throw new Error("Layanan terlalu lama merespons (timeout 8 detik)");
+      }
+      throw error;
+    } finally {
+      window.clearTimeout(timeoutId);
+    }
   }
 
 
@@ -792,16 +793,21 @@
     loadSchedules();
 
     // Countdown berjalan setiap detik.
-    countdownInterval = setInterval(
-      renderTimerCountdown,
-      1000
-    );
+    countdownInterval = setInterval(() => {
+      if (document.visibilityState === "visible") renderTimerCountdown();
+    }, 1000);
 
-    // Sinkronisasi ulang dengan Worker.
-    timerSyncInterval = setInterval(
-      loadActiveTimers,
-      10000
-    );
+    // Sinkronisasi hanya saat dashboard aktif agar hemat jaringan/baterai.
+    timerSyncInterval = setInterval(() => {
+      if (document.visibilityState === "visible") loadActiveTimers();
+    }, 15000);
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        loadActiveTimers();
+        renderTimerCountdown();
+      }
+    });
   }
 
 
