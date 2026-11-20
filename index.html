@@ -34,30 +34,26 @@
   <title>NOVIA HOME | Smart Control</title>
 
   <!-- PWA -->
-<link rel="stylesheet" href="./css/style.css?v=20261118-uiux-r2">
-<link rel="stylesheet" href="./css/automation.css?v=20261118-uiux-r2">
-<link rel="stylesheet" href="./css/refined.css?v=20261118-uiux-r2">
-<link rel="stylesheet" href="./css/uiux-r2.css?v=20261118-uiux-r2">
-  <!-- Apply saved theme before styles render to avoid a theme flash. -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./css/style.css?v=20261120-online-r2">
+  <link rel="stylesheet" href="./css/automation.css?v=20261120-online-r2">
+  <link rel="stylesheet" href="./css/refined.css?v=20261120-online-r2">
+  <link rel="stylesheet" href="./css/connection-mode.css?v=20261120-online-r2">
+
+  <!-- Terapkan tema tersimpan sebelum halaman dirender. -->
   <script>
     (() => {
       try {
         const theme = localStorage.getItem("novia-home-theme");
         if (theme === "light" || theme === "dark") {
           document.documentElement.setAttribute("data-theme", theme);
-          const themeColor = document.querySelector('meta[name="theme-color"]');
-          if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f3f6f7" : "#0d141a");
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", theme === "light" ? "#f3f6f7" : "#0d1319");
         }
       } catch (_) {}
     })();
   </script>
-
-  <!-- STYLESHEET -->
-<link rel="stylesheet" href="./css/style.css?v=20261117-v5p4">
-<link rel="stylesheet" href="./css/automation.css?v=20261115a1">
-<link rel="stylesheet" href="./css/refined.css?v=20261117-stable-uiux-r1">
-<link rel="stylesheet" href="./css/connection-mode.css?v=20261120-ap-router-r1">
-
 </head>
 
 <body>
@@ -731,8 +727,8 @@
      APPLICATION JAVASCRIPT
 ========================================== -->
 
-<script src="./js/app.js?v=20261117-stable-uiux-r1"></script>
-  <script src="./js/automation.js?v=20261115a1"></script>
+<script src="./js/app.js?v=20261120-online-r2"></script>
+  <script src="./js/automation.js?v=20261120-online-r2"></script>
 
 
 <!-- =========================================
@@ -762,7 +758,7 @@ if ("serviceWorker" in navigator) {
 
 </script>
 
-<script src="./js/connection-mode.js?v=20261120-ap-router-r1"></script>
+<script src="./js/connection-mode.js?v=20261120-online-r2"></script>
 </body>
                                    </html>
                                    

@@ -1,5 +1,5 @@
 /* NOVIA HOME V4 — resilient offline cache */
-const CACHE_NAME = "novia-home-v4-ap-router-20261120-r1";
+const CACHE_NAME = "novia-home-online-20261120-r2";
 const CACHE_PREFIX = "novia-home-";
 
 const APP_FILES = [
