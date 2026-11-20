@@ -1,16 +1,16 @@
 
 {
   "id": "./",
-  "name": "NOVIA HOME",
+  "name": "NOVIA HOME V4",
   "short_name": "NOVIA HOME",
-  "description": "NOVIA HOME Smart Home Control Center",
+  "description": "Smart Home Control Center",
   "lang": "id",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0d1319",
-  "theme_color": "#0d1319",
+  "background_color": "#101820",
+  "theme_color": "#101820",
   "icons": [
     {
       "src": "assets/icon.svg",
