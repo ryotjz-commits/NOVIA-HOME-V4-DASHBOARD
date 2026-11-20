@@ -85,3 +85,8 @@
   .history-summary { font-size: 8px; }
   .history-clear { padding: 7px 8px; font-size: 8px; }
 }
+
+/* Remote ESP32 health state */
+.health-footnote { margin: 12px 2px 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+.device-unreachable .toggle-button { opacity: .58; cursor: not-allowed; }
+@media (max-width: 520px) { .health-meta { grid-template-columns: repeat(2,minmax(0,1fr)); } .health-meta > div:last-child { grid-column: auto; } }
