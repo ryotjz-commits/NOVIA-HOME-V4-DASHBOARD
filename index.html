@@ -39,7 +39,7 @@
   <link rel="apple-touch-icon" href="./assets/icon.svg">
 
   <!-- STYLESHEET -->
-  <link rel="stylesheet" href="./css/style.css?v=20261117-v5p1">
+  <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/automation.css?v=20261115a1">
 </head>
 
@@ -122,19 +122,7 @@
 
     </section>
 
-    <nav class="main-tabs" role="tablist" aria-label="Navigasi dashboard">
-      <button class="main-tab is-active" id="tabControl" type="button" role="tab" aria-selected="true" aria-controls="panelControl" data-tab="panelControl">
-        <span aria-hidden="true">⌁</span> Kontrol Saklar
-      </button>
-      <button class="main-tab" id="tabMonitor" type="button" role="tab" aria-selected="false" aria-controls="panelMonitor" data-tab="panelMonitor">
-        <span aria-hidden="true">◉</span> Monitoring
-      </button>
-      <button class="main-tab" id="tabAutomation" type="button" role="tab" aria-selected="false" aria-controls="panelAutomation" data-tab="panelAutomation">
-        <span aria-hidden="true">◷</span> Otomasi
-      </button>
-    </nav>
 
-    <div class="tab-panel" id="panelMonitor" role="tabpanel" aria-labelledby="tabMonitor" hidden>
     <!-- =========================================
          SUMMARY SECTION
     ========================================== -->
@@ -188,65 +176,6 @@
     </section>
 
 
-    <!-- =========================================
-         RELIABILITY MONITOR - V5 PHASE 1
-    ========================================== -->
-
-    <section class="section-block reliability-panel" aria-labelledby="reliabilityTitle">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">SYSTEM HEALTH</p>
-          <h2 id="reliabilityTitle">Reliability monitor</h2>
-        </div>
-        <button type="button" class="monitor-refresh" id="refreshStatus" aria-label="Perbarui status koneksi">
-          ↻ <span>REFRESH</span>
-        </button>
-      </div>
-
-      <div class="health-grid">
-        <article class="health-item" id="browserHealth" data-health="checking">
-          <span class="health-dot" aria-hidden="true"></span>
-          <div><small>JARINGAN BROWSER</small><strong id="browserHealthText">Memeriksa...</strong></div>
-        </article>
-        <article class="health-item" id="apiHealth" data-health="checking">
-          <span class="health-dot" aria-hidden="true"></span>
-          <div><small>CLOUD API · BLYNK DATA</small><strong id="apiHealthText">Memeriksa...</strong></div>
-        </article>
-      </div>
-
-      <div class="health-meta">
-        <div><span>Sinkronisasi terakhir</span><strong id="lastSyncText">Belum tersedia</strong></div>
-        <div><span>Waktu respons</span><strong id="latencyText">--</strong></div>
-        <div><span>Kegagalan beruntun</span><strong id="failureCountText">0</strong></div>
-      </div>
-      <p class="health-footnote">Status API menunjukkan jalur Cloudflare Worker ke Blynk berhasil membaca 4 datastream. Status ESP32 secara langsung belum dapat dipastikan dari endpoint ini.</p>
-    </section>
-
-    <!-- =========================================
-         RELIABILITY HISTORY - V5 PHASE 2
-    ========================================== -->
-    <section class="section-block reliability-history" aria-labelledby="historyTitle">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">CONNECTION EVENTS</p>
-          <h2 id="historyTitle">Riwayat koneksi</h2>
-        </div>
-        <button type="button" class="history-clear" id="clearConnectionHistory">HAPUS RIWAYAT</button>
-      </div>
-      <p class="history-description">Mencatat perubahan status jaringan browser dan API. Riwayat disimpan di perangkat ini, maksimal 50 kejadian.</p>
-      <div class="history-summary" aria-live="polite">
-        <span id="historyCount">0 kejadian tersimpan</span>
-        <span id="historyStorageState">Penyimpanan lokal</span>
-      </div>
-      <ol class="connection-history-list" id="connectionHistoryList" aria-live="polite">
-        <li class="history-empty">Belum ada riwayat koneksi.</li>
-      </ol>
-    </section>
-
-
-    </div>
-
-    <div class="tab-panel is-active" id="panelControl" role="tabpanel" aria-labelledby="tabControl">
     <!-- =========================================
          DEVICE CONTROL
     ========================================== -->
@@ -461,9 +390,6 @@
     </section>
 
 
-    </div>
-
-    <div class="tab-panel" id="panelAutomation" role="tabpanel" aria-labelledby="tabAutomation" hidden>
 <!-- =========================================
      NOVIA HOME AUTOMATION PANEL
 ========================================== -->
@@ -652,7 +578,6 @@
       </div>
 
     </section>
-    </div>
 
   </main>
 
@@ -676,7 +601,7 @@
      APPLICATION JAVASCRIPT
 ========================================== -->
 
-<script src="./js/app.js?v=20261117-v5-tabs1"></script>
+<script src="./js/app.js?v=20261115d5"></script>
   <script src="./js/automation.js?v=20261115a1"></script>
 
 
