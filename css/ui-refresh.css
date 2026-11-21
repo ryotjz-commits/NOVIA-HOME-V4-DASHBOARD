@@ -118,3 +118,143 @@ footer {padding-bottom:100px}
  .device-icon {width:51px;height:51px}
  .device-card h3 {font-size:13px}
 }
+
+/* =========================================================
+   NOVIA HOME — DARK MODE FIX R2
+   Semua token dan komponen diberi palet gelap tersendiri.
+   Tidak mengubah ID, event handler, API, maupun alur kontrol.
+========================================================= */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b111b;
+  --surface: #141e2b;
+  --surface-light: #1c2939;
+  --surface-raised: #202e40;
+  --surface-soft: #182535;
+  --border: rgba(164, 188, 219, .13);
+  --border-strong: rgba(164, 188, 219, .23);
+  --line: rgba(164, 188, 219, .13);
+  --text: #edf3fb;
+  --muted: #a0aec0;
+  --accent: #55c99e;
+  --accent-strong: #70d9b2;
+  --accent-dark: #278d6b;
+  --accent-secondary: #ad9be9;
+  --warning: #e5bd72;
+  --danger: #ed8792;
+  --success: #65d2a5;
+  --shadow: 0 12px 30px rgba(0, 0, 0, .26);
+}
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background: #0b111b !important;
+  color: var(--text) !important;
+}
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(ellipse at 85% 5%, rgba(55, 119, 105, .13), transparent 34%),
+    radial-gradient(ellipse at 8% 72%, rgba(74, 102, 157, .12), transparent 38%),
+    linear-gradient(160deg, #0a111b 0%, #111d2b 55%, #0b1420 100%) !important;
+  background-attachment: fixed !important;
+}
+html[data-theme="dark"] .topbar,
+html[data-theme="dark"] .section-heading,
+html[data-theme="dark"] .brand,
+html[data-theme="dark"] .welcome-copy { color: var(--text); }
+html[data-theme="dark"] .demo-pill,
+html[data-theme="dark"] .theme-toggle,
+html[data-theme="dark"] .summary-card,
+html[data-theme="dark"] .reliability-panel,
+html[data-theme="dark"] .reliability-history,
+html[data-theme="dark"] .system-panel,
+html[data-theme="dark"] .automation-card,
+html[data-theme="dark"] .connection-mode,
+html[data-theme="dark"] .device-card {
+  color: var(--text) !important;
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow) !important;
+}
+html[data-theme="dark"] .welcome {
+  color: #f7fbff !important;
+  background:
+    linear-gradient(90deg, rgba(5, 13, 22, .88), rgba(8, 19, 29, .30)),
+    radial-gradient(ellipse at 78% 20%, #526d7a 0 14%, transparent 15%),
+    linear-gradient(145deg, #263e4c 0%, #344b54 45%, #263d35 46%, #172b25 100%) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .30) !important;
+}
+html[data-theme="dark"] .welcome:before {
+  background: linear-gradient(145deg, #34434a 0 48%, #25343c 49% 52%, #43545a 53%) !important;
+}
+html[data-theme="dark"] .welcome:after {
+  background: linear-gradient(90deg, #17272d, #53666a 45%, #1b3035) !important;
+  border-color: #34444a !important;
+}
+html[data-theme="dark"] .welcome h1,
+html[data-theme="dark"] .welcome h1 span,
+html[data-theme="dark"] .welcome .eyebrow { color: #f7fbff !important; }
+html[data-theme="dark"] .device-card h3,
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .summary-card h3,
+html[data-theme="dark"] .automation-card h3,
+html[data-theme="dark"] .connection-mode h2 { color: var(--text) !important; }
+html[data-theme="dark"] .device-card > p,
+html[data-theme="dark"] .demo-note,
+html[data-theme="dark"] .info-note,
+html[data-theme="dark"] .summary-note,
+html[data-theme="dark"] .count-label,
+html[data-theme="dark"] .connection-mode-note,
+html[data-theme="dark"] .connection-mode-heading > p:last-child { color: var(--muted) !important; }
+html[data-theme="dark"] .device-card.is-on {
+  background: #162638 !important;
+  border-color: rgba(85, 201, 158, .20) !important;
+}
+html[data-theme="dark"] .device-icon { background: #4b4026 !important; color: #f0c96e !important; }
+html[data-theme="dark"] .device-card:nth-child(2) .device-icon { background: #263d60 !important; color: #9bbcff !important; }
+html[data-theme="dark"] .device-card:nth-child(3) .device-icon { background: #40345d !important; color: #c3adff !important; }
+html[data-theme="dark"] .device-card:nth-child(4) .device-icon { background: #20494a !important; color: #75d4d0 !important; }
+html[data-theme="dark"] .device-card.is-on .device-icon { background: inherit !important; }
+html[data-theme="dark"] .state-badge { color: var(--muted) !important; background: #253244 !important; }
+html[data-theme="dark"] .device-card.is-on .state-badge { color: #7ce0b9 !important; background: #1d4039 !important; }
+html[data-theme="dark"] .main-tabs {
+  background: rgba(20, 30, 43, .96) !important;
+  border-color: rgba(164, 188, 219, .15) !important;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, .38) !important;
+  backdrop-filter: blur(16px);
+}
+html[data-theme="dark"] .main-tab { color: #9ba9ba !important; }
+html[data-theme="dark"] .main-tab.is-active { color: #71dcb4 !important; background: #1b3b35 !important; }
+html[data-theme="dark"] .health-item,
+html[data-theme="dark"] .health-meta > div,
+html[data-theme="dark"] .connection-mode-card,
+html[data-theme="dark"] .automation-button.secondary {
+  color: var(--text) !important;
+  background: var(--surface-light) !important;
+  border-color: var(--border) !important;
+}
+html[data-theme="dark"] .automation-icon { background: #1d4039 !important; color: #75dcb6 !important; }
+html[data-theme="dark"] .automation-button { color: #071a14 !important; }
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] .automation-card input,
+html[data-theme="dark"] .automation-card select {
+  color: var(--text) !important;
+  background-color: #1a2839 !important;
+  border-color: var(--border-strong) !important;
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder { color: #8292a7 !important; }
+html[data-theme="dark"] .schedule-item,
+html[data-theme="dark"] .schedule-empty,
+html[data-theme="dark"] .timer-countdown,
+html[data-theme="dark"] .history-entry,
+html[data-theme="dark"] .history-empty,
+html[data-theme="dark"] .router-card {
+  color: var(--text) !important;
+  background: var(--surface-light) !important;
+  border-color: var(--border) !important;
+}
+html[data-theme="dark"] .hero-chip { background: rgba(20, 30, 43, .88) !important; color: var(--text) !important; }
+html[data-theme="dark"] .connection-open-router { background: #287c61 !important; }
+html[data-theme="dark"] footer { color: var(--muted) !important; }
