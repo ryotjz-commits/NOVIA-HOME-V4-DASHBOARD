@@ -90,3 +90,23 @@
 .health-footnote { margin: 12px 2px 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
 .device-unreachable .toggle-button { opacity: .58; cursor: not-allowed; }
 @media (max-width: 520px) { .health-meta { grid-template-columns: repeat(2,minmax(0,1fr)); } .health-meta > div:last-child { grid-column: auto; } }
+
+
+/* Informasi tambahan: ringkas, kontras, dan tetap selaras dengan tema. */
+.info-note {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-soft, var(--surface));
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+.info-note strong { display: block; margin-bottom: 4px; color: var(--text); }
+.info-note ul { margin: 5px 0 0; padding-left: 18px; }
+.info-note li + li { margin-top: 3px; }
+.info-note b { color: var(--text); }
+@media (max-width: 520px) {
+  .info-note { padding: 10px 12px; font-size: 0.8rem; }
+}
