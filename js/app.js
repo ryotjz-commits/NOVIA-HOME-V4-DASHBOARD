@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })();
 
   let currentTheme =
-    savedTheme === "dark" ? "dark" : "light";
+    savedTheme === "light" ? "light" : "dark";
 
   function applyTheme(theme) {
     currentTheme = theme;
