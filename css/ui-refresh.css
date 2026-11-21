@@ -258,3 +258,35 @@ html[data-theme="dark"] .router-card {
 html[data-theme="dark"] .hero-chip { background: rgba(20, 30, 43, .88) !important; color: var(--text) !important; }
 html[data-theme="dark"] .connection-open-router { background: #287c61 !important; }
 html[data-theme="dark"] footer { color: var(--muted) !important; }
+
+
+/* NOVIA HOME R4 — four-item mobile navigation and theme polish */
+.main-tabs {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+}
+.main-tab {
+  min-width: 0;
+  white-space: nowrap;
+  font-size: clamp(9px, 2.5vw, 11px);
+  padding-inline: 2px;
+}
+.main-tab span {
+  font-size: 21px;
+}
+@media (max-width: 360px) {
+  .main-tabs { width: calc(100% - 12px); padding: 6px 4px; gap: 2px; }
+  .main-tab { font-size: 8px; }
+  .main-tab span { font-size: 19px; }
+}
+html[data-theme="dark"] .main-tab.is-active {
+  border-color: rgba(85, 201, 158, .18) !important;
+}
+html[data-theme="dark"] .demo-pill {
+  background: #182535 !important;
+}
+html[data-theme="dark"] .theme-toggle {
+  background: #182535 !important;
+  border-color: rgba(164,188,219,.16) !important;
+  color: var(--text) !important;
+}
