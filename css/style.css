@@ -1507,3 +1507,62 @@ html:not([data-theme="light"]) .main-tabs {
 @media (min-width: 600px) {
   body { padding-bottom: 112px; }
 }
+
+
+/* =========================================================
+   NOVIA HOME R3 — FOUR BOTTOM TABS FIT ON SMALL SCREENS
+   Keep all four destinations on one row; prevent intrinsic
+   button width and long labels from forcing overlap/wrapping.
+========================================================= */
+.main-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  width: min(620px, calc(100% - 20px));
+  box-sizing: border-box;
+  gap: 4px;
+}
+
+.main-tabs .main-tab {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 7px 1px;
+  gap: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: clamp(7px, 2.45vw, 10px);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.main-tabs .main-tab span {
+  flex: 0 0 auto;
+  font-size: clamp(16px, 4.8vw, 20px);
+  line-height: 1;
+}
+
+@media (max-width: 360px) {
+  .main-tabs {
+    width: calc(100% - 16px);
+    gap: 2px;
+    padding: 5px;
+  }
+  .main-tabs .main-tab {
+    padding-inline: 0;
+    font-size: clamp(7px, 2.35vw, 8.5px);
+    gap: 4px;
+  }
+  .main-tabs .main-tab span { font-size: 16px; }
+}
+
+@media (max-width: 300px) {
+  .main-tabs { width: calc(100% - 10px); gap: 1px; padding: 4px; }
+  .main-tabs .main-tab { font-size: 7px; }
+}
