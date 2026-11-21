@@ -49,7 +49,7 @@
           if (themeColor) {
             themeColor.setAttribute(
               "content",
-              theme === "light" ? "#f3f6f7" : "#0d141a"
+              theme === "light" ? "#f3f6f7" : "#0d1319"
             );
           }
         }
@@ -60,22 +60,22 @@
   <!-- Stylesheets -->
   <link
     rel="stylesheet"
-    href="./css/style.css?v=20261118-uiux-r2"
+    href="./css/style.css?v=20261121-info-r1"
   >
 
   <link
     rel="stylesheet"
-    href="./css/automation.css?v=20261118-uiux-r2"
+    href="./css/automation.css?v=20261121-info-r1"
   >
 
   <link
     rel="stylesheet"
-    href="./css/refined.css?v=20261118-uiux-r2"
+    href="./css/refined.css?v=20261121-info-r1"
   >
 
   <link
     rel="stylesheet"
-    href="./css/connection-mode.css?v=20261120-ap-router-r1"
+    href="./css/connection-mode.css?v=20261121-info-r1"
   >
 
 </head>
@@ -172,9 +172,9 @@
           </h2>
 
           <p>
-            Dashboard online ini sebagai pintu masuk.
-            Kontrol lokal dibuka dari dashboard yang
-            disediakan ESP32.
+            Pilih jalur sesuai jaringan yang digunakan.
+            Mode AP dipakai saat HP terhubung langsung ke Wi-Fi ESP32;
+            Mode Router dipakai saat HP dan ESP32 berada di Wi-Fi rumah.
           </p>
 
         </div>
@@ -196,9 +196,9 @@
 
             <strong>MODE AP</strong>
 
-            <span>Langsung ke ESP32</span>
+            <span>HP terhubung ke Wi-Fi NOVIA HOME</span>
 
-            <small>192.168.4.1</small>
+            <small>Alamat lokal: 192.168.4.1</small>
 
           </button>
 
@@ -214,7 +214,7 @@
 
             <strong>MODE ROUTER</strong>
 
-            <span>ESP32 di Wi-Fi rumah</span>
+            <span>HP dan ESP32 pada router yang sama</span>
 
             <label for="routerDeviceIp">
               IP ESP32
@@ -246,9 +246,9 @@
           id="connectionModeNote"
           role="status"
         >
-          Mode Router: HP dan ESP32 harus tersambung
-          ke router yang sama. IP dapat dilihat di
-          router atau Serial Monitor ESP32.
+          Tips: jika memakai Mode AP, sambungkan HP ke Wi-Fi ESP32 terlebih dahulu.
+          Untuk Mode Router, masukkan alamat IPv4 ESP32 yang terlihat di router
+          atau Serial Monitor. Koneksi internet tidak selalu diperlukan untuk akses lokal.
         </p>
 
       </section>
@@ -478,10 +478,20 @@
             class="health-footnote"
             id="deviceHealthNote"
           >
-            Status ESP32 diperiksa melalui koneksi
-            perangkat ke Blynk Cloud. Dashboard dapat
-            memantau dari jaringan seluler maupun Wi-Fi.
+            Status ESP32 diperiksa melalui Blynk Cloud. Status API menunjukkan
+            apakah layanan dashboard dapat dijangkau, sedangkan status ESP32
+            menunjukkan apakah perangkat terdeteksi online oleh Blynk.
           </p>
+
+          <div class="info-note" aria-label="Panduan membaca monitoring">
+            <strong>Cara membaca status</strong>
+            <ul>
+              <li><b>Browser:</b> koneksi jaringan pada HP atau browser.</li>
+              <li><b>Cloud API:</b> jalur komunikasi dashboard ke layanan NOVIA HOME.</li>
+              <li><b>ESP32:</b> status perangkat menurut Blynk Cloud, bukan pemeriksaan relay secara fisik.</li>
+              <li><b>Waktu respons:</b> durasi permintaan status API, bukan waktu respons relay.</li>
+            </ul>
+          </div>
 
         </section>
 
@@ -788,6 +798,11 @@
           >
             Menghubungkan dashboard dengan Blynk IoT...
           </p>
+          <p class="info-note">
+            Tekan saklar untuk mengirim perintah ON/OFF. Perubahan akan ditampilkan
+            setelah status terbaru berhasil dibaca kembali dari API. Jika koneksi
+            terputus, kontrol dinonaktifkan untuk mencegah perintah yang tidak terkonfirmasi.
+          </p>
 
         </section>
 
@@ -926,7 +941,7 @@
       <span class="automation-icon">◷</span>
       <div>
         <h3>Jadwal harian</h3>
-        <p>Jadwalkan waktu nyala dan mati</p>
+        <p>Atur jam ON/OFF dan hari berlakunya jadwal</p>
       </div>
     </div>
 
@@ -952,6 +967,11 @@
       </div>
 
     </div>
+
+    <p class="info-note">
+      Pilih minimal satu hari. Jadwal yang sama akan berulang pada hari terpilih.
+      Pastikan waktu perangkat dan layanan otomasi mengikuti zona waktu yang benar.
+    </p>
 
     <label>Hari aktif</label>
 
@@ -989,6 +1009,7 @@
       <span class="automation-icon">▤</span>
       <div>
         <h3>Jadwal tersimpan</h3>
+        <p>Daftar aturan yang sudah tersimpan pada layanan NOVIA HOME.</p>
         
       </div>
     </div>
@@ -1023,8 +1044,8 @@
      APPLICATION JAVASCRIPT
 ========================================== -->
 
-<script src="./js/app.js?v=20261117-stable-uiux-r1"></script>
-  <script src="./js/automation.js?v=20261115a1"></script>
+<script src="./js/app.js?v=20261121-info-r1"></script>
+  <script src="./js/automation.js?v=20261121-info-r1"></script>
 
 
 <!-- =========================================
@@ -1054,7 +1075,7 @@ if ("serviceWorker" in navigator) {
 
 </script>
 
-<script src="./js/connection-mode.js?v=20261120-ap-router-r1"></script>
+<script src="./js/connection-mode.js?v=20261121-info-r1"></script>
 </body>
 </html>
 
