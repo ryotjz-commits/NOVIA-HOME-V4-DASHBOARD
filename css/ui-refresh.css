@@ -1,0 +1,120 @@
+
+/* =========================================================
+   NOVIA HOME — SOFT HOME UI REFRESH
+   Visual layer only: keeps existing IDs, API and interactions.
+========================================================= */
+:root {
+  color-scheme: light;
+  --bg:#f5f6f8; --surface:#fff; --surface-light:#f1f3f6;
+  --surface-raised:#fff; --surface-soft:#f7f8fa;
+  --border:rgba(25,35,50,.08); --border-strong:rgba(25,35,50,.16);
+  --line:rgba(25,35,50,.08); --text:#171b22; --muted:#777e88;
+  --accent:#36b98d; --accent-strong:#29ae83; --accent-dark:#21966f;
+  --accent-secondary:#8e78d6; --warning:#d49e37; --danger:#d75c68;
+  --success:#32b889; --shadow:0 9px 26px rgba(27,39,56,.075);
+}
+html, body {background:#f5f6f8!important;color:var(--text)}
+body {font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.025em}
+html:not([data-theme="dark"]) body {background:linear-gradient(180deg,#fafbfc,#f1f3f6)!important}
+html[data-theme="dark"] {color-scheme:dark}
+html[data-theme="dark"] body {background:var(--bg)!important}
+.app-shell {width:min(100% - 30px,760px);padding-bottom:12px}
+.topbar {min-height:62px;border:0}
+.brand-mark {border:0;border-radius:13px;color:white;background:#35b98e;box-shadow:0 5px 12px #35b98e30}
+.brand strong {font-size:12px;letter-spacing:.06em}
+.demo-pill {font-size:9px;border:0;background:#fff;box-shadow:0 3px 12px #1b27380c}
+.theme-toggle {border:1px solid var(--border)!important;border-radius:20px!important;background:var(--surface)!important;color:var(--muted)!important}
+.welcome {
+  position:relative;display:flex;align-items:flex-end;min-height:245px;
+  margin:12px 0 26px;padding:25px 23px!important;overflow:hidden;
+  border:0;border-radius:23px;color:#fff;
+  background:
+   linear-gradient(90deg,rgba(12,25,31,.78),rgba(12,25,31,.12)),
+   radial-gradient(ellipse at 78% 20%,#dce9f4 0 14%,transparent 15%),
+   linear-gradient(145deg,#8fb3c3 0%,#d8e3e5 45%,#8caa91 46%,#4b705b 100%);
+  box-shadow:0 15px 32px rgba(25,40,50,.15)
+}
+.welcome:before {
+ content:"";position:absolute;right:8%;bottom:0;width:54%;height:78%;
+ background:linear-gradient(145deg,#fff 0 48%,#d8dfe0 49% 52%,#eef1ef 53%);
+ clip-path:polygon(0 35%,48% 0,100% 28%,100% 100%,0 100%);
+ filter:drop-shadow(0 8px 12px #14242a35);opacity:.92
+}
+.welcome:after {
+ content:"";position:absolute;right:19%;bottom:0;width:18%;height:43%;
+ background:linear-gradient(90deg,#344c50,#9eb1ad 45%,#40585a);
+ border:5px solid #f4f5f2;border-bottom:0;opacity:.8
+}
+.welcome > div {position:relative;z-index:1}
+.welcome .eyebrow {color:#d9f7ec}
+.welcome h1 {color:#fff;font-size:clamp(31px,8vw,42px);text-shadow:0 2px 12px #172a2a35}
+.welcome h1 span {color:#fff}
+.hero-chip {position:absolute;right:16px;top:16px;z-index:2;border:0;background:#ffffffd9;backdrop-filter:blur(8px)}
+.chip-icon {color:#2cae83}
+.connection-mode {padding:15px;border:1px solid var(--border);border-radius:19px;background:var(--surface);box-shadow:var(--shadow)}
+.connection-mode-heading h2 {font-size:18px}
+.connection-mode-heading > p:last-child,.connection-mode-note {font-size:11px;line-height:1.55}
+.connection-mode-card {border:1px solid var(--border)!important;border-radius:15px!important;background:#fafbfc!important;box-shadow:none!important}
+.connection-mode-icon {color:var(--accent)!important}
+.main-tabs {bottom:calc(8px + env(safe-area-inset-bottom,0px));width:min(560px,calc(100% - 22px));padding:8px 7px;border:1px solid #e9ebef;border-radius:20px;background:#ffffffed;box-shadow:0 8px 30px #18233418}
+.main-tab {min-height:55px;font-size:10px;color:#777e88}
+.main-tab span {font-size:20px}
+.main-tab.is-active {color:#28a77e;background:#e9f8f2;border-color:transparent}
+.section-block {margin:25px 0 28px}
+.section-heading h2 {font-size:22px!important;letter-spacing:-.04em}
+.eyebrow {color:#2aaa80}
+.count-label {font-size:9px}
+.device-grid {gap:13px}
+.device-card {
+ position:relative;min-height:185px;padding:16px!important;border:1px solid #edf0f3;
+ border-radius:21px!important;background:#fff!important;box-shadow:0 8px 24px rgba(24,37,54,.065)!important
+}
+.device-card.is-on {border-color:#e5eee9;background:#fff!important}
+.device-card-head {margin-bottom:18px;align-items:flex-start}
+.device-icon {width:64px;height:64px;border-radius:17px;background:#fff0c8;color:#c89d3b;font-size:30px}
+.device-card:nth-child(2) .device-icon {background:#dce9ff;color:#527ab8}
+.device-card:nth-child(3) .device-icon {background:#e8ddff;color:#8066bf}
+.device-card:nth-child(4) .device-icon {background:#d8f3f1;color:#279c9a}
+.device-card.is-on .device-icon {background:inherit}
+.state-badge {font-size:8px;background:#f2f4f6;border:0}
+.device-card h3 {font-size:16px;margin-top:auto;margin-bottom:4px;color:#171b22}
+.device-card > p {font-size:8px;opacity:.65}
+.toggle-button {
+ position:absolute;right:15px;top:15px;width:49px;min-height:28px;height:28px;
+ display:block!important;margin:0!important;padding:0!important;border:0!important;border-radius:30px!important;
+ background:#c9cdd2!important;box-shadow:none!important
+}
+.toggle-knob {position:absolute;left:3px;top:3px;width:22px;height:22px;background:#fff!important;border-radius:50%;transition:transform .2s}
+.toggle-knob:after {display:none}
+.toggle-label {position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.device-card.is-on .toggle-button {background:#3cbd91!important;box-shadow:none!important}
+.device-card.is-on .toggle-knob {transform:translateX(21px)}
+.device-card.is-on .state-badge {color:#279d77;background:#e8f8f1}
+.demo-note,.info-note {font-size:11px;line-height:1.6}
+.summary-card,.reliability-panel,.reliability-history,.system-panel,.automation-card {
+ border:1px solid #edf0f3;border-radius:18px;background:#fff;box-shadow:var(--shadow)
+}
+.summary-card {padding:14px}
+.health-item {border:1px solid #edf0f3;background:#fafbfc}
+.health-meta>div {background:#f7f8fa}
+.automation-card {padding:17px}
+.automation-icon {background:#e7f7f0;color:#2da980}
+.automation-button {background:#32b889;box-shadow:0 5px 13px #32b8892b}
+.automation-button.secondary {background:#f5f6f8;color:var(--text);border-color:#e8ebef;box-shadow:none}
+footer {padding-bottom:100px}
+@media(max-width:520px) {
+ .app-shell {width:calc(100% - 28px)}
+ .welcome {min-height:220px;margin-top:9px;padding:20px!important}
+ .welcome h1 {font-size:34px}
+ .hero-chip {transform:scale(.88);transform-origin:top right}
+ .device-card {min-height:174px;padding:14px!important}
+ .device-icon {width:58px;height:58px}
+ .device-card h3 {font-size:15px}
+ .device-card-head {margin-bottom:17px}
+ .section-heading h2 {font-size:21px!important}
+}
+@media(max-width:360px) {
+ .device-card {padding:11px!important;min-height:165px}
+ .device-icon {width:51px;height:51px}
+ .device-card h3 {font-size:13px}
+}
