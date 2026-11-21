@@ -37,7 +37,7 @@
   <script>
     (() => {
       try {
-        const theme = localStorage.getItem("novia-home-theme");
+        const theme = localStorage.getItem("novia-home-theme") || "light";
 
         if (theme === "light" || theme === "dark") {
           document.documentElement.setAttribute("data-theme", theme);
@@ -76,6 +76,12 @@
   <link
     rel="stylesheet"
     href="./css/connection-mode.css?v=20261122-ui-r3"
+  >
+
+  <!-- Soft Home UI: visual layer, keeps existing controls and IDs -->
+  <link
+    rel="stylesheet"
+    href="./css/ui-refresh.css?v=20261122-ui-r4"
   >
 
 </head>
@@ -162,7 +168,6 @@
         role="tablist"
         aria-label="Navigasi dashboard"
       >
-
         <button
           class="main-tab is-active"
           id="tabControl"
@@ -172,20 +177,8 @@
           aria-controls="panelControl"
           data-tab="panelControl"
         >
-          <span aria-hidden="true">⌁</span>
-          Quick Kontrol
-        </button>
-         <button
-          class="main-tab"
-          id="tabAutomation"
-          type="button"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panelAutomation"
-          data-tab="panelAutomation"
-        >
-          <span aria-hidden="true">◷</span>
-          Otomasi
+          <span aria-hidden="true">⌂</span>
+          Beranda
         </button>
         <button
           class="main-tab"
@@ -199,7 +192,18 @@
           <span aria-hidden="true">⌘</span>
           Perangkat
         </button>
-
+        <button
+          class="main-tab"
+          id="tabAutomation"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panelAutomation"
+          data-tab="panelAutomation"
+        >
+          <span aria-hidden="true">▦</span>
+          Jadwal
+        </button>
         <button
           class="main-tab"
           id="tabMonitor"
@@ -209,8 +213,8 @@
           aria-controls="panelMonitor"
           data-tab="panelMonitor"
         >
-          <span aria-hidden="true">◉</span>
-          Monitoring
+          <span aria-hidden="true">♙</span>
+          Sistem
         </button>
       </nav>
 
