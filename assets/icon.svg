@@ -1,1 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><rect width="512" height="512" rx="128" fill="#101820"/><rect x="56" y="56" width="400" height="400" rx="96" fill="#192832"/><rect x="56" y="56" width="400" height="400" rx="96" fill="none" stroke="#42D6A4" stroke-width="12"/><g fill="none" stroke="#42D6A4" stroke-width="10" stroke-linecap="round"><path d="M 226 168 a 70 70 0 0 1 60 0"/><path d="M 206 200 a 105 105 0 0 1 100 0"/><path d="M 186 232 a 140 140 0 0 1 140 0"/></g><circle cx="256" cy="142" r="16" fill="#42D6A4"/><text x="256" y="360" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="110" font-weight="900" fill="#42D6A4" letter-spacing="6">ESP</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38BDF8"/>
+      <stop offset="0.5" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#BFDBFE"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- Soft glow -->
+  <circle cx="256" cy="250" r="175" fill="#FFFFFF" opacity="0.10"/>
+  <circle cx="256" cy="250" r="140" fill="#FFFFFF" opacity="0.06"/>
+
+  <!-- Chimney -->
+  <rect x="330" y="118" width="36" height="72" rx="10" fill="#FFFFFF" opacity="0.92"/>
+
+  <!-- Roof -->
+  <path d="M92 262 L256 132 L420 262 L392 262 L392 288 L120 288 L120 262 Z" fill="url(#roof)"/>
+
+  <!-- House body -->
+  <path d="M136 288 L376 288 L376 416 A20 20 0 0 1 356 436 L156 436 A20 20 0 0 1 136 416 Z" fill="#FFFFFF"/>
+
+  <!-- Door / N monogram -->
+  <rect x="216" y="318" width="80" height="118" rx="14" fill="#1D4ED8"/>
+  <path d="M236 398 L236 338 L276 398 L276 338" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Windows -->
+  <rect x="162" y="318" width="36" height="36" rx="10" fill="#93C5FD"/>
+  <rect x="314" y="318" width="36" height="36" rx="10" fill="#93C5FD"/>
+
+  <!-- Door knob dot -->
+  <circle cx="282" cy="382" r="5" fill="#BFDBFE"/>
+
+  <!-- Ground / smart dot -->
+  <rect x="178" y="452" width="156" height="10" rx="5" fill="#FFFFFF" opacity="0.35"/>
+</svg>
