@@ -1365,3 +1365,145 @@ input:focus-visible,
   }
 }
 
+
+/* =========================================================
+   NOVIA HOME UI R2 — REFERENCE-LED MOBILE NAV & CARDS
+   Four dedicated destinations: Control, Devices, Monitoring,
+   Automation. Keep theme tokens and functional selectors intact.
+========================================================= */
+.main-tabs {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: min(620px, calc(100% - 20px));
+  gap: 4px;
+  padding: 6px;
+  border-radius: 22px;
+}
+.main-tab {
+  min-height: 62px;
+  gap: 5px;
+  padding: 7px 2px;
+  border-radius: 15px;
+  font-size: clamp(8px, 2.35vw, 10px);
+  white-space: nowrap;
+}
+.main-tab span { font-size: 19px; }
+.main-tab.is-active {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 17%, var(--surface));
+  border-color: color-mix(in srgb, var(--success) 22%, var(--border));
+}
+.tab-panel { padding-top: 2px; }
+.tab-panel > .connection-mode { margin-top: 8px; }
+
+/* Reference-style device cards: generous space, soft outlines. */
+.device-grid { gap: 12px; }
+.device-card {
+  position: relative;
+  min-height: 190px;
+  padding: 16px;
+  border-radius: 25px;
+  border-color: var(--border);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  box-shadow: 0 8px 24px rgba(0,0,0,.055);
+}
+.device-card-head { align-items: flex-start; margin-bottom: 24px; }
+.device-icon {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  font-size: 31px;
+}
+.device-card h3 { font-size: clamp(14px, 3.7vw, 17px); letter-spacing: -.025em; }
+.device-card > p { margin: 3px 0 0; font-size: 9px; letter-spacing: .06em; }
+.device-card .toggle-button {
+  min-width: 70px;
+  min-height: 39px;
+  border-radius: 30px;
+}
+.section-block { margin-top: 22px; }
+.section-heading { margin-bottom: 17px; }
+.section-heading h2 { font-size: clamp(22px, 6vw, 29px); letter-spacing: -.045em; }
+.eyebrow { letter-spacing: .16em; }
+
+/* Dedicated device-access page. */
+.connection-mode {
+  padding: 19px;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+.connection-mode-heading h2 { font-size: clamp(20px, 5.4vw, 25px); letter-spacing: -.035em; }
+.connection-mode-heading p:not(.eyebrow) { font-size: 13px; line-height: 1.65; }
+.connection-mode-actions { gap: 12px; margin-top: 18px; }
+.connection-mode-card {
+  min-height: 250px;
+  justify-content: flex-start;
+  gap: 11px;
+  padding: 18px 12px;
+  border-radius: 22px;
+  background: var(--surface-light);
+}
+.connection-mode-icon { font-size: 31px; }
+.connection-mode-card strong { font-size: 14px; }
+.connection-mode-card span:not(.connection-mode-icon) { font-size: 12px; line-height: 1.5; }
+.connection-mode-card small { margin-top: 4px; font-size: 12px; line-height: 1.4; }
+.connection-mode-card label { align-self: stretch; text-align: left; }
+.connection-mode-card input { min-height: 44px; border-radius: 13px; }
+.connection-mode-card .connection-mode-open,
+.connection-mode-card button { min-height: 45px; border-radius: 12px; }
+
+/* Light palette mirrors the clean white / pale blue reference. */
+html[data-theme="light"] .main-tabs {
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 12px 32px rgba(36,57,91,.12);
+}
+html[data-theme="light"] .device-card,
+html[data-theme="light"] .automation-card,
+html[data-theme="light"] .connection-mode {
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(36,57,91,.075);
+}
+html[data-theme="light"] .connection-mode-card {
+  background: #edf3fb;
+}
+html[data-theme="light"] .automation-card select,
+html[data-theme="light"] .automation-card input[type="time"] {
+  background: #eaf1fb;
+  border-color: rgba(63,91,133,.2);
+}
+html:not([data-theme="light"]) .device-card,
+html:not([data-theme="light"]) .connection-mode-card {
+  background: #141f2d;
+}
+html:not([data-theme="light"]) .main-tabs {
+  background: rgba(20,31,45,.94);
+}
+
+@media (max-width: 520px) {
+  body { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+  .main-tabs {
+    width: calc(100% - 36px);
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    border-radius: 25px;
+  }
+  .main-tab { min-height: 65px; font-size: 9px; }
+  .device-card { min-height: 190px; padding: 14px; }
+  .device-card-head { margin-bottom: 24px; }
+  .device-icon { width: 66px; height: 66px; }
+  .connection-mode { padding: 17px; }
+  .connection-mode-card { min-height: 250px; padding: 15px 10px; }
+}
+@media (max-width: 360px) {
+  .main-tabs { width: calc(100% - 20px); gap: 2px; padding: 5px; }
+  .main-tab { font-size: 8px; }
+  .device-grid { gap: 8px; }
+  .device-card { min-height: 176px; padding: 11px; }
+  .device-icon { width: 58px; height: 58px; border-radius: 17px; }
+  .connection-mode-actions { grid-template-columns: 1fr; }
+  .connection-mode-card { min-height: auto; }
+}
+
+@media (min-width: 600px) {
+  body { padding-bottom: 112px; }
+}
