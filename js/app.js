@@ -647,8 +647,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("offline", () => {
     recordBrowserNetworkState(false);
-    // Jaringan browser putus tidak otomatis membuktikan API server ikut offline.
-    setConnection("offline", null, false);
+    // Offline pada HP/browser tidak membuktikan Cloud API ikut offline.
+    // Pertahankan status API terakhir dan perbarui indikator browser saja.
+    setHealthCard(
+      browserHealth,
+      "browserHealthText",
+      "offline",
+      "Tidak ada jaringan pada browser"
+    );
+    if (note) {
+      note.textContent =
+        "Koneksi jaringan HP/browser terputus. Status Cloud API terakhir dipertahankan sampai pemeriksaan berikutnya berhasil.";
+    }
   });
 
   document.addEventListener("visibilitychange", () => {

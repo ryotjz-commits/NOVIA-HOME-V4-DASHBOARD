@@ -22,9 +22,10 @@
     "Kipas Angin"
   ];
 
+  // Bit 0 sampai bit 6 mengikuti checkbox Senin sampai Minggu.
   const DAY_NAMES = [
-    "Min", "Sen", "Sel", "Rab",
-    "Kam", "Jum", "Sab"
+    "Sen", "Sel", "Rab", "Kam",
+    "Jum", "Sab", "Min"
   ];
 
   const $ = id => document.getElementById(id);
