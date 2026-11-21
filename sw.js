@@ -2,7 +2,7 @@
  * Strategy: network-first with a short timeout, then cached fallback.
  * API requests and cross-origin requests are never cached.
  */
-const CACHE_NAME = "novia-home-v4-ap-router-20261121-r3";
+const CACHE_NAME = "novia-home-v4-ui-refresh-20261122-r1";
 const CACHE_PREFIX = "novia-home-";
 const NETWORK_TIMEOUT_MS = 3500;
 
@@ -14,6 +14,7 @@ const APP_FILES = [
   "./css/automation.css",
   "./css/refined.css",
   "./css/connection-mode.css",
+  "./css/ui-refresh.css",
   "./js/app.js",
   "./js/connection-mode.js",
   "./js/automation.js"
