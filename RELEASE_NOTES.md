@@ -18,3 +18,10 @@
 - Sintaks JavaScript diperiksa dengan `node --check`.
 - Pemeriksaan struktur HTML dan ID duplikat dilakukan.
 - Komunikasi fisik dengan ESP32/Blynk belum diuji pada perangkat.
+
+
+## R3 — Bottom navigation fit fix
+- Fixed the four-item bottom navigation to remain in a single row on narrow mobile screens.
+- Uses four equal grid columns with minmax(0, 1fr), min-width: 0, and compact responsive labels.
+- Prevents long labels such as “Monitoring” and “Perangkat” from forcing tab overlap or stacking.
+- Bumped CSS asset URLs and service-worker cache version to ensure clients receive the corrected stylesheet.
