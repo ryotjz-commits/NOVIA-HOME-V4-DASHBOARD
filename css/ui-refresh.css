@@ -588,3 +588,34 @@ html[data-theme="dark"] .welcome {
     url("../assets/hero-house.svg") center 53% / cover no-repeat !important;
   background-color: #172b38 !important;
 }
+
+
+/* NOVIA HOME R7 — theme-aware hero artwork + device location */
+.welcome {
+  background: linear-gradient(90deg, rgba(10,24,31,.68) 0%, rgba(10,24,31,.24) 62%, rgba(10,24,31,.06) 100%),
+    url("../assets/hero-house.svg") center 53% / cover no-repeat !important;
+}
+html[data-theme="light"] .welcome {
+  background: linear-gradient(90deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 70%),
+    url("../assets/hero-house-light.svg") center 53% / cover no-repeat !important;
+}
+html[data-theme="light"] .welcome .eyebrow,
+html[data-theme="light"] .welcome h1,
+html[data-theme="light"] .welcome-copy {
+  color: #17313d !important;
+  text-shadow: 0 1px 8px rgba(255,255,255,.42);
+}
+html[data-theme="light"] .hero-chip {
+  color: #203744 !important; background: rgba(255,255,255,.86) !important;
+  border-color: rgba(48,75,88,.22) !important;
+}
+.brand-location {
+  display:flex !important; align-items:center; gap:4px;
+  max-width: min(42vw, 190px); margin-top:3px !important;
+  color:var(--muted) !important; font-size:7px !important;
+  font-weight:650; letter-spacing:.02em !important;
+  line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.brand-location .location-pin { color:var(--accent); font-size:10px; flex:0 0 auto; }
+.brand-location.is-error { color:var(--muted) !important; }
+@media (max-width:380px) { .brand-location { max-width:34vw; font-size:6.5px !important; } }
