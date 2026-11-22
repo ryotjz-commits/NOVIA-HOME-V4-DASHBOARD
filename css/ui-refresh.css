@@ -519,3 +519,44 @@ html[data-theme="dark"] .device-card .toggle-knob {
     transition: none !important;
   }
 }
+
+/* =========================================================
+   R7 — DEVICE STATUS LABEL POSITION ONLY
+   Move ON/OFF status below the switch to the card's bottom-right.
+   Switch appearance and device-control logic remain unchanged.
+========================================================= */
+.device-card .state-badge {
+  position: absolute !important;
+  top: auto !important;
+  right: 15px !important;
+  bottom: 15px !important;
+  z-index: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 34px !important;
+  min-height: 20px !important;
+  margin: 0 !important;
+  padding: 3px 8px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #f0f2f4 !important;
+  color: #69727d !important;
+  font-size: 10px !important;
+  font-weight: 750 !important;
+  line-height: 1 !important;
+  letter-spacing: .035em !important;
+  white-space: nowrap !important;
+}
+.device-card.is-on .state-badge {
+  background: #e6f7ef !important;
+  color: #269b73 !important;
+}
+html[data-theme="dark"] .device-card .state-badge {
+  background: #253244 !important;
+  color: #c0cad7 !important;
+}
+html[data-theme="dark"] .device-card.is-on .state-badge {
+  background: #1d4039 !important;
+  color: #7ce0b9 !important;
+}
