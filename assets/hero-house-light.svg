@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <title>Modern smart home at dusk</title>
+  <desc>Modern minimalist home with warm illuminated windows, landscaped garden and a calm blue evening sky.</desc>
+  <defs>
+    <linearGradient id="sky" x1="800" y1="0" x2="800" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#B9D9EA"/><stop offset=".52" stop-color="#DDEBF2"/><stop offset="1" stop-color="#F2DDBB"/></linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#C7E6EB" stop-opacity=".82"/><stop offset="1" stop-color="#7196A5" stop-opacity=".95"/></linearGradient>
+    <linearGradient id="wall" x1="580" y1="280" x2="1080" y2="720" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF9EE"/><stop offset="1" stop-color="#D8D1C4"/></linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9C7555"/><stop offset="1" stop-color="#4D4036"/></linearGradient>
+    <linearGradient id="lawn" x1="800" y1="600" x2="800" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#779B78"/><stop offset="1" stop-color="#456B58"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#F5D7A0" stop-opacity=".52"/><stop offset="1" stop-color="#F5D7A0" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="350" y="210" width="900" height="650" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1600v900H0z"/>
+  <circle cx="1260" cy="170" r="190" fill="url(#glow)"/>
+  <circle cx="1260" cy="170" r="54" fill="#FFF1C9" fill-opacity=".7"/>
+  <path d="M0 515 180 420l150 74 190-150 190 145 160-105 190 130 170-150 170 120 200-95v310H0z" fill="#7897A2" fill-opacity=".55"/>
+  <path d="M0 600 230 500l190 90 190-120 210 120 180-90 210 105 210-125 180 90v330H0z" fill="#66877E" fill-opacity=".72"/>
+  <ellipse cx="830" cy="758" rx="530" ry="75" fill="#455D59" fill-opacity=".55" filter="url(#shadow)"/>
+  <path d="M0 690c220-42 370-18 560 24 220 48 430 35 620-5 170-36 290-31 420-2v193H0z" fill="url(#lawn)"/>
+  <!-- house body -->
+  <path d="M440 420 785 230l395 190v300H440z" fill="url(#wall)"/>
+  <path d="M390 430 785 205l435 225-26 40-409-211-370 211z" fill="#536D78"/>
+  <path d="m785 205 435 225-26 40-409-211z" fill="#405966"/>
+  <path d="M785 265 1135 445v275H785z" fill="#F2EBDD"/>
+  <path d="M785 265 1135 445l-26 17-324-167z" fill="#F4EDE1" fill-opacity=".5"/>
+  <!-- left glazing -->
+  <path d="M500 465h230v255H500z" fill="#587783"/>
+  <path d="M514 479h202v227H514z" fill="url(#glass)"/>
+  <path d="M614 479v227M514 590h202" stroke="#D7D6C9" stroke-opacity=".75" stroke-width="7"/>
+  <path d="M524 493h82v87h-82z" fill="#F9DDA4" fill-opacity=".58"/>
+  <path d="M624 493h82v87h-82z" fill="#F9DDA4" fill-opacity=".32"/>
+  <path d="M524 602h82v92h-82z" fill="#F9DDA4" fill-opacity=".28"/>
+  <!-- right wing -->
+  <path d="M820 475h260v245H820z" fill="#587783"/>
+  <path d="M837 492h226v211H837z" fill="url(#glass)"/>
+  <path d="M950 492v211M837 596h226" stroke="#D9D4C7" stroke-opacity=".7" stroke-width="7"/>
+  <path d="M849 505h88v78h-88zM963 505h88v78h-88z" fill="#F9DDA4" fill-opacity=".42"/>
+  <path d="M849 609h88v82h-88z" fill="#F9DDA4" fill-opacity=".24"/>
+  <!-- entrance -->
+  <path d="M738 540h90v180h-90z" fill="url(#wood)"/>
+  <path d="M751 553h64v154h-64z" fill="#604B3C"/>
+  <circle cx="801" cy="635" r="5" fill="#E7C58C"/>
+  <path d="M720 532h126v12H720z" fill="#F5ECDD"/>
+  <!-- roof details -->
+  <path d="M420 430h730v14H420z" fill="#172E39" fill-opacity=".9"/>
+  <path d="M785 230v490" stroke="#9F998E" stroke-opacity=".3" stroke-width="3"/>
+  <!-- terrace and steps -->
+  <path d="M445 720h705l68 38H390z" fill="#C4B9A7"/>
+  <path d="M390 758h828l48 28H350z" fill="#938C7E"/>
+  <path d="M350 786h916l45 24H310z" fill="#6E746D"/>
+  <!-- garden beds -->
+  <path d="M120 820c120-70 220-55 330 0l-30 80H90zM1160 815c110-65 230-50 350 10l30 75h-410z" fill="#243D34"/>
+  <g fill="#789078"><circle cx="170" cy="770" r="35"/><circle cx="220" cy="790" r="42"/><circle cx="275" cy="770" r="30"/><circle cx="1290" cy="770" r="38"/><circle cx="1350" cy="790" r="48"/><circle cx="1420" cy="765" r="34"/></g>
+  <g fill="#A9B58E"><circle cx="185" cy="760" r="13"/><circle cx="250" cy="778" r="12"/><circle cx="1320" cy="758" r="14"/><circle cx="1390" cy="780" r="12"/></g>
+  <path d="M0 865c260-35 430-8 620 10 250 24 530-28 980-5v30H0z" fill="#52745F" fill-opacity=".65"/>
+  <g fill="#E9C58B" fill-opacity=".8"><circle cx="375" cy="760" r="5"/><circle cx="1220" cy="770" r="5"/><circle cx="300" cy="835" r="4"/><circle cx="1450" cy="830" r="4"/></g>
+  <path d="M0 0h1600v900H0z" fill="#FFFFFF" fill-opacity=".12"/>
+</svg>
