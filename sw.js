@@ -1,11 +1,12 @@
 /* NOVIA HOME PWA — stable app shell cache */
-const CACHE_NAME = "novia-home-pwa-r2-20261122";
+const CACHE_NAME = "novia-home-pwa-r3-20261122";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
   "./assets/icon.svg",
   "./assets/hero-house.svg",
+  "./assets/hero-house-light.svg",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./css/style.css",
