@@ -1,5 +1,5 @@
 /* NOVIA HOME PWA — stable app shell cache */
-const CACHE_NAME = "novia-home-pwa-r3-20261122";
+const CACHE_NAME = "novia-home-pwa-r4-20261122";
 const APP_SHELL = [
   "./",
   "./index.html",
