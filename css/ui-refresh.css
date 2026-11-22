@@ -560,3 +560,31 @@ html[data-theme="dark"] .device-card.is-on .state-badge {
   background: #1d4039 !important;
   color: #7ce0b9 !important;
 }
+
+/* =========================================================
+   NOVIA HOME — HERO IMAGE PATH / CASCADE FIX R6
+   Keep the hero artwork visible in light and dark themes.
+   The URL is relative to this CSS file: /css -> /assets.
+========================================================= */
+.welcome {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 23, 29, .76) 0%,
+      rgba(12, 23, 29, .30) 58%,
+      rgba(12, 23, 29, .10) 100%
+    ),
+    url("../assets/hero-house.svg") center 53% / cover no-repeat !important;
+  background-color: #263d43 !important;
+}
+html[data-theme="dark"] .welcome {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 13, 22, .78) 0%,
+      rgba(5, 13, 22, .38) 62%,
+      rgba(5, 13, 22, .16) 100%
+    ),
+    url("../assets/hero-house.svg") center 53% / cover no-repeat !important;
+  background-color: #172b38 !important;
+}
