@@ -1,0 +1,4613 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#0d1319">
+
+  <meta
+    name="description"
+    content="NOVIA HOME Smart Home Control untuk mengontrol dan memantau perangkat rumah berbasis ESP32 dan Blynk IoT."
+  >
+
+  <meta name="application-name" content="NOVIA HOME">
+
+  <!-- PWA / Mobile App -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+  <meta
+    name="apple-mobile-web-app-title"
+    content="NOVIA HOME"
+  >
+
+  <!-- PWA manifest + install icons -->
+  
+  
+  
+
+  <title>NOVIA HOME | Smart Control</title>
+
+  <!-- Theme: Apply before rendering -->
+  <script>
+    (() => {
+      try {
+        const theme = localStorage.getItem("novia-home-theme") || "light";
+
+        if (theme === "light" || theme === "dark") {
+          document.documentElement.setAttribute("data-theme", theme);
+
+          const themeColor = document.querySelector(
+            'meta[name="theme-color"]'
+          );
+
+          if (themeColor) {
+            themeColor.setAttribute(
+              "content",
+              theme === "light" ? "#f3f6f7" : "#0d1319"
+            );
+          }
+        }
+      } catch (_) {}
+    })();
+  </script>
+
+  <!-- Stylesheets -->
+  <style>
+
+/* =========================================================
+   NOVIA HOME V4/V5 — CORE STYLES
+   PART 1/3
+   Theme, reset, app container, header, welcome / hero
+========================================================= */
+
+
+/* =========================================================
+   01. COLOR TOKENS
+   Sapphire = Primary
+   Emerald  = Success
+   Ruby     = Danger
+   Amethyst = Secondary Accent
+   Gold     = Caution
+========================================================= */
+
+:root {
+  color-scheme: dark;
+
+  --bg: #091321;
+  --surface: #111f33;
+  --surface-light: #1a2b43;
+  --surface-raised: #1b2d48;
+  --surface-soft: #15263d;
+
+  --border: rgba(151, 181, 222, 0.16);
+  --border-strong: rgba(151, 181, 222, 0.29);
+  --line: rgba(151, 181, 222, 0.16);
+
+  --text: #edf3ff;
+  --muted: #9eafc9;
+
+  --accent: #79a9f2;
+  --accent-strong: #9bc1ff;
+  --accent-dark: #416fb8;
+  --accent-secondary: #ad91e8;
+
+  --warning: #e5bd72;
+  --danger: #e78391;
+  --success: #68c9a0;
+
+  --shadow: 0 14px 34px rgba(2, 8, 20, 0.30);
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+
+  --transition: 180ms ease;
+  --ease: 180ms ease;
+}
+
+
+/* LIGHT THEME */
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f2f5fb;
+  --surface: #ffffff;
+  --surface-light: #edf2fa;
+  --surface-raised: #ffffff;
+  --surface-soft: #eaf0f9;
+
+  --border: rgba(55, 82, 125, 0.14);
+  --border-strong: rgba(55, 82, 125, 0.25);
+  --line: rgba(55, 82, 125, 0.14);
+
+  --text: #1c2b45;
+  --muted: #687995;
+
+  --accent: #3869b2;
+  --accent-strong: #28589f;
+  --accent-dark: #244b88;
+  --accent-secondary: #7958b5;
+
+  --warning: #98702e;
+  --danger: #b64e64;
+  --success: #237c5c;
+
+  --shadow: 0 10px 28px rgba(38, 61, 100, 0.09);
+}
+
+
+/* =========================================================
+   02. RESET & DOCUMENT
+========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+
+  padding-bottom: calc(94px + env(safe-area-inset-bottom, 0px));
+
+  background: var(--bg);
+  color: var(--text);
+
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: -0.012em;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* DARK BACKGROUND */
+
+html:not([data-theme="light"]) body {
+  background:
+    radial-gradient(
+      ellipse at 82% 12%,
+      rgba(72, 112, 184, 0.17),
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 10% 78%,
+      rgba(40, 139, 116, 0.10),
+      transparent 40%
+    ),
+    linear-gradient(
+      155deg,
+      #081321 0%,
+      #101e34 55%,
+      #0a1728 100%
+    );
+
+  background-attachment: fixed;
+}
+
+
+/* LIGHT BACKGROUND */
+
+html[data-theme="light"] body {
+  background:
+    radial-gradient(
+      ellipse at 88% 8%,
+      rgba(56, 105, 178, 0.075),
+      transparent 36%
+    ),
+    linear-gradient(
+      155deg,
+      #f8faff 0%,
+      #edf2fa 58%,
+      #f5f7fc 100%
+    );
+
+  background-attachment: fixed;
+}
+
+
+/* GLOBAL ELEMENTS */
+
+button,
+select,
+input {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   03. APP CONTAINER
+========================================================= */
+
+.app-shell {
+  width: min(calc(100% - 28px), 880px);
+  margin-inline: auto;
+
+  background: transparent;
+  color: var(--text);
+}
+
+
+/* =========================================================
+   04. HEADER
+========================================================= */
+
+.topbar {
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 9px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+
+/* BRAND */
+
+.brand {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  color: var(--text);
+  text-decoration: none;
+}
+
+.brand-mark {
+  flex: 0 0 37px;
+
+  width: 37px;
+  height: 37px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid color-mix(
+    in srgb,
+    var(--accent) 30%,
+    var(--border)
+  );
+
+  border-radius: 12px;
+
+  color: var(--accent);
+
+  background: color-mix(
+    in srgb,
+    var(--accent) 12%,
+    var(--surface)
+  );
+
+  font-weight: 800;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  color: var(--text);
+  font-size: 11px;
+  letter-spacing: 1.1px;
+}
+
+.brand small {
+  margin-top: 3px;
+
+  color: var(--muted);
+  font-size: 8px;
+  letter-spacing: 1.25px;
+}
+
+
+/* CONNECTION STATUS */
+
+.demo-pill {
+  max-width: 44%;
+  min-height: 31px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+  padding: 7px 9px;
+
+  border: 1px solid var(--border);
+  border-radius: 30px;
+
+  background: var(--surface);
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.035em;
+
+  white-space: nowrap;
+}
+
+.pulse {
+  flex: 0 0 7px;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+  background: var(--warning);
+}
+
+.demo-pill.is-online {
+  color: var(--success);
+
+  border-color: color-mix(
+    in srgb,
+    var(--success) 35%,
+    var(--border)
+  );
+}
+
+.demo-pill.is-online .pulse {
+  background: var(--success);
+
+  box-shadow: 0 0 0 4px color-mix(
+    in srgb,
+    var(--success) 13%,
+    transparent
+  );
+}
+
+.demo-pill.is-offline {
+  color: var(--danger);
+
+  border-color: color-mix(
+    in srgb,
+    var(--danger) 35%,
+    var(--border)
+  );
+}
+
+.demo-pill.is-offline .pulse {
+  background: var(--danger);
+
+  box-shadow: 0 0 0 4px color-mix(
+    in srgb,
+    var(--danger) 13%,
+    transparent
+  );
+}
+
+.demo-pill.is-checking {
+  color: var(--warning);
+}
+
+.demo-pill.is-checking .pulse {
+  background: var(--warning);
+}
+
+
+/* THEME TOGGLE */
+
+.theme-toggle {
+  min-height: 35px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+  padding: 7px 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  color: var(--text);
+  background: var(--surface);
+
+  font-size: 9px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    transform var(--transition);
+}
+
+.theme-toggle:active {
+  transform: scale(0.97);
+}
+
+.theme-toggle-icon {
+  color: var(--accent);
+  font-size: 14px;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   05. WELCOME / HERO
+========================================================= */
+
+.welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+  padding: 29px 0 22px;
+}
+
+.welcome > div:first-child {
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0 0 7px;
+
+  color: var(--accent);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+h1 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: clamp(29px, 8vw, 43px);
+  line-height: 1.08;
+  font-weight: 750;
+  letter-spacing: -0.045em;
+}
+
+h1 span {
+  color: var(--muted);
+}
+
+.welcome-copy {
+  margin: 12px 0 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+/* HERO CHIP */
+
+.hero-chip {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+  padding: 9px;
+
+  border: 1px solid var(--border);
+  border-radius: 13px;
+
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.chip-icon {
+  color: var(--accent);
+  font-size: 21px;
+}
+
+.hero-chip b,
+.hero-chip small {
+  display: block;
+}
+
+.hero-chip b {
+  color: var(--text);
+  font-size: 11px;
+}
+
+.hero-chip small {
+  margin-top: 3px;
+
+  color: var(--muted);
+
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+
+/* =========================================================
+   NOVIA HOME V4/V5 — CORE STYLES
+   PART 2/3
+   Summary, sections, device cards and device toggle
+========================================================= */
+
+
+/* =========================================================
+   06. SUMMARY
+========================================================= */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 9px;
+}
+
+.summary-card {
+  min-width: 0;
+  min-height: 88px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+  padding: 11px;
+
+  border: 1px solid var(--border);
+  border-radius: 15px;
+
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.summary-card div {
+  min-width: 0;
+
+  display: grid;
+  gap: 5px;
+}
+
+.summary-icon {
+  flex: 0 0 auto;
+
+  color: var(--accent);
+  font-size: 21px;
+}
+
+.summary-card small {
+  color: var(--muted);
+
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+
+.summary-card strong {
+  color: var(--text);
+
+  font-size: 11px;
+  line-height: 1.3;
+
+  overflow-wrap: anywhere;
+}
+
+.summary-note {
+  color: var(--muted);
+
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   07. SECTIONS
+========================================================= */
+
+.section-block {
+  min-width: 0;
+  margin: 25px 0 26px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 8px;
+  margin-bottom: 13px;
+}
+
+.section-heading .eyebrow {
+  margin-bottom: 6px;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 19px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.count-label {
+  color: var(--muted);
+
+  font-size: 8px;
+  letter-spacing: 0.07em;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   08. DEVICE GRID / CARDS
+========================================================= */
+
+.device-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.device-card {
+  min-width: 0;
+  min-height: 176px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 13px;
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+
+  color: var(--text);
+
+  background: linear-gradient(
+    145deg,
+    var(--surface-raised),
+    var(--surface)
+  );
+
+  box-shadow:
+    var(--shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
+}
+
+.device-card:active {
+  transform: scale(0.985);
+}
+
+
+/* DEVICE ACTIVE STATE */
+
+.device-card.is-on {
+  border-color: color-mix(
+    in srgb,
+    var(--accent) 58%,
+    var(--border)
+  );
+
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--accent) 15%, var(--surface-raised)),
+    color-mix(in srgb, var(--accent) 6%, var(--surface))
+  );
+
+  box-shadow:
+    0 0 0 1px color-mix(
+      in srgb,
+      var(--accent) 8%,
+      transparent
+    ),
+    var(--shadow);
+}
+
+
+/* DEVICE CARD HEADER */
+
+.device-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+}
+
+.device-icon {
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  color: var(--muted);
+  background: var(--surface-soft);
+
+  font-size: 18px;
+}
+
+.device-card.is-on .device-icon {
+  color: var(--accent);
+
+  background: color-mix(
+    in srgb,
+    var(--accent) 14%,
+    var(--surface)
+  );
+}
+
+
+/* STATE BADGE */
+
+.state-badge {
+  padding: 4px 7px;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  color: var(--muted);
+  background: var(--surface-soft);
+
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+}
+
+.device-card.is-on .state-badge {
+  color: var(--accent);
+
+  border-color: color-mix(
+    in srgb,
+    var(--accent) 32%,
+    var(--border)
+  );
+}
+
+
+/* DEVICE TEXT */
+
+.device-card h3 {
+  margin: 0 0 5px;
+
+  color: var(--text);
+
+  font-size: 13px;
+  line-height: 1.25;
+  font-weight: 700;
+
+  overflow-wrap: anywhere;
+}
+
+.device-card > p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 8px;
+  line-height: 1.4;
+  letter-spacing: 0.07em;
+}
+
+
+/* =========================================================
+   09. DEVICE TOGGLE
+========================================================= */
+
+.toggle-button {
+  width: 100%;
+  min-height: 44px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+  margin-top: auto;
+  padding: 9px 10px;
+
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+
+  color: var(--text);
+  background: var(--surface-soft);
+
+  cursor: pointer;
+  touch-action: manipulation;
+
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    transform var(--transition);
+}
+
+.toggle-button:active {
+  transform: scale(0.98);
+}
+
+.toggle-button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+  filter: saturate(0.72);
+}
+
+.toggle-button:disabled .toggle-label {
+  letter-spacing: 0.04em;
+}
+
+
+/* TOGGLE KNOB */
+
+.toggle-knob {
+  position: relative;
+
+  flex: 0 0 34px;
+
+  width: 34px;
+  height: 19px;
+
+  border-radius: 20px;
+
+  background: color-mix(
+    in srgb,
+    var(--muted) 55%,
+    var(--surface-soft)
+  );
+
+  transition: background var(--transition);
+}
+
+.toggle-knob::after {
+  content: "";
+
+  position: absolute;
+  top: 3px;
+  left: 3px;
+
+  width: 13px;
+  height: 13px;
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  transition: transform var(--transition);
+}
+
+.toggle-label {
+  color: inherit;
+
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+
+/* ACTIVE TOGGLE */
+
+.device-card.is-on .toggle-button {
+  color: #fff;
+  border-color: transparent;
+
+  background: linear-gradient(
+    135deg,
+    var(--accent-strong),
+    var(--accent-dark)
+  );
+
+  box-shadow: 0 5px 14px color-mix(
+    in srgb,
+    var(--accent-dark) 22%,
+    transparent
+  );
+}
+
+.device-card.is-on .toggle-knob {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.device-card.is-on .toggle-knob::after {
+  transform: translateX(15px);
+  background: #fff;
+}
+
+
+/* DEMO NOTE */
+
+.demo-note {
+  margin: 12px 2px 0;
+
+  color: var(--muted);
+
+  font-size: 10px;
+  line-height: 1.55;
+   }
+
+/* =========================================================
+   NOVIA HOME V4/V5 — CORE STYLES
+   PART 3/3
+   System panel, footer, navigation, accessibility,
+   responsive layout and reduced motion
+========================================================= */
+
+
+/* =========================================================
+   10. SYSTEM PANEL
+========================================================= */
+
+.system-panel {
+  margin-top: 25px;
+  padding: 15px;
+
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.system-panel h2 {
+  margin: 0 0 12px;
+
+  color: var(--text);
+  font-size: 18px;
+}
+
+.system-list {
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: var(--surface-soft);
+}
+
+.system-list div {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 8px;
+  padding: 11px 12px;
+
+  border-bottom: 1px solid var(--border);
+
+  font-size: 10px;
+}
+
+.system-list div:last-child {
+  border-bottom: 0;
+}
+
+.system-list span {
+  color: var(--muted);
+}
+
+.system-list strong {
+  color: var(--text);
+  text-align: right;
+
+  overflow-wrap: anywhere;
+}
+
+.pending {
+  color: var(--warning) !important;
+}
+
+
+/* =========================================================
+   11. FOOTER
+========================================================= */
+
+footer {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 12px;
+  margin-top: 16px;
+  padding: 17px 2px 24px;
+
+  border-top: 1px solid var(--border);
+
+  color: var(--muted);
+
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
+
+/* =========================================================
+   12. BOTTOM NAVIGATION
+========================================================= */
+
+.main-tabs {
+  position: fixed;
+
+  left: 50%;
+  bottom: calc(7px + env(safe-area-inset-bottom, 0px));
+
+  z-index: 1000;
+
+  width: min(560px, calc(100% - 20px));
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 5px;
+  margin: 0;
+  padding: 6px;
+
+  transform: translateX(-50%);
+
+  border: 1px solid var(--border);
+  border-radius: 17px;
+
+  background: color-mix(
+    in srgb,
+    var(--surface) 94%,
+    transparent
+  );
+
+  box-shadow: 0 9px 28px rgba(0, 0, 0, 0.22);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.main-tab {
+  min-width: 0;
+  min-height: 51px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+  padding: 6px 3px;
+
+  border: 1px solid transparent;
+  border-radius: 11px;
+
+  color: var(--muted);
+  background: transparent;
+
+  font-size: 9px;
+  line-height: 1.2;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition),
+    background var(--transition),
+    border-color var(--transition);
+}
+
+.main-tab span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.main-tab.is-active {
+  color: var(--accent-strong);
+
+  background: color-mix(
+    in srgb,
+    var(--accent) 14%,
+    var(--surface)
+  );
+
+  border-color: color-mix(
+    in srgb,
+    var(--accent) 30%,
+    transparent
+  );
+}
+
+
+/* TAB PANEL */
+
+.tab-panel {
+  min-width: 0;
+  animation: tabFade 0.18s ease;
+}
+
+.tab-panel[hidden] {
+  display: none !important;
+}
+
+@keyframes tabFade {
+  from {
+    opacity: 0.65;
+    transform: translateY(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   13. ACCESSIBILITY & FEEDBACK
+========================================================= */
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+.toggle-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  color: #fff;
+  background: var(--accent-dark);
+}
+
+
+/* =========================================================
+   14. RESPONSIVE — TABLET & UP
+========================================================= */
+
+@media (min-width: 600px) {
+
+  body {
+    padding-bottom: 28px;
+  }
+
+  .app-shell {
+    width: min(calc(100% - 48px), 880px);
+  }
+
+  .topbar {
+    min-height: 72px;
+  }
+
+  .welcome {
+    padding: 38px 0 28px;
+  }
+
+  .summary-grid {
+    gap: 14px;
+  }
+
+  .device-grid {
+    gap: 14px;
+  }
+
+  .device-card {
+    min-height: 168px;
+    padding: 16px;
+  }
+
+  .main-tabs {
+    width: min(560px, calc(100% - 32px));
+  }
+}
+
+
+/* =========================================================
+   MOBILE — MAX WIDTH 520PX
+========================================================= */
+
+@media (max-width: 520px) {
+
+  .app-shell {
+    width: calc(100% - 28px);
+  }
+
+  .topbar {
+    min-height: 61px;
+    gap: 7px;
+  }
+
+  .demo-pill {
+    max-width: 42%;
+  }
+
+  .welcome {
+    align-items: flex-start;
+
+    padding: 27px 0 20px;
+    gap: 11px;
+  }
+
+  .welcome-copy {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .section-block {
+    margin: 21px 0 24px;
+  }
+
+  .device-grid {
+    gap: 9px;
+  }
+
+  .device-card {
+    min-height: 168px;
+    padding: 12px;
+  }
+
+  .device-card-head {
+    margin-bottom: 22px;
+  }
+
+  .device-card h3 {
+    font-size: 12px;
+  }
+
+  .summary-card {
+    min-height: 84px;
+
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .theme-toggle {
+    padding: 7px 9px;
+    font-size: 9px;
+  }
+
+  body {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .main-tabs {
+    gap: 4px;
+    padding: 5px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE — MAX WIDTH 380PX
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .app-shell {
+    width: calc(100% - 22px);
+  }
+
+  .brand strong {
+    font-size: 10px;
+  }
+
+  .brand small {
+    font-size: 7px;
+  }
+
+  .demo-pill {
+    gap: 5px;
+    max-width: 40%;
+
+    padding: 6px 7px;
+
+    font-size: 7px;
+  }
+
+  .theme-toggle {
+    padding: 6px 7px;
+    font-size: 8px;
+  }
+
+  .hero-chip {
+    padding: 7px;
+  }
+
+  .hero-chip .chip-icon {
+    font-size: 18px;
+  }
+
+  .device-card {
+    min-height: 160px;
+    padding: 10px;
+  }
+
+  .device-card h3 {
+    font-size: 11px;
+  }
+
+  .toggle-button {
+    min-height: 42px;
+
+    gap: 6px;
+    padding: 7px;
+  }
+
+  .toggle-label {
+    font-size: 8px;
+  }
+
+  .summary-card {
+    padding: 9px;
+  }
+
+  .summary-card strong {
+    font-size: 10px;
+  }
+
+  .main-tab {
+    font-size: 8px;
+  }
+}
+
+
+/* =========================================================
+   EXTRA SMALL MOBILE — MAX WIDTH 320PX
+========================================================= */
+
+@media (max-width: 320px) {
+
+  .app-shell {
+    width: calc(100% - 20px);
+  }
+
+  .brand small,
+  .hero-chip {
+    display: none;
+  }
+
+  .device-card {
+    padding: 9px;
+  }
+
+  .device-card h3 {
+    font-size: 10px;
+  }
+
+  .summary-card {
+    gap: 6px;
+  }
+
+  .toggle-label {
+    font-size: 7px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION — ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* =========================================================
+   NOVIA HOME UI R2 — REFERENCE-LED MOBILE NAV & CARDS
+   Four dedicated destinations: Control, Devices, Monitoring,
+   Automation. Keep theme tokens and functional selectors intact.
+========================================================= */
+.main-tabs {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: min(620px, calc(100% - 20px));
+  gap: 4px;
+  padding: 6px;
+  border-radius: 22px;
+}
+.main-tab {
+  min-height: 62px;
+  gap: 5px;
+  padding: 7px 2px;
+  border-radius: 15px;
+  font-size: clamp(8px, 2.35vw, 10px);
+  white-space: nowrap;
+}
+.main-tab span { font-size: 19px; }
+.main-tab.is-active {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 17%, var(--surface));
+  border-color: color-mix(in srgb, var(--success) 22%, var(--border));
+}
+.tab-panel { padding-top: 2px; }
+.tab-panel > .connection-mode { margin-top: 8px; }
+
+/* Reference-style device cards: generous space, soft outlines. */
+.device-grid { gap: 12px; }
+.device-card {
+  position: relative;
+  min-height: 190px;
+  padding: 16px;
+  border-radius: 25px;
+  border-color: var(--border);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  box-shadow: 0 8px 24px rgba(0,0,0,.055);
+}
+.device-card-head { align-items: flex-start; margin-bottom: 24px; }
+.device-icon {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  font-size: 31px;
+}
+.device-card h3 { font-size: clamp(14px, 3.7vw, 17px); letter-spacing: -.025em; }
+.device-card > p { margin: 3px 0 0; font-size: 9px; letter-spacing: .06em; }
+.device-card .toggle-button {
+  min-width: 70px;
+  min-height: 39px;
+  border-radius: 30px;
+}
+.section-block { margin-top: 22px; }
+.section-heading { margin-bottom: 17px; }
+.section-heading h2 { font-size: clamp(22px, 6vw, 29px); letter-spacing: -.045em; }
+.eyebrow { letter-spacing: .16em; }
+
+/* Dedicated device-access page. */
+.connection-mode {
+  padding: 19px;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+.connection-mode-heading h2 { font-size: clamp(20px, 5.4vw, 25px); letter-spacing: -.035em; }
+.connection-mode-heading p:not(.eyebrow) { font-size: 13px; line-height: 1.65; }
+.connection-mode-actions { gap: 12px; margin-top: 18px; }
+.connection-mode-card {
+  min-height: 250px;
+  justify-content: flex-start;
+  gap: 11px;
+  padding: 18px 12px;
+  border-radius: 22px;
+  background: var(--surface-light);
+}
+.connection-mode-icon { font-size: 31px; }
+.connection-mode-card strong { font-size: 14px; }
+.connection-mode-card span:not(.connection-mode-icon) { font-size: 12px; line-height: 1.5; }
+.connection-mode-card small { margin-top: 4px; font-size: 12px; line-height: 1.4; }
+.connection-mode-card label { align-self: stretch; text-align: left; }
+.connection-mode-card input { min-height: 44px; border-radius: 13px; }
+.connection-mode-card .connection-mode-open,
+.connection-mode-card button { min-height: 45px; border-radius: 12px; }
+
+/* Light palette mirrors the clean white / pale blue reference. */
+html[data-theme="light"] .main-tabs {
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 12px 32px rgba(36,57,91,.12);
+}
+html[data-theme="light"] .device-card,
+html[data-theme="light"] .automation-card,
+html[data-theme="light"] .connection-mode {
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(36,57,91,.075);
+}
+html[data-theme="light"] .connection-mode-card {
+  background: #edf3fb;
+}
+html[data-theme="light"] .automation-card select,
+html[data-theme="light"] .automation-card input[type="time"] {
+  background: #eaf1fb;
+  border-color: rgba(63,91,133,.2);
+}
+html:not([data-theme="light"]) .device-card,
+html:not([data-theme="light"]) .connection-mode-card {
+  background: #141f2d;
+}
+html:not([data-theme="light"]) .main-tabs {
+  background: rgba(20,31,45,.94);
+}
+
+@media (max-width: 520px) {
+  body { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+  .main-tabs {
+    width: calc(100% - 36px);
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    border-radius: 25px;
+  }
+  .main-tab { min-height: 65px; font-size: 9px; }
+  .device-card { min-height: 190px; padding: 14px; }
+  .device-card-head { margin-bottom: 24px; }
+  .device-icon { width: 66px; height: 66px; }
+  .connection-mode { padding: 17px; }
+  .connection-mode-card { min-height: 250px; padding: 15px 10px; }
+}
+@media (max-width: 360px) {
+  .main-tabs { width: calc(100% - 20px); gap: 2px; padding: 5px; }
+  .main-tab { font-size: 8px; }
+  .device-grid { gap: 8px; }
+  .device-card { min-height: 176px; padding: 11px; }
+  .device-icon { width: 58px; height: 58px; border-radius: 17px; }
+  .connection-mode-actions { grid-template-columns: 1fr; }
+  .connection-mode-card { min-height: auto; }
+}
+
+@media (min-width: 600px) {
+  body { padding-bottom: 112px; }
+}
+
+
+/* =========================================================
+   NOVIA HOME R3 — FOUR BOTTOM TABS FIT ON SMALL SCREENS
+   Keep all four destinations on one row; prevent intrinsic
+   button width and long labels from forcing overlap/wrapping.
+========================================================= */
+.main-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  width: min(620px, calc(100% - 20px));
+  box-sizing: border-box;
+  gap: 4px;
+}
+
+.main-tabs .main-tab {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 7px 1px;
+  gap: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: clamp(7px, 2.45vw, 10px);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.main-tabs .main-tab span {
+  flex: 0 0 auto;
+  font-size: clamp(16px, 4.8vw, 20px);
+  line-height: 1;
+}
+
+@media (max-width: 360px) {
+  .main-tabs {
+    width: calc(100% - 16px);
+    gap: 2px;
+    padding: 5px;
+  }
+  .main-tabs .main-tab {
+    padding-inline: 0;
+    font-size: clamp(7px, 2.35vw, 8.5px);
+    gap: 4px;
+  }
+  .main-tabs .main-tab span { font-size: 16px; }
+}
+
+@media (max-width: 300px) {
+  .main-tabs { width: calc(100% - 10px); gap: 1px; padding: 4px; }
+  .main-tabs .main-tab { font-size: 7px; }
+}
+
+
+/* R10 system tools */
+.system-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.system-field{display:block;font-size:.82rem;font-weight:650;margin:12px 0 6px;color:var(--text-secondary,#718096)}
+.system-input{display:block;width:100%;min-height:44px;border:1px solid var(--border-color,#dce3e8);border-radius:12px;padding:10px 12px;background:var(--surface,#fff);color:var(--text-primary,#17212b);font:inherit}
+.system-feedback{font-size:.82rem;color:var(--text-secondary,#718096);min-width:0}
+.system-hint{display:block;margin-top:10px;line-height:1.5;color:var(--text-secondary,#718096)}
+.primary-button,.secondary-button{border:0;border-radius:12px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}
+.primary-button{background:var(--accent,#2563eb);color:#fff}.secondary-button{background:var(--surface-soft,#edf2f7);color:var(--text-primary,#17212b)}
+.primary-button:disabled,.secondary-button:disabled{opacity:.45;cursor:not-allowed}
+
+</style>
+
+  <style>
+/* =========================================================
+   NOVIA HOME V4/V5 — AUTOMATION COMPONENTS
+   Automation-only selectors. Shared palette comes from style.css.
+========================================================= */
+
+.automation-panel { min-width: 0; margin-top: 22px; color: var(--text); }
+.automation-panel .section-heading { align-items: flex-end; gap: 8px; margin-bottom: 13px; }
+.automation-panel .section-heading h2 { margin: 0; color: var(--text); font-size: 19px; line-height: 1.2; }
+.automation-panel .eyebrow { margin: 0; color: var(--accent); }
+.automation-panel .count-label { color: var(--muted); }
+
+.automation-card {
+  min-width: 0;
+  margin: 0 0 12px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  color: var(--text);
+  background: linear-gradient(145deg,var(--surface-raised),var(--surface));
+  box-shadow: var(--shadow);
+}
+.automation-heading { display: flex; align-items: center; gap: 11px; margin-bottom: 15px; }
+.automation-icon {
+  flex: 0 0 39px;
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--accent);
+  background: color-mix(in srgb,var(--accent) 13%,var(--surface-soft));
+  font-size: 21px;
+}
+.automation-heading h3 { margin: 0 0 4px; color: var(--text); font-size: 14px; }
+.automation-heading p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
+.automation-card > label, .schedule-time-grid label {
+  display: block;
+  margin: 13px 0 7px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+.automation-card select, .automation-card input[type="time"] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 45px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 11px;
+  color: var(--text);
+  background: var(--surface-soft);
+  font: inherit;
+  font-size: 13px;
+  color-scheme: dark;
+}
+html[data-theme="light"] .automation-card select,
+html[data-theme="light"] .automation-card input[type="time"] { color-scheme: light; }
+.automation-card select:focus, .automation-card input[type="time"]:focus {
+  outline: 2px solid color-mix(in srgb,var(--accent) 25%,transparent);
+  border-color: var(--accent);
+}
+.automation-button {
+  display: block;
+  width: 100%;
+  min-height: 45px;
+  margin-top: 13px;
+  padding: 11px 13px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg,var(--accent-strong),var(--accent-dark));
+  box-shadow: 0 5px 14px color-mix(in srgb,var(--accent-dark) 18%,transparent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--transition), filter var(--transition);
+}
+.automation-button.secondary {
+  color: var(--text);
+  background: var(--surface-soft);
+  border-color: var(--border);
+  box-shadow: none;
+}
+.automation-button:active { transform: scale(.985); }
+.automation-button:disabled { opacity: .55; cursor: not-allowed; }
+.automation-status { min-height: 18px; margin: 11px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.automation-status.success { color: var(--accent); }
+.automation-status.error { color: var(--danger); }
+
+.schedule-time-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.weekday-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 7px; margin-top: 10px; }
+.weekday-grid label {
+  min-width: 0;
+  min-height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 3px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  background: var(--surface-soft);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.weekday-grid label:has(input:checked) {
+  color: var(--accent);
+  border-color: color-mix(in srgb,var(--accent) 55%,var(--border));
+  background: color-mix(in srgb,var(--accent) 13%,var(--surface));
+}
+.weekday-grid input { width: 14px; height: 14px; margin: 0; accent-color: var(--accent); }
+.schedule-enable { display: flex !important; align-items: center; gap: 9px; margin-top: 16px !important; color: var(--text) !important; }
+.schedule-enable input { width: 17px; height: 17px; accent-color: var(--accent); }
+.schedule-list { display: grid; gap: 9px; }
+.schedule-item {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  background: var(--surface-soft);
+}
+.schedule-item-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.schedule-item-name { min-width: 0; color: var(--text); font-size: 12px; font-weight: 750; overflow-wrap: anywhere; }
+.schedule-item-time { margin-top: 8px; color: var(--accent); font-size: 13px; font-weight: 750; }
+.schedule-item-days { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.4; }
+.schedule-empty { padding: 16px 10px; border: 1px dashed var(--border); border-radius: 11px; color: var(--muted); text-align: center; font-size: 11px; }
+.schedule-state { padding: 5px 8px; border-radius: 20px; color: var(--accent); background: color-mix(in srgb,var(--accent) 14%,var(--surface)); font-size: 9px; font-weight: 800; white-space: nowrap; }
+.schedule-state.off { color: var(--muted); background: var(--surface-light); }
+
+@media (min-width: 600px) {
+  .automation-card { padding: 18px; }
+  .automation-panel .section-heading h2 { font-size: 20px; }
+}
+@media (max-width: 420px) {
+  .automation-card { padding: 13px; }
+  .automation-panel .section-heading h2 { font-size: 18px; }
+  .weekday-grid { gap: 5px; }
+  .weekday-grid label { min-height: 36px; font-size: 9px; }
+}
+
+
+/* =====================================
+   NOVIA HOME LIVE COUNTDOWN
+===================================== */
+
+.timer-countdown {
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface-soft);
+}
+
+.timer-countdown[hidden] {
+  display: none !important;
+}
+
+.timer-countdown-header,
+.timer-countdown-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.timer-countdown-header {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+#timerCountdownBadge {
+  color: var(--success);
+}
+
+.timer-countdown-value {
+  margin: 18px 0;
+  text-align: center;
+  font-size: clamp(42px, 12vw, 60px);
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  line-height: 1.2;
+  color: var(--accent-strong);
+}
+
+.timer-progress-track {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: color-mix(in srgb,var(--muted) 22%,var(--surface-soft));
+}
+
+.timer-progress-bar {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--success);
+  transition: width .8s linear;
+}
+
+.timer-countdown-footer {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+
+</style>
+
+  <style>
+/* =========================================================
+   NOVIA HOME V4/V5 — RELIABILITY & HISTORY EXTENSIONS
+   Contains only monitor/history-specific selectors.
+   Core/shared components are defined in style.css;
+   automation components are defined in automation.css.
+========================================================= */
+
+.reliability-panel { position: relative; min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow); }
+.monitor-refresh {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  background: var(--surface-soft);
+  font: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+.monitor-refresh:disabled { opacity: .55; cursor: wait; }
+.monitor-refresh:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.health-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; margin-top: 14px; }
+.health-item {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  color: var(--text);
+  background: var(--surface);
+}
+.health-item > div { min-width: 0; display: grid; gap: 5px; }
+.health-item small { color: var(--muted); font-size: 8px; font-weight: 800; letter-spacing: .06em; }
+.health-item strong { color: var(--text); font-size: 12px; overflow-wrap: anywhere; }
+.health-dot { flex: 0 0 9px; width: 9px; height: 9px; border-radius: 50%; background: var(--warning); box-shadow: 0 0 0 4px color-mix(in srgb,var(--warning) 13%,transparent); }
+.health-item[data-health="online"] .health-dot { background: var(--success); box-shadow: 0 0 0 4px color-mix(in srgb,var(--success) 13%,transparent); }
+.health-item[data-health="offline"] .health-dot { background: var(--danger); box-shadow: 0 0 0 4px color-mix(in srgb,var(--danger) 13%,transparent); }
+.health-meta { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-top: 10px; }
+.health-meta > div { min-width: 0; display: grid; gap: 5px; padding: 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-soft); }
+.health-meta span { color: var(--muted); font-size: 9px; }
+.health-meta strong { color: var(--text); font-size: 10px; overflow-wrap: anywhere; }
+.health-footnote { margin: 12px 2px 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+
+.reliability-history { position: relative; min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow); }
+.history-clear {
+  min-height: 32px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--muted);
+  background: var(--surface-soft);
+  font: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  cursor: pointer;
+}
+.history-clear:hover { border-color: var(--danger); color: var(--danger); }
+.history-clear:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.history-description { margin: 12px 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+.history-summary { display: flex; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: 9px; }
+.connection-history-list { display: grid; gap: 0; margin: 12px 0 0; padding: 0; list-style: none; }
+.history-entry { position: relative; display: grid; grid-template-columns: 12px minmax(0,1fr); gap: 11px; padding: 12px 4px; border-bottom: 1px solid var(--border); }
+.history-marker { width: 8px; height: 8px; margin: 5px 0 0 1px; border-radius: 50%; background: var(--warning); box-shadow: 0 0 0 4px color-mix(in srgb,var(--warning) 13%,transparent); }
+.history-online .history-marker { background: var(--success); box-shadow: 0 0 0 4px color-mix(in srgb,var(--success) 13%,transparent); }
+.history-offline .history-marker { background: var(--danger); box-shadow: 0 0 0 4px color-mix(in srgb,var(--danger) 13%,transparent); }
+.history-content { min-width: 0; display: grid; gap: 4px; }
+.history-content strong { color: var(--text); font-size: 11px; }
+.history-content span { color: var(--muted); font-size: 9px; line-height: 1.45; }
+.history-content time { color: var(--muted); font-size: 9px; opacity: .8; }
+.history-empty { padding: 18px 8px; color: var(--muted); text-align: center; font-size: 10px; }
+
+@media (max-width: 520px) {
+  .health-grid { grid-template-columns: 1fr; }
+  .health-meta { grid-template-columns: 1fr 1fr; }
+  .health-meta > div:last-child { grid-column: 1 / -1; }
+  .history-summary { font-size: 8px; }
+  .history-clear { padding: 7px 8px; font-size: 8px; }
+}
+
+/* Remote ESP32 health state */
+.health-footnote { margin: 12px 2px 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+.device-unreachable .toggle-button { opacity: .58; cursor: not-allowed; }
+@media (max-width: 520px) { .health-meta { grid-template-columns: repeat(2,minmax(0,1fr)); } .health-meta > div:last-child { grid-column: auto; } }
+
+
+/* Informasi tambahan: ringkas, kontras, dan tetap selaras dengan tema. */
+.info-note {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-soft, var(--surface));
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+.info-note strong { display: block; margin-bottom: 4px; color: var(--text); }
+.info-note ul { margin: 5px 0 0; padding-left: 18px; }
+.info-note li + li { margin-top: 3px; }
+.info-note b { color: var(--text); }
+@media (max-width: 520px) {
+  .info-note { padding: 10px 12px; font-size: 0.8rem; }
+}
+
+</style>
+
+  <style>
+/* NOVIA HOME connection mode selector - isolated styles */
+.connection-mode { margin: 8px 0 18px; padding: 16px; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); }
+.connection-mode-heading .eyebrow { margin: 0 0 5px; }
+.connection-mode-heading h2 { margin: 0 0 7px; font-size: clamp(17px, 4.5vw, 21px); }
+.connection-mode-heading p:not(.eyebrow) { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.connection-mode-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 13px; }
+.connection-mode-card { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: 7px; padding: 14px 10px; border: 1px solid var(--border); border-radius: 14px; color: var(--text); background: var(--surface-2, var(--surface)); text-align: center; font: inherit; cursor: pointer; }
+.connection-mode-card:active { transform: scale(.985); }
+#openApMode { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.connection-mode-icon { font-size: 27px; line-height: 1; color: var(--accent); }
+.connection-mode-card strong { font-size: 13px; letter-spacing: .04em; }
+.connection-mode-card span:not(.connection-mode-icon) { font-size: 11px; color: var(--muted); line-height: 1.35; }
+.connection-mode-card small { color: var(--accent); font-weight: 700; }
+.router-card { cursor: default; }
+.router-card label { align-self: stretch; text-align: left; font-size: 10px; color: var(--muted); font-weight: 700; margin-top: 3px; }
+.router-card input { width: 100%; min-width: 0; box-sizing: border-box; padding: 10px 9px; border: 1px solid var(--border); border-radius: 9px; background: var(--bg, transparent); color: var(--text); font: inherit; font-size: 12px; text-align: center; }
+.connection-open-router { width: 100%; border: 0; border-radius: 9px; padding: 10px 8px; color: #fff; background: var(--accent-dark, #28714f); font-size: 10px; font-weight: 800; cursor: pointer; }
+.connection-mode-note { margin: 12px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+@media (max-width: 350px) { .connection-mode-actions { grid-template-columns: 1fr; } }
+
+</style>
+
+  <!-- Soft Home UI: visual layer, keeps existing controls and IDs -->
+  <style>
+
+/* =========================================================
+   NOVIA HOME — SOFT HOME UI REFRESH
+   Visual layer only: keeps existing IDs, API and interactions.
+========================================================= */
+:root {
+  color-scheme: light;
+  --bg:#f5f6f8; --surface:#fff; --surface-light:#f1f3f6;
+  --surface-raised:#fff; --surface-soft:#f7f8fa;
+  --border:rgba(25,35,50,.08); --border-strong:rgba(25,35,50,.16);
+  --line:rgba(25,35,50,.08); --text:#171b22; --muted:#777e88;
+  --accent:#36b98d; --accent-strong:#29ae83; --accent-dark:#21966f;
+  --accent-secondary:#8e78d6; --warning:#d49e37; --danger:#d75c68;
+  --success:#32b889; --shadow:0 9px 26px rgba(27,39,56,.075);
+}
+html, body {background:#f5f6f8!important;color:var(--text)}
+body {font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.025em}
+html:not([data-theme="dark"]) body {background:linear-gradient(180deg,#fafbfc,#f1f3f6)!important}
+html[data-theme="dark"] {color-scheme:dark}
+html[data-theme="dark"] body {background:var(--bg)!important}
+.app-shell {width:min(100% - 30px,760px);padding-bottom:12px}
+.topbar {min-height:62px;border:0}
+.brand-mark {border:0;border-radius:13px;color:white;background:#35b98e;box-shadow:0 5px 12px #35b98e30}
+.brand strong {font-size:12px;letter-spacing:.06em}
+.demo-pill {font-size:9px;border:0;background:#fff;box-shadow:0 3px 12px #1b27380c}
+.theme-toggle {border:1px solid var(--border)!important;border-radius:20px!important;background:var(--surface)!important;color:var(--muted)!important}
+.welcome {
+  position:relative;display:flex;align-items:flex-end;min-height:245px;
+  margin:12px 0 26px;padding:25px 23px!important;overflow:hidden;
+  border:0;border-radius:23px;color:#fff;
+  background:
+   linear-gradient(90deg,rgba(12,25,31,.78),rgba(12,25,31,.12)),
+   radial-gradient(ellipse at 78% 20%,#dce9f4 0 14%,transparent 15%),
+   linear-gradient(145deg,#8fb3c3 0%,#d8e3e5 45%,#8caa91 46%,#4b705b 100%);
+  box-shadow:0 15px 32px rgba(25,40,50,.15)
+}
+.welcome:before {
+ content:"";position:absolute;right:8%;bottom:0;width:54%;height:78%;
+ background:linear-gradient(145deg,#fff 0 48%,#d8dfe0 49% 52%,#eef1ef 53%);
+ clip-path:polygon(0 35%,48% 0,100% 28%,100% 100%,0 100%);
+ filter:drop-shadow(0 8px 12px #14242a35);opacity:.92
+}
+.welcome:after {
+ content:"";position:absolute;right:19%;bottom:0;width:18%;height:43%;
+ background:linear-gradient(90deg,#344c50,#9eb1ad 45%,#40585a);
+ border:5px solid #f4f5f2;border-bottom:0;opacity:.8
+}
+.welcome > div {position:relative;z-index:1}
+.welcome .eyebrow {color:#d9f7ec}
+.welcome h1 {color:#fff;font-size:clamp(31px,8vw,42px);text-shadow:0 2px 12px #172a2a35}
+.welcome h1 span {color:#fff}
+.hero-chip {position:absolute;right:16px;top:16px;z-index:2;border:0;background:#ffffffd9;backdrop-filter:blur(8px)}
+.chip-icon {color:#2cae83}
+.connection-mode {padding:15px;border:1px solid var(--border);border-radius:19px;background:var(--surface);box-shadow:var(--shadow)}
+.connection-mode-heading h2 {font-size:18px}
+.connection-mode-heading > p:last-child,.connection-mode-note {font-size:11px;line-height:1.55}
+.connection-mode-card {border:1px solid var(--border)!important;border-radius:15px!important;background:#fafbfc!important;box-shadow:none!important}
+.connection-mode-icon {color:var(--accent)!important}
+.main-tabs {bottom:calc(8px + env(safe-area-inset-bottom,0px));width:min(560px,calc(100% - 22px));padding:8px 7px;border:1px solid #e9ebef;border-radius:20px;background:#ffffffed;box-shadow:0 8px 30px #18233418}
+.main-tab {min-height:55px;font-size:10px;color:#777e88}
+.main-tab span {font-size:20px}
+.main-tab.is-active {color:#28a77e;background:#e9f8f2;border-color:transparent}
+.section-block {margin:25px 0 28px}
+.section-heading h2 {font-size:22px!important;letter-spacing:-.04em}
+.eyebrow {color:#2aaa80}
+.count-label {font-size:9px}
+.device-grid {gap:13px}
+.device-card {
+ position:relative;min-height:185px;padding:16px!important;border:1px solid #edf0f3;
+ border-radius:21px!important;background:#fff!important;box-shadow:0 8px 24px rgba(24,37,54,.065)!important
+}
+.device-card.is-on {border-color:#e5eee9;background:#fff!important}
+.device-card-head {margin-bottom:18px;align-items:flex-start}
+.device-icon {width:64px;height:64px;border-radius:17px;background:#fff0c8;color:#c89d3b;font-size:30px}
+.device-card:nth-child(2) .device-icon {background:#dce9ff;color:#527ab8}
+.device-card:nth-child(3) .device-icon {background:#e8ddff;color:#8066bf}
+.device-card:nth-child(4) .device-icon {background:#d8f3f1;color:#279c9a}
+.device-card.is-on .device-icon {background:inherit}
+.state-badge {font-size:8px;background:#f2f4f6;border:0}
+.device-card h3 {font-size:16px;margin-top:auto;margin-bottom:4px;color:#171b22}
+.device-card > p {font-size:8px;opacity:.65}
+.toggle-button {
+ position:absolute;right:15px;top:15px;width:49px;min-height:28px;height:28px;
+ display:block!important;margin:0!important;padding:0!important;border:0!important;border-radius:30px!important;
+ background:#c9cdd2!important;box-shadow:none!important
+}
+.toggle-knob {position:absolute;left:3px;top:3px;width:22px;height:22px;background:#fff!important;border-radius:50%;transition:transform .2s}
+.toggle-knob:after {display:none}
+.toggle-label {position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.device-card.is-on .toggle-button {background:#3cbd91!important;box-shadow:none!important}
+.device-card.is-on .toggle-knob {transform:translateX(21px)}
+.device-card.is-on .state-badge {color:#279d77;background:#e8f8f1}
+.demo-note,.info-note {font-size:11px;line-height:1.6}
+.summary-card,.reliability-panel,.reliability-history,.system-panel,.automation-card {
+ border:1px solid #edf0f3;border-radius:18px;background:#fff;box-shadow:var(--shadow)
+}
+.summary-card {padding:14px}
+.health-item {border:1px solid #edf0f3;background:#fafbfc}
+.health-meta>div {background:#f7f8fa}
+.automation-card {padding:17px}
+.automation-icon {background:#e7f7f0;color:#2da980}
+.automation-button {background:#32b889;box-shadow:0 5px 13px #32b8892b}
+.automation-button.secondary {background:#f5f6f8;color:var(--text);border-color:#e8ebef;box-shadow:none}
+footer {padding-bottom:100px}
+@media(max-width:520px) {
+ .app-shell {width:calc(100% - 28px)}
+ .welcome {min-height:220px;margin-top:9px;padding:20px!important}
+ .welcome h1 {font-size:34px}
+ .hero-chip {transform:scale(.88);transform-origin:top right}
+ .device-card {min-height:174px;padding:14px!important}
+ .device-icon {width:58px;height:58px}
+ .device-card h3 {font-size:15px}
+ .device-card-head {margin-bottom:17px}
+ .section-heading h2 {font-size:21px!important}
+}
+@media(max-width:360px) {
+ .device-card {padding:11px!important;min-height:165px}
+ .device-icon {width:51px;height:51px}
+ .device-card h3 {font-size:13px}
+}
+
+/* =========================================================
+   NOVIA HOME — DARK MODE FIX R2
+   Semua token dan komponen diberi palet gelap tersendiri.
+   Tidak mengubah ID, event handler, API, maupun alur kontrol.
+========================================================= */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b111b;
+  --surface: #141e2b;
+  --surface-light: #1c2939;
+  --surface-raised: #202e40;
+  --surface-soft: #182535;
+  --border: rgba(164, 188, 219, .13);
+  --border-strong: rgba(164, 188, 219, .23);
+  --line: rgba(164, 188, 219, .13);
+  --text: #edf3fb;
+  --muted: #a0aec0;
+  --accent: #55c99e;
+  --accent-strong: #70d9b2;
+  --accent-dark: #278d6b;
+  --accent-secondary: #ad9be9;
+  --warning: #e5bd72;
+  --danger: #ed8792;
+  --success: #65d2a5;
+  --shadow: 0 12px 30px rgba(0, 0, 0, .26);
+}
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background: #0b111b !important;
+  color: var(--text) !important;
+}
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(ellipse at 85% 5%, rgba(55, 119, 105, .13), transparent 34%),
+    radial-gradient(ellipse at 8% 72%, rgba(74, 102, 157, .12), transparent 38%),
+    linear-gradient(160deg, #0a111b 0%, #111d2b 55%, #0b1420 100%) !important;
+  background-attachment: fixed !important;
+}
+html[data-theme="dark"] .topbar,
+html[data-theme="dark"] .section-heading,
+html[data-theme="dark"] .brand,
+html[data-theme="dark"] .welcome-copy { color: var(--text); }
+html[data-theme="dark"] .demo-pill,
+html[data-theme="dark"] .theme-toggle,
+html[data-theme="dark"] .summary-card,
+html[data-theme="dark"] .reliability-panel,
+html[data-theme="dark"] .reliability-history,
+html[data-theme="dark"] .system-panel,
+html[data-theme="dark"] .automation-card,
+html[data-theme="dark"] .connection-mode,
+html[data-theme="dark"] .device-card {
+  color: var(--text) !important;
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow) !important;
+}
+html[data-theme="dark"] .welcome {
+  color: #f7fbff !important;
+  background:
+    linear-gradient(90deg, rgba(5, 13, 22, .88), rgba(8, 19, 29, .30)),
+    radial-gradient(ellipse at 78% 20%, #526d7a 0 14%, transparent 15%),
+    linear-gradient(145deg, #263e4c 0%, #344b54 45%, #263d35 46%, #172b25 100%) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .30) !important;
+}
+html[data-theme="dark"] .welcome:before {
+  background: linear-gradient(145deg, #34434a 0 48%, #25343c 49% 52%, #43545a 53%) !important;
+}
+html[data-theme="dark"] .welcome:after {
+  background: linear-gradient(90deg, #17272d, #53666a 45%, #1b3035) !important;
+  border-color: #34444a !important;
+}
+html[data-theme="dark"] .welcome h1,
+html[data-theme="dark"] .welcome h1 span,
+html[data-theme="dark"] .welcome .eyebrow { color: #f7fbff !important; }
+html[data-theme="dark"] .device-card h3,
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .summary-card h3,
+html[data-theme="dark"] .automation-card h3,
+html[data-theme="dark"] .connection-mode h2 { color: var(--text) !important; }
+html[data-theme="dark"] .device-card > p,
+html[data-theme="dark"] .demo-note,
+html[data-theme="dark"] .info-note,
+html[data-theme="dark"] .summary-note,
+html[data-theme="dark"] .count-label,
+html[data-theme="dark"] .connection-mode-note,
+html[data-theme="dark"] .connection-mode-heading > p:last-child { color: var(--muted) !important; }
+html[data-theme="dark"] .device-card.is-on {
+  background: #162638 !important;
+  border-color: rgba(85, 201, 158, .20) !important;
+}
+html[data-theme="dark"] .device-icon { background: #4b4026 !important; color: #f0c96e !important; }
+html[data-theme="dark"] .device-card:nth-child(2) .device-icon { background: #263d60 !important; color: #9bbcff !important; }
+html[data-theme="dark"] .device-card:nth-child(3) .device-icon { background: #40345d !important; color: #c3adff !important; }
+html[data-theme="dark"] .device-card:nth-child(4) .device-icon { background: #20494a !important; color: #75d4d0 !important; }
+html[data-theme="dark"] .device-card.is-on .device-icon { background: inherit !important; }
+html[data-theme="dark"] .state-badge { color: var(--muted) !important; background: #253244 !important; }
+html[data-theme="dark"] .device-card.is-on .state-badge { color: #7ce0b9 !important; background: #1d4039 !important; }
+html[data-theme="dark"] .main-tabs {
+  background: rgba(20, 30, 43, .96) !important;
+  border-color: rgba(164, 188, 219, .15) !important;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, .38) !important;
+  backdrop-filter: blur(16px);
+}
+html[data-theme="dark"] .main-tab { color: #9ba9ba !important; }
+html[data-theme="dark"] .main-tab.is-active { color: #71dcb4 !important; background: #1b3b35 !important; }
+html[data-theme="dark"] .health-item,
+html[data-theme="dark"] .health-meta > div,
+html[data-theme="dark"] .connection-mode-card,
+html[data-theme="dark"] .automation-button.secondary {
+  color: var(--text) !important;
+  background: var(--surface-light) !important;
+  border-color: var(--border) !important;
+}
+html[data-theme="dark"] .automation-icon { background: #1d4039 !important; color: #75dcb6 !important; }
+html[data-theme="dark"] .automation-button { color: #071a14 !important; }
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] .automation-card input,
+html[data-theme="dark"] .automation-card select {
+  color: var(--text) !important;
+  background-color: #1a2839 !important;
+  border-color: var(--border-strong) !important;
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder { color: #8292a7 !important; }
+html[data-theme="dark"] .schedule-item,
+html[data-theme="dark"] .schedule-empty,
+html[data-theme="dark"] .timer-countdown,
+html[data-theme="dark"] .history-entry,
+html[data-theme="dark"] .history-empty,
+html[data-theme="dark"] .router-card {
+  color: var(--text) !important;
+  background: var(--surface-light) !important;
+  border-color: var(--border) !important;
+}
+html[data-theme="dark"] .hero-chip { background: rgba(20, 30, 43, .88) !important; color: var(--text) !important; }
+html[data-theme="dark"] .connection-open-router { background: #287c61 !important; }
+html[data-theme="dark"] footer { color: var(--muted) !important; }
+
+
+/* NOVIA HOME R4 — four-item mobile navigation and theme polish */
+.main-tabs {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+}
+.main-tab {
+  min-width: 0;
+  white-space: nowrap;
+  font-size: clamp(9px, 2.5vw, 11px);
+  padding-inline: 2px;
+}
+.main-tab span {
+  font-size: 21px;
+}
+@media (max-width: 360px) {
+  .main-tabs { width: calc(100% - 12px); padding: 6px 4px; gap: 2px; }
+  .main-tab { font-size: 8px; }
+  .main-tab span { font-size: 19px; }
+}
+html[data-theme="dark"] .main-tab.is-active {
+  border-color: rgba(85, 201, 158, .18) !important;
+}
+html[data-theme="dark"] .demo-pill {
+  background: #182535 !important;
+}
+html[data-theme="dark"] .theme-toggle {
+  background: #182535 !important;
+  border-color: rgba(164,188,219,.16) !important;
+  color: var(--text) !important;
+}
+
+/* =========================================================
+   NOVIA HOME R5 — WARM, ROOM-CENTRIC REFINEMENT
+   Visual-only layer: preserve control IDs, API and handlers.
+========================================================= */
+.welcome {
+  min-height: 258px;
+  align-items: flex-end;
+  margin: 12px 0 25px;
+  padding: 24px 22px !important;
+  isolation: isolate;
+  background-image:
+    linear-gradient(90deg, rgba(12, 23, 29, .76) 0%, rgba(12, 23, 29, .24) 62%, rgba(12, 23, 29, .08) 100%),
+    url('data:image/svg+xml,%3Csvg%20xmlns%3D%5C%22http://www.w3.org/2000/svg%5C%22%20width%3D%5C%221600%5C%22%20height%3D%5C%22900%5C%22%20viewBox%3D%5C%220%200%201600%20900%5C%22%20fill%3D%5C%22none%5C%22%3E%20%20%20%3Ctitle%3EModern%20smart%20home%20at%20dusk%3C/title%3E%20%20%20%3Cdesc%3EModern%20minimalist%20home%20with%20warm%20illuminated%20windows,%20landscaped%20garden%20and%20a%20calm%20blue%20evening%20sky.%3C/desc%3E%20%20%20%3Cdefs%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22sky%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#142C3D%5C%22/%3E%3Cstop%20offset%3D%5C%22.52%5C%22%20stop-color%3D%5C%22#345568%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B18B68%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22glass%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9CC3C9%5C%22%20stop-opacity%3D%5C%22.82%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#243E4C%5C%22%20stop-opacity%3D%5C%22.95%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wall%5C%22%20x1%3D%5C%22580%5C%22%20y1%3D%5C%22280%5C%22%20x2%3D%5C%221080%5C%22%20y2%3D%5C%22720%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F0E8D9%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B9B1A3%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wood%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9C7555%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#4D4036%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22lawn%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%22600%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#405B50%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#172F2B%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3CradialGradient%20id%3D%5C%22glow%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%22.52%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%220%5C%22/%3E%3C/radialGradient%3E%20%20%20%20%20%3Cfilter%20id%3D%5C%22shadow%5C%22%20x%3D%5C%22350%5C%22%20y%3D%5C%22210%5C%22%20width%3D%5C%22900%5C%22%20height%3D%5C%22650%5C%22%20color-interpolation-filters%3D%5C%22sRGB%5C%22%20filterUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3CfeGaussianBlur%20stdDeviation%3D%5C%2224%5C%22/%3E%3C/filter%3E%20%20%20%3C/defs%3E%20%20%20%3Cpath%20fill%3D%5C%22url(#sky)%5C%22%20d%3D%5C%22M0%200h1600v900H0z%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%22190%5C%22%20fill%3D%5C%22url(#glow)%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%2254%5C%22%20fill%3D%5C%22#F4DDB6%5C%22%20fill-opacity%3D%5C%22.7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20515%20180%20420l150%2074%20190-150%20190%20145%20160-105%20190%20130%20170-150%20170%20120%20200-95v310H0z%5C%22%20fill%3D%5C%22#243D43%5C%22%20fill-opacity%3D%5C%22.55%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20600%20230%20500l190%2090%20190-120%20210%20120%20180-90%20210%20105%20210-125%20180%2090v330H0z%5C%22%20fill%3D%5C%22#1D3538%5C%22%20fill-opacity%3D%5C%22.72%5C%22/%3E%20%20%20%3Cellipse%20cx%3D%5C%22830%5C%22%20cy%3D%5C%22758%5C%22%20rx%3D%5C%22530%5C%22%20ry%3D%5C%2275%5C%22%20fill%3D%5C%22#0B1B1D%5C%22%20fill-opacity%3D%5C%22.55%5C%22%20filter%3D%5C%22url(#shadow)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20690c220-42%20370-18%20560%2024%20220%2048%20430%2035%20620-5%20170-36%20290-31%20420-2v193H0z%5C%22%20fill%3D%5C%22url(#lawn)%5C%22/%3E%20%20%20%3C%21--%20house%20body%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M440%20420%20785%20230l395%20190v300H440z%5C%22%20fill%3D%5C%22url(#wall)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20430%20785%20205l435%20225-26%2040-409-211-370%20211z%5C%22%20fill%3D%5C%22#273D46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22m785%20205%20435%20225-26%2040-409-211z%5C%22%20fill%3D%5C%22#172D38%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445v275H785z%5C%22%20fill%3D%5C%22#D4CBBB%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445l-26%2017-324-167z%5C%22%20fill%3D%5C%22#F4EDE1%5C%22%20fill-opacity%3D%5C%22.5%5C%22/%3E%20%20%20%3C%21--%20left%20glazing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M500%20465h230v255H500z%5C%22%20fill%3D%5C%22#253C46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M514%20479h202v227H514z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M614%20479v227M514%20590h202%5C%22%20stroke%3D%5C%22#D7D6C9%5C%22%20stroke-opacity%3D%5C%22.75%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.58%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M624%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.32%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20602h82v92h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.28%5C%22/%3E%20%20%20%3C%21--%20right%20wing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M820%20475h260v245H820z%5C%22%20fill%3D%5C%22#263E48%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M837%20492h226v211H837z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M950%20492v211M837%20596h226%5C%22%20stroke%3D%5C%22#D9D4C7%5C%22%20stroke-opacity%3D%5C%22.7%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20505h88v78h-88zM963%20505h88v78h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.42%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20609h88v82h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.24%5C%22/%3E%20%20%20%3C%21--%20entrance%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M738%20540h90v180h-90z%5C%22%20fill%3D%5C%22url(#wood)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M751%20553h64v154h-64z%5C%22%20fill%3D%5C%22#604B3C%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%22801%5C%22%20cy%3D%5C%22635%5C%22%20r%3D%5C%225%5C%22%20fill%3D%5C%22#E7C58C%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M720%20532h126v12H720z%5C%22%20fill%3D%5C%22#F5ECDD%5C%22/%3E%20%20%20%3C%21--%20roof%20details%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M420%20430h730v14H420z%5C%22%20fill%3D%5C%22#172E39%5C%22%20fill-opacity%3D%5C%22.9%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20230v490%5C%22%20stroke%3D%5C%22#9F998E%5C%22%20stroke-opacity%3D%5C%22.3%5C%22%20stroke-width%3D%5C%223%5C%22/%3E%20%20%20%3C%21--%20terrace%20and%20steps%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M445%20720h705l68%2038H390z%5C%22%20fill%3D%5C%22#C4B9A7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20758h828l48%2028H350z%5C%22%20fill%3D%5C%22#938C7E%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M350%20786h916l45%2024H310z%5C%22%20fill%3D%5C%22#6E746D%5C%22/%3E%20%20%20%3C%21--%20garden%20beds%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M120%20820c120-70%20220-55%20330%200l-30%2080H90zM1160%20815c110-65%20230-50%20350%2010l30%2075h-410z%5C%22%20fill%3D%5C%22#243D34%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#789078%5C%22%3E%3Ccircle%20cx%3D%5C%22170%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2235%5C%22/%3E%3Ccircle%20cx%3D%5C%22220%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2242%5C%22/%3E%3Ccircle%20cx%3D%5C%22275%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2230%5C%22/%3E%3Ccircle%20cx%3D%5C%221290%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2238%5C%22/%3E%3Ccircle%20cx%3D%5C%221350%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2248%5C%22/%3E%3Ccircle%20cx%3D%5C%221420%5C%22%20cy%3D%5C%22765%5C%22%20r%3D%5C%2234%5C%22/%3E%3C/g%3E%20%20%20%3Cg%20fill%3D%5C%22#A9B58E%5C%22%3E%3Ccircle%20cx%3D%5C%22185%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%2213%5C%22/%3E%3Ccircle%20cx%3D%5C%22250%5C%22%20cy%3D%5C%22778%5C%22%20r%3D%5C%2212%5C%22/%3E%3Ccircle%20cx%3D%5C%221320%5C%22%20cy%3D%5C%22758%5C%22%20r%3D%5C%2214%5C%22/%3E%3Ccircle%20cx%3D%5C%221390%5C%22%20cy%3D%5C%22780%5C%22%20r%3D%5C%2212%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20865c260-35%20430-8%20620%2010%20250%2024%20530-28%20980-5v30H0z%5C%22%20fill%3D%5C%22#102522%5C%22%20fill-opacity%3D%5C%22.65%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#E9C58B%5C%22%20fill-opacity%3D%5C%22.8%5C%22%3E%3Ccircle%20cx%3D%5C%22375%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%221220%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%22300%5C%22%20cy%3D%5C%22835%5C%22%20r%3D%5C%224%5C%22/%3E%3Ccircle%20cx%3D%5C%221450%5C%22%20cy%3D%5C%22830%5C%22%20r%3D%5C%224%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%200h1600v900H0z%5C%22%20fill%3D%5C%22#071A27%5C%22%20fill-opacity%3D%5C%22.12%5C%22/%3E%20%3C/svg%3E%20') !important;
+  background-size: cover !important;
+  background-position: center 53% !important;
+  box-shadow: 0 16px 34px rgba(28, 43, 52, .16) !important;
+}
+.welcome:before, .welcome:after { content: none !important; }
+.welcome > div:first-child { width: 100%; }
+.welcome .eyebrow {
+  margin-bottom: 8px;
+  color: rgba(255,255,255,.82) !important;
+  font-size: 9px;
+  letter-spacing: .17em;
+}
+.welcome h1 {
+  color: #fff !important;
+  font-size: clamp(34px, 9vw, 46px);
+  line-height: 1.02;
+  letter-spacing: -.055em;
+  text-shadow: 0 2px 16px rgba(0,0,0,.18);
+}
+.welcome-copy {
+  margin: 8px 0 0;
+  color: rgba(255,255,255,.91) !important;
+  font-size: clamp(11px, 3vw, 13px);
+  line-height: 1.45;
+}
+.hero-chip {
+  top: 15px;
+  right: 15px;
+  border: 1px solid rgba(255,255,255,.38) !important;
+  background: rgba(255,255,255,.82) !important;
+  backdrop-filter: blur(12px);
+}
+.section-heading { margin-bottom: 16px; }
+.section-heading h2 {
+  font-size: clamp(23px, 6.3vw, 29px) !important;
+  font-weight: 750;
+  letter-spacing: -.05em;
+}
+.device-card {
+  min-height: 188px;
+  padding: 16px !important;
+  border-radius: 23px !important;
+  border: 1px solid rgba(28,42,60,.055) !important;
+  box-shadow: 0 9px 25px rgba(35,51,72,.075) !important;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.device-card:active { transform: scale(.985); }
+.device-card-head { margin-bottom: 18px !important; }
+.device-icon {
+  width: 68px !important;
+  height: 68px !important;
+  display: grid;
+  place-items: center;
+  border-radius: 19px !important;
+  background: #fff0c8 !important;
+  color: #c59a38 !important;
+}
+.device-icon svg {
+  width: 38px;
+  height: 38px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.device-card:nth-child(2) .device-icon { background: #dce9ff !important; color: #527ab8 !important; }
+.device-card:nth-child(3) .device-icon { background: #e8ddff !important; color: #8066bf !important; }
+.device-card:nth-child(4) .device-icon { background: #d8f3f1 !important; color: #279c9a !important; }
+.device-card h3 {
+  margin: 0 0 5px !important;
+  font-size: clamp(15px, 4vw, 18px) !important;
+  font-weight: 680;
+  letter-spacing: -.035em;
+}
+.device-card > p { font-size: 8px !important; line-height: 1.35; }
+.device-card > p:nth-of-type(1) { opacity: .56; }
+.device-card > p:nth-of-type(2) { opacity: .42; }
+.toggle-button {
+  width: 50px !important;
+  min-width: 50px !important;
+  min-height: 29px !important;
+  height: 29px !important;
+  top: 16px !important;
+  right: 15px !important;
+  border-radius: 30px !important;
+  background: #c8cbd0 !important;
+}
+.toggle-knob { width: 23px !important; height: 23px !important; top: 3px !important; left: 3px !important; }
+.device-card.is-on .toggle-button { background: #42bd91 !important; }
+.device-card.is-on .toggle-knob { transform: translateX(21px) !important; }
+html[data-theme="dark"] .welcome {
+  background-image:
+    linear-gradient(90deg, rgba(5,13,22,.84) 0%, rgba(5,13,22,.42) 65%, rgba(5,13,22,.20) 100%),
+    url('data:image/svg+xml,%3Csvg%20xmlns%3D%5C%22http://www.w3.org/2000/svg%5C%22%20width%3D%5C%221600%5C%22%20height%3D%5C%22900%5C%22%20viewBox%3D%5C%220%200%201600%20900%5C%22%20fill%3D%5C%22none%5C%22%3E%20%20%20%3Ctitle%3EModern%20smart%20home%20at%20dusk%3C/title%3E%20%20%20%3Cdesc%3EModern%20minimalist%20home%20with%20warm%20illuminated%20windows,%20landscaped%20garden%20and%20a%20calm%20blue%20evening%20sky.%3C/desc%3E%20%20%20%3Cdefs%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22sky%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#142C3D%5C%22/%3E%3Cstop%20offset%3D%5C%22.52%5C%22%20stop-color%3D%5C%22#345568%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B18B68%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22glass%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9CC3C9%5C%22%20stop-opacity%3D%5C%22.82%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#243E4C%5C%22%20stop-opacity%3D%5C%22.95%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wall%5C%22%20x1%3D%5C%22580%5C%22%20y1%3D%5C%22280%5C%22%20x2%3D%5C%221080%5C%22%20y2%3D%5C%22720%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F0E8D9%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B9B1A3%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wood%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9C7555%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#4D4036%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22lawn%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%22600%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#405B50%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#172F2B%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3CradialGradient%20id%3D%5C%22glow%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%22.52%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%220%5C%22/%3E%3C/radialGradient%3E%20%20%20%20%20%3Cfilter%20id%3D%5C%22shadow%5C%22%20x%3D%5C%22350%5C%22%20y%3D%5C%22210%5C%22%20width%3D%5C%22900%5C%22%20height%3D%5C%22650%5C%22%20color-interpolation-filters%3D%5C%22sRGB%5C%22%20filterUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3CfeGaussianBlur%20stdDeviation%3D%5C%2224%5C%22/%3E%3C/filter%3E%20%20%20%3C/defs%3E%20%20%20%3Cpath%20fill%3D%5C%22url(#sky)%5C%22%20d%3D%5C%22M0%200h1600v900H0z%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%22190%5C%22%20fill%3D%5C%22url(#glow)%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%2254%5C%22%20fill%3D%5C%22#F4DDB6%5C%22%20fill-opacity%3D%5C%22.7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20515%20180%20420l150%2074%20190-150%20190%20145%20160-105%20190%20130%20170-150%20170%20120%20200-95v310H0z%5C%22%20fill%3D%5C%22#243D43%5C%22%20fill-opacity%3D%5C%22.55%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20600%20230%20500l190%2090%20190-120%20210%20120%20180-90%20210%20105%20210-125%20180%2090v330H0z%5C%22%20fill%3D%5C%22#1D3538%5C%22%20fill-opacity%3D%5C%22.72%5C%22/%3E%20%20%20%3Cellipse%20cx%3D%5C%22830%5C%22%20cy%3D%5C%22758%5C%22%20rx%3D%5C%22530%5C%22%20ry%3D%5C%2275%5C%22%20fill%3D%5C%22#0B1B1D%5C%22%20fill-opacity%3D%5C%22.55%5C%22%20filter%3D%5C%22url(#shadow)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20690c220-42%20370-18%20560%2024%20220%2048%20430%2035%20620-5%20170-36%20290-31%20420-2v193H0z%5C%22%20fill%3D%5C%22url(#lawn)%5C%22/%3E%20%20%20%3C%21--%20house%20body%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M440%20420%20785%20230l395%20190v300H440z%5C%22%20fill%3D%5C%22url(#wall)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20430%20785%20205l435%20225-26%2040-409-211-370%20211z%5C%22%20fill%3D%5C%22#273D46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22m785%20205%20435%20225-26%2040-409-211z%5C%22%20fill%3D%5C%22#172D38%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445v275H785z%5C%22%20fill%3D%5C%22#D4CBBB%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445l-26%2017-324-167z%5C%22%20fill%3D%5C%22#F4EDE1%5C%22%20fill-opacity%3D%5C%22.5%5C%22/%3E%20%20%20%3C%21--%20left%20glazing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M500%20465h230v255H500z%5C%22%20fill%3D%5C%22#253C46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M514%20479h202v227H514z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M614%20479v227M514%20590h202%5C%22%20stroke%3D%5C%22#D7D6C9%5C%22%20stroke-opacity%3D%5C%22.75%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.58%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M624%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.32%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20602h82v92h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.28%5C%22/%3E%20%20%20%3C%21--%20right%20wing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M820%20475h260v245H820z%5C%22%20fill%3D%5C%22#263E48%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M837%20492h226v211H837z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M950%20492v211M837%20596h226%5C%22%20stroke%3D%5C%22#D9D4C7%5C%22%20stroke-opacity%3D%5C%22.7%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20505h88v78h-88zM963%20505h88v78h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.42%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20609h88v82h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.24%5C%22/%3E%20%20%20%3C%21--%20entrance%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M738%20540h90v180h-90z%5C%22%20fill%3D%5C%22url(#wood)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M751%20553h64v154h-64z%5C%22%20fill%3D%5C%22#604B3C%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%22801%5C%22%20cy%3D%5C%22635%5C%22%20r%3D%5C%225%5C%22%20fill%3D%5C%22#E7C58C%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M720%20532h126v12H720z%5C%22%20fill%3D%5C%22#F5ECDD%5C%22/%3E%20%20%20%3C%21--%20roof%20details%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M420%20430h730v14H420z%5C%22%20fill%3D%5C%22#172E39%5C%22%20fill-opacity%3D%5C%22.9%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20230v490%5C%22%20stroke%3D%5C%22#9F998E%5C%22%20stroke-opacity%3D%5C%22.3%5C%22%20stroke-width%3D%5C%223%5C%22/%3E%20%20%20%3C%21--%20terrace%20and%20steps%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M445%20720h705l68%2038H390z%5C%22%20fill%3D%5C%22#C4B9A7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20758h828l48%2028H350z%5C%22%20fill%3D%5C%22#938C7E%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M350%20786h916l45%2024H310z%5C%22%20fill%3D%5C%22#6E746D%5C%22/%3E%20%20%20%3C%21--%20garden%20beds%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M120%20820c120-70%20220-55%20330%200l-30%2080H90zM1160%20815c110-65%20230-50%20350%2010l30%2075h-410z%5C%22%20fill%3D%5C%22#243D34%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#789078%5C%22%3E%3Ccircle%20cx%3D%5C%22170%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2235%5C%22/%3E%3Ccircle%20cx%3D%5C%22220%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2242%5C%22/%3E%3Ccircle%20cx%3D%5C%22275%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2230%5C%22/%3E%3Ccircle%20cx%3D%5C%221290%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2238%5C%22/%3E%3Ccircle%20cx%3D%5C%221350%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2248%5C%22/%3E%3Ccircle%20cx%3D%5C%221420%5C%22%20cy%3D%5C%22765%5C%22%20r%3D%5C%2234%5C%22/%3E%3C/g%3E%20%20%20%3Cg%20fill%3D%5C%22#A9B58E%5C%22%3E%3Ccircle%20cx%3D%5C%22185%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%2213%5C%22/%3E%3Ccircle%20cx%3D%5C%22250%5C%22%20cy%3D%5C%22778%5C%22%20r%3D%5C%2212%5C%22/%3E%3Ccircle%20cx%3D%5C%221320%5C%22%20cy%3D%5C%22758%5C%22%20r%3D%5C%2214%5C%22/%3E%3Ccircle%20cx%3D%5C%221390%5C%22%20cy%3D%5C%22780%5C%22%20r%3D%5C%2212%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20865c260-35%20430-8%20620%2010%20250%2024%20530-28%20980-5v30H0z%5C%22%20fill%3D%5C%22#102522%5C%22%20fill-opacity%3D%5C%22.65%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#E9C58B%5C%22%20fill-opacity%3D%5C%22.8%5C%22%3E%3Ccircle%20cx%3D%5C%22375%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%221220%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%22300%5C%22%20cy%3D%5C%22835%5C%22%20r%3D%5C%224%5C%22/%3E%3Ccircle%20cx%3D%5C%221450%5C%22%20cy%3D%5C%22830%5C%22%20r%3D%5C%224%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%200h1600v900H0z%5C%22%20fill%3D%5C%22#071A27%5C%22%20fill-opacity%3D%5C%22.12%5C%22/%3E%20%3C/svg%3E%20') !important;
+  box-shadow: 0 16px 36px rgba(0,0,0,.34) !important;
+}
+html[data-theme="dark"] .device-card {
+  border-color: rgba(164,188,219,.12) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.22) !important;
+}
+html[data-theme="dark"] .device-card.is-on { background: #162638 !important; }
+html[data-theme="dark"] .device-icon,
+html[data-theme="dark"] .device-card:nth-child(2) .device-icon,
+html[data-theme="dark"] .device-card:nth-child(3) .device-icon,
+html[data-theme="dark"] .device-card:nth-child(4) .device-icon {
+  filter: saturate(.88) brightness(.88);
+}
+@media (max-width: 520px) {
+  .welcome { min-height: 226px; border-radius: 22px !important; background-position: 56% center !important; }
+  .device-grid { gap: 12px; }
+  .device-card { min-height: 178px; padding: 14px !important; }
+  .device-icon { width: 62px !important; height: 62px !important; }
+  .device-icon svg { width: 35px; height: 35px; }
+  .device-card-head { margin-bottom: 17px !important; }
+}
+@media (max-width: 360px) {
+  .welcome { min-height: 205px; padding: 17px !important; }
+  .device-card { min-height: 166px; padding: 12px !important; }
+  .device-icon { width: 55px !important; height: 55px !important; border-radius: 16px !important; }
+  .device-icon svg { width: 31px; height: 31px; }
+  .device-card h3 { font-size: 14px !important; }
+}
+
+
+/* =========================================================
+   R6 — DEVICE SWITCH ONLY
+   Refine the physical-looking ON/OFF switch without changing
+   device logic, card layout, navigation, or other UI sections.
+========================================================= */
+.device-card .toggle-button {
+  box-sizing: border-box !important;
+  width: 54px !important;
+  min-width: 54px !important;
+  max-width: 54px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+  top: 15px !important;
+  right: 15px !important;
+  display: block !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #c9ced5 !important;
+  box-shadow: inset 0 1px 2px rgba(20, 30, 45, .12) !important;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .22s ease, box-shadow .22s ease, opacity .2s ease !important;
+}
+
+.device-card .toggle-knob {
+  position: absolute !important;
+  left: 4px !important;
+  top: 4px !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  box-shadow: 0 1px 3px rgba(20, 30, 45, .2), 0 1px 1px rgba(20, 30, 45, .08) !important;
+  transform: translateX(0) !important;
+  transition: transform .22s cubic-bezier(.2,.75,.25,1), box-shadow .22s ease !important;
+}
+
+.device-card .toggle-knob::after {
+  display: none !important;
+  content: none !important;
+}
+
+.device-card.is-on .toggle-button {
+  background: #36bd8d !important;
+  box-shadow: inset 0 1px 2px rgba(12, 85, 61, .12) !important;
+}
+
+.device-card.is-on .toggle-knob {
+  transform: translateX(22px) !important;
+  box-shadow: 0 2px 5px rgba(20, 70, 52, .2) !important;
+}
+
+.device-card .toggle-button:active {
+  transform: none !important;
+}
+
+.device-card .toggle-button:focus-visible {
+  outline: 3px solid rgba(54, 189, 141, .32) !important;
+  outline-offset: 3px !important;
+}
+
+.device-card .toggle-button:disabled {
+  cursor: not-allowed !important;
+  opacity: .62 !important;
+  filter: none !important;
+}
+
+html[data-theme="dark"] .device-card .toggle-button {
+  background: #4b5665 !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .28) !important;
+}
+
+html[data-theme="dark"] .device-card.is-on .toggle-button {
+  background: #35b987 !important;
+}
+
+html[data-theme="dark"] .device-card .toggle-knob {
+  background: #f8fafc !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .35) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .device-card .toggle-button,
+  .device-card .toggle-knob {
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   R7 — DEVICE STATUS LABEL POSITION ONLY
+   Move ON/OFF status below the switch to the card's bottom-right.
+   Switch appearance and device-control logic remain unchanged.
+========================================================= */
+.device-card .state-badge {
+  position: absolute !important;
+  top: auto !important;
+  right: 15px !important;
+  bottom: 15px !important;
+  z-index: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 34px !important;
+  min-height: 20px !important;
+  margin: 0 !important;
+  padding: 3px 8px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #f0f2f4 !important;
+  color: #69727d !important;
+  font-size: 10px !important;
+  font-weight: 750 !important;
+  line-height: 1 !important;
+  letter-spacing: .035em !important;
+  white-space: nowrap !important;
+}
+.device-card.is-on .state-badge {
+  background: #e6f7ef !important;
+  color: #269b73 !important;
+}
+html[data-theme="dark"] .device-card .state-badge {
+  background: #253244 !important;
+  color: #c0cad7 !important;
+}
+html[data-theme="dark"] .device-card.is-on .state-badge {
+  background: #1d4039 !important;
+  color: #7ce0b9 !important;
+}
+
+/* =========================================================
+   NOVIA HOME — HERO IMAGE PATH / CASCADE FIX R6
+   Keep the hero artwork visible in light and dark themes.
+   The URL is relative to this CSS file: /css -> /assets.
+========================================================= */
+.welcome {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 23, 29, .76) 0%,
+      rgba(12, 23, 29, .30) 58%,
+      rgba(12, 23, 29, .10) 100%
+    ),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%5C%22http://www.w3.org/2000/svg%5C%22%20width%3D%5C%221600%5C%22%20height%3D%5C%22900%5C%22%20viewBox%3D%5C%220%200%201600%20900%5C%22%20fill%3D%5C%22none%5C%22%3E%20%20%20%3Ctitle%3EModern%20smart%20home%20at%20dusk%3C/title%3E%20%20%20%3Cdesc%3EModern%20minimalist%20home%20with%20warm%20illuminated%20windows,%20landscaped%20garden%20and%20a%20calm%20blue%20evening%20sky.%3C/desc%3E%20%20%20%3Cdefs%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22sky%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#142C3D%5C%22/%3E%3Cstop%20offset%3D%5C%22.52%5C%22%20stop-color%3D%5C%22#345568%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B18B68%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22glass%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9CC3C9%5C%22%20stop-opacity%3D%5C%22.82%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#243E4C%5C%22%20stop-opacity%3D%5C%22.95%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wall%5C%22%20x1%3D%5C%22580%5C%22%20y1%3D%5C%22280%5C%22%20x2%3D%5C%221080%5C%22%20y2%3D%5C%22720%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F0E8D9%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B9B1A3%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wood%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9C7555%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#4D4036%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22lawn%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%22600%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#405B50%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#172F2B%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3CradialGradient%20id%3D%5C%22glow%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%22.52%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%220%5C%22/%3E%3C/radialGradient%3E%20%20%20%20%20%3Cfilter%20id%3D%5C%22shadow%5C%22%20x%3D%5C%22350%5C%22%20y%3D%5C%22210%5C%22%20width%3D%5C%22900%5C%22%20height%3D%5C%22650%5C%22%20color-interpolation-filters%3D%5C%22sRGB%5C%22%20filterUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3CfeGaussianBlur%20stdDeviation%3D%5C%2224%5C%22/%3E%3C/filter%3E%20%20%20%3C/defs%3E%20%20%20%3Cpath%20fill%3D%5C%22url(#sky)%5C%22%20d%3D%5C%22M0%200h1600v900H0z%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%22190%5C%22%20fill%3D%5C%22url(#glow)%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%2254%5C%22%20fill%3D%5C%22#F4DDB6%5C%22%20fill-opacity%3D%5C%22.7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20515%20180%20420l150%2074%20190-150%20190%20145%20160-105%20190%20130%20170-150%20170%20120%20200-95v310H0z%5C%22%20fill%3D%5C%22#243D43%5C%22%20fill-opacity%3D%5C%22.55%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20600%20230%20500l190%2090%20190-120%20210%20120%20180-90%20210%20105%20210-125%20180%2090v330H0z%5C%22%20fill%3D%5C%22#1D3538%5C%22%20fill-opacity%3D%5C%22.72%5C%22/%3E%20%20%20%3Cellipse%20cx%3D%5C%22830%5C%22%20cy%3D%5C%22758%5C%22%20rx%3D%5C%22530%5C%22%20ry%3D%5C%2275%5C%22%20fill%3D%5C%22#0B1B1D%5C%22%20fill-opacity%3D%5C%22.55%5C%22%20filter%3D%5C%22url(#shadow)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20690c220-42%20370-18%20560%2024%20220%2048%20430%2035%20620-5%20170-36%20290-31%20420-2v193H0z%5C%22%20fill%3D%5C%22url(#lawn)%5C%22/%3E%20%20%20%3C%21--%20house%20body%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M440%20420%20785%20230l395%20190v300H440z%5C%22%20fill%3D%5C%22url(#wall)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20430%20785%20205l435%20225-26%2040-409-211-370%20211z%5C%22%20fill%3D%5C%22#273D46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22m785%20205%20435%20225-26%2040-409-211z%5C%22%20fill%3D%5C%22#172D38%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445v275H785z%5C%22%20fill%3D%5C%22#D4CBBB%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445l-26%2017-324-167z%5C%22%20fill%3D%5C%22#F4EDE1%5C%22%20fill-opacity%3D%5C%22.5%5C%22/%3E%20%20%20%3C%21--%20left%20glazing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M500%20465h230v255H500z%5C%22%20fill%3D%5C%22#253C46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M514%20479h202v227H514z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M614%20479v227M514%20590h202%5C%22%20stroke%3D%5C%22#D7D6C9%5C%22%20stroke-opacity%3D%5C%22.75%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.58%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M624%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.32%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20602h82v92h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.28%5C%22/%3E%20%20%20%3C%21--%20right%20wing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M820%20475h260v245H820z%5C%22%20fill%3D%5C%22#263E48%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M837%20492h226v211H837z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M950%20492v211M837%20596h226%5C%22%20stroke%3D%5C%22#D9D4C7%5C%22%20stroke-opacity%3D%5C%22.7%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20505h88v78h-88zM963%20505h88v78h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.42%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20609h88v82h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.24%5C%22/%3E%20%20%20%3C%21--%20entrance%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M738%20540h90v180h-90z%5C%22%20fill%3D%5C%22url(#wood)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M751%20553h64v154h-64z%5C%22%20fill%3D%5C%22#604B3C%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%22801%5C%22%20cy%3D%5C%22635%5C%22%20r%3D%5C%225%5C%22%20fill%3D%5C%22#E7C58C%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M720%20532h126v12H720z%5C%22%20fill%3D%5C%22#F5ECDD%5C%22/%3E%20%20%20%3C%21--%20roof%20details%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M420%20430h730v14H420z%5C%22%20fill%3D%5C%22#172E39%5C%22%20fill-opacity%3D%5C%22.9%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20230v490%5C%22%20stroke%3D%5C%22#9F998E%5C%22%20stroke-opacity%3D%5C%22.3%5C%22%20stroke-width%3D%5C%223%5C%22/%3E%20%20%20%3C%21--%20terrace%20and%20steps%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M445%20720h705l68%2038H390z%5C%22%20fill%3D%5C%22#C4B9A7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20758h828l48%2028H350z%5C%22%20fill%3D%5C%22#938C7E%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M350%20786h916l45%2024H310z%5C%22%20fill%3D%5C%22#6E746D%5C%22/%3E%20%20%20%3C%21--%20garden%20beds%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M120%20820c120-70%20220-55%20330%200l-30%2080H90zM1160%20815c110-65%20230-50%20350%2010l30%2075h-410z%5C%22%20fill%3D%5C%22#243D34%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#789078%5C%22%3E%3Ccircle%20cx%3D%5C%22170%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2235%5C%22/%3E%3Ccircle%20cx%3D%5C%22220%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2242%5C%22/%3E%3Ccircle%20cx%3D%5C%22275%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2230%5C%22/%3E%3Ccircle%20cx%3D%5C%221290%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2238%5C%22/%3E%3Ccircle%20cx%3D%5C%221350%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2248%5C%22/%3E%3Ccircle%20cx%3D%5C%221420%5C%22%20cy%3D%5C%22765%5C%22%20r%3D%5C%2234%5C%22/%3E%3C/g%3E%20%20%20%3Cg%20fill%3D%5C%22#A9B58E%5C%22%3E%3Ccircle%20cx%3D%5C%22185%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%2213%5C%22/%3E%3Ccircle%20cx%3D%5C%22250%5C%22%20cy%3D%5C%22778%5C%22%20r%3D%5C%2212%5C%22/%3E%3Ccircle%20cx%3D%5C%221320%5C%22%20cy%3D%5C%22758%5C%22%20r%3D%5C%2214%5C%22/%3E%3Ccircle%20cx%3D%5C%221390%5C%22%20cy%3D%5C%22780%5C%22%20r%3D%5C%2212%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20865c260-35%20430-8%20620%2010%20250%2024%20530-28%20980-5v30H0z%5C%22%20fill%3D%5C%22#102522%5C%22%20fill-opacity%3D%5C%22.65%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#E9C58B%5C%22%20fill-opacity%3D%5C%22.8%5C%22%3E%3Ccircle%20cx%3D%5C%22375%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%221220%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%22300%5C%22%20cy%3D%5C%22835%5C%22%20r%3D%5C%224%5C%22/%3E%3Ccircle%20cx%3D%5C%221450%5C%22%20cy%3D%5C%22830%5C%22%20r%3D%5C%224%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%200h1600v900H0z%5C%22%20fill%3D%5C%22#071A27%5C%22%20fill-opacity%3D%5C%22.12%5C%22/%3E%20%3C/svg%3E%20") center 53% / cover no-repeat !important;
+  background-color: #263d43 !important;
+}
+html[data-theme="dark"] .welcome {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 13, 22, .78) 0%,
+      rgba(5, 13, 22, .38) 62%,
+      rgba(5, 13, 22, .16) 100%
+    ),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%5C%22http://www.w3.org/2000/svg%5C%22%20width%3D%5C%221600%5C%22%20height%3D%5C%22900%5C%22%20viewBox%3D%5C%220%200%201600%20900%5C%22%20fill%3D%5C%22none%5C%22%3E%20%20%20%3Ctitle%3EModern%20smart%20home%20at%20dusk%3C/title%3E%20%20%20%3Cdesc%3EModern%20minimalist%20home%20with%20warm%20illuminated%20windows,%20landscaped%20garden%20and%20a%20calm%20blue%20evening%20sky.%3C/desc%3E%20%20%20%3Cdefs%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22sky%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#142C3D%5C%22/%3E%3Cstop%20offset%3D%5C%22.52%5C%22%20stop-color%3D%5C%22#345568%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B18B68%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22glass%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9CC3C9%5C%22%20stop-opacity%3D%5C%22.82%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#243E4C%5C%22%20stop-opacity%3D%5C%22.95%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wall%5C%22%20x1%3D%5C%22580%5C%22%20y1%3D%5C%22280%5C%22%20x2%3D%5C%221080%5C%22%20y2%3D%5C%22720%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F0E8D9%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B9B1A3%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wood%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9C7555%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#4D4036%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22lawn%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%22600%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#405B50%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#172F2B%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3CradialGradient%20id%3D%5C%22glow%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%22.52%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%220%5C%22/%3E%3C/radialGradient%3E%20%20%20%20%20%3Cfilter%20id%3D%5C%22shadow%5C%22%20x%3D%5C%22350%5C%22%20y%3D%5C%22210%5C%22%20width%3D%5C%22900%5C%22%20height%3D%5C%22650%5C%22%20color-interpolation-filters%3D%5C%22sRGB%5C%22%20filterUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3CfeGaussianBlur%20stdDeviation%3D%5C%2224%5C%22/%3E%3C/filter%3E%20%20%20%3C/defs%3E%20%20%20%3Cpath%20fill%3D%5C%22url(#sky)%5C%22%20d%3D%5C%22M0%200h1600v900H0z%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%22190%5C%22%20fill%3D%5C%22url(#glow)%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%2254%5C%22%20fill%3D%5C%22#F4DDB6%5C%22%20fill-opacity%3D%5C%22.7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20515%20180%20420l150%2074%20190-150%20190%20145%20160-105%20190%20130%20170-150%20170%20120%20200-95v310H0z%5C%22%20fill%3D%5C%22#243D43%5C%22%20fill-opacity%3D%5C%22.55%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20600%20230%20500l190%2090%20190-120%20210%20120%20180-90%20210%20105%20210-125%20180%2090v330H0z%5C%22%20fill%3D%5C%22#1D3538%5C%22%20fill-opacity%3D%5C%22.72%5C%22/%3E%20%20%20%3Cellipse%20cx%3D%5C%22830%5C%22%20cy%3D%5C%22758%5C%22%20rx%3D%5C%22530%5C%22%20ry%3D%5C%2275%5C%22%20fill%3D%5C%22#0B1B1D%5C%22%20fill-opacity%3D%5C%22.55%5C%22%20filter%3D%5C%22url(#shadow)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20690c220-42%20370-18%20560%2024%20220%2048%20430%2035%20620-5%20170-36%20290-31%20420-2v193H0z%5C%22%20fill%3D%5C%22url(#lawn)%5C%22/%3E%20%20%20%3C%21--%20house%20body%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M440%20420%20785%20230l395%20190v300H440z%5C%22%20fill%3D%5C%22url(#wall)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20430%20785%20205l435%20225-26%2040-409-211-370%20211z%5C%22%20fill%3D%5C%22#273D46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22m785%20205%20435%20225-26%2040-409-211z%5C%22%20fill%3D%5C%22#172D38%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445v275H785z%5C%22%20fill%3D%5C%22#D4CBBB%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445l-26%2017-324-167z%5C%22%20fill%3D%5C%22#F4EDE1%5C%22%20fill-opacity%3D%5C%22.5%5C%22/%3E%20%20%20%3C%21--%20left%20glazing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M500%20465h230v255H500z%5C%22%20fill%3D%5C%22#253C46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M514%20479h202v227H514z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M614%20479v227M514%20590h202%5C%22%20stroke%3D%5C%22#D7D6C9%5C%22%20stroke-opacity%3D%5C%22.75%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.58%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M624%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.32%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20602h82v92h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.28%5C%22/%3E%20%20%20%3C%21--%20right%20wing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M820%20475h260v245H820z%5C%22%20fill%3D%5C%22#263E48%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M837%20492h226v211H837z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M950%20492v211M837%20596h226%5C%22%20stroke%3D%5C%22#D9D4C7%5C%22%20stroke-opacity%3D%5C%22.7%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20505h88v78h-88zM963%20505h88v78h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.42%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20609h88v82h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.24%5C%22/%3E%20%20%20%3C%21--%20entrance%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M738%20540h90v180h-90z%5C%22%20fill%3D%5C%22url(#wood)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M751%20553h64v154h-64z%5C%22%20fill%3D%5C%22#604B3C%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%22801%5C%22%20cy%3D%5C%22635%5C%22%20r%3D%5C%225%5C%22%20fill%3D%5C%22#E7C58C%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M720%20532h126v12H720z%5C%22%20fill%3D%5C%22#F5ECDD%5C%22/%3E%20%20%20%3C%21--%20roof%20details%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M420%20430h730v14H420z%5C%22%20fill%3D%5C%22#172E39%5C%22%20fill-opacity%3D%5C%22.9%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20230v490%5C%22%20stroke%3D%5C%22#9F998E%5C%22%20stroke-opacity%3D%5C%22.3%5C%22%20stroke-width%3D%5C%223%5C%22/%3E%20%20%20%3C%21--%20terrace%20and%20steps%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M445%20720h705l68%2038H390z%5C%22%20fill%3D%5C%22#C4B9A7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20758h828l48%2028H350z%5C%22%20fill%3D%5C%22#938C7E%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M350%20786h916l45%2024H310z%5C%22%20fill%3D%5C%22#6E746D%5C%22/%3E%20%20%20%3C%21--%20garden%20beds%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M120%20820c120-70%20220-55%20330%200l-30%2080H90zM1160%20815c110-65%20230-50%20350%2010l30%2075h-410z%5C%22%20fill%3D%5C%22#243D34%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#789078%5C%22%3E%3Ccircle%20cx%3D%5C%22170%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2235%5C%22/%3E%3Ccircle%20cx%3D%5C%22220%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2242%5C%22/%3E%3Ccircle%20cx%3D%5C%22275%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2230%5C%22/%3E%3Ccircle%20cx%3D%5C%221290%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2238%5C%22/%3E%3Ccircle%20cx%3D%5C%221350%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2248%5C%22/%3E%3Ccircle%20cx%3D%5C%221420%5C%22%20cy%3D%5C%22765%5C%22%20r%3D%5C%2234%5C%22/%3E%3C/g%3E%20%20%20%3Cg%20fill%3D%5C%22#A9B58E%5C%22%3E%3Ccircle%20cx%3D%5C%22185%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%2213%5C%22/%3E%3Ccircle%20cx%3D%5C%22250%5C%22%20cy%3D%5C%22778%5C%22%20r%3D%5C%2212%5C%22/%3E%3Ccircle%20cx%3D%5C%221320%5C%22%20cy%3D%5C%22758%5C%22%20r%3D%5C%2214%5C%22/%3E%3Ccircle%20cx%3D%5C%221390%5C%22%20cy%3D%5C%22780%5C%22%20r%3D%5C%2212%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20865c260-35%20430-8%20620%2010%20250%2024%20530-28%20980-5v30H0z%5C%22%20fill%3D%5C%22#102522%5C%22%20fill-opacity%3D%5C%22.65%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#E9C58B%5C%22%20fill-opacity%3D%5C%22.8%5C%22%3E%3Ccircle%20cx%3D%5C%22375%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%221220%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%22300%5C%22%20cy%3D%5C%22835%5C%22%20r%3D%5C%224%5C%22/%3E%3Ccircle%20cx%3D%5C%221450%5C%22%20cy%3D%5C%22830%5C%22%20r%3D%5C%224%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%200h1600v900H0z%5C%22%20fill%3D%5C%22#071A27%5C%22%20fill-opacity%3D%5C%22.12%5C%22/%3E%20%3C/svg%3E%20") center 53% / cover no-repeat !important;
+  background-color: #172b38 !important;
+}
+
+
+/* NOVIA HOME R8 — theme-aware hero artwork + GPS label inside hero */
+.welcome {
+  background: linear-gradient(90deg, rgba(10,24,31,.68) 0%, rgba(10,24,31,.24) 62%, rgba(10,24,31,.06) 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%5C%22http://www.w3.org/2000/svg%5C%22%20width%3D%5C%221600%5C%22%20height%3D%5C%22900%5C%22%20viewBox%3D%5C%220%200%201600%20900%5C%22%20fill%3D%5C%22none%5C%22%3E%20%20%20%3Ctitle%3EModern%20smart%20home%20at%20dusk%3C/title%3E%20%20%20%3Cdesc%3EModern%20minimalist%20home%20with%20warm%20illuminated%20windows,%20landscaped%20garden%20and%20a%20calm%20blue%20evening%20sky.%3C/desc%3E%20%20%20%3Cdefs%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22sky%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#142C3D%5C%22/%3E%3Cstop%20offset%3D%5C%22.52%5C%22%20stop-color%3D%5C%22#345568%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B18B68%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22glass%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9CC3C9%5C%22%20stop-opacity%3D%5C%22.82%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#243E4C%5C%22%20stop-opacity%3D%5C%22.95%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wall%5C%22%20x1%3D%5C%22580%5C%22%20y1%3D%5C%22280%5C%22%20x2%3D%5C%221080%5C%22%20y2%3D%5C%22720%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F0E8D9%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#B9B1A3%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wood%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9C7555%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#4D4036%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22lawn%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%22600%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#405B50%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#172F2B%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3CradialGradient%20id%3D%5C%22glow%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%22.52%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%220%5C%22/%3E%3C/radialGradient%3E%20%20%20%20%20%3Cfilter%20id%3D%5C%22shadow%5C%22%20x%3D%5C%22350%5C%22%20y%3D%5C%22210%5C%22%20width%3D%5C%22900%5C%22%20height%3D%5C%22650%5C%22%20color-interpolation-filters%3D%5C%22sRGB%5C%22%20filterUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3CfeGaussianBlur%20stdDeviation%3D%5C%2224%5C%22/%3E%3C/filter%3E%20%20%20%3C/defs%3E%20%20%20%3Cpath%20fill%3D%5C%22url(#sky)%5C%22%20d%3D%5C%22M0%200h1600v900H0z%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%22190%5C%22%20fill%3D%5C%22url(#glow)%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%2254%5C%22%20fill%3D%5C%22#F4DDB6%5C%22%20fill-opacity%3D%5C%22.7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20515%20180%20420l150%2074%20190-150%20190%20145%20160-105%20190%20130%20170-150%20170%20120%20200-95v310H0z%5C%22%20fill%3D%5C%22#243D43%5C%22%20fill-opacity%3D%5C%22.55%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20600%20230%20500l190%2090%20190-120%20210%20120%20180-90%20210%20105%20210-125%20180%2090v330H0z%5C%22%20fill%3D%5C%22#1D3538%5C%22%20fill-opacity%3D%5C%22.72%5C%22/%3E%20%20%20%3Cellipse%20cx%3D%5C%22830%5C%22%20cy%3D%5C%22758%5C%22%20rx%3D%5C%22530%5C%22%20ry%3D%5C%2275%5C%22%20fill%3D%5C%22#0B1B1D%5C%22%20fill-opacity%3D%5C%22.55%5C%22%20filter%3D%5C%22url(#shadow)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20690c220-42%20370-18%20560%2024%20220%2048%20430%2035%20620-5%20170-36%20290-31%20420-2v193H0z%5C%22%20fill%3D%5C%22url(#lawn)%5C%22/%3E%20%20%20%3C%21--%20house%20body%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M440%20420%20785%20230l395%20190v300H440z%5C%22%20fill%3D%5C%22url(#wall)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20430%20785%20205l435%20225-26%2040-409-211-370%20211z%5C%22%20fill%3D%5C%22#273D46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22m785%20205%20435%20225-26%2040-409-211z%5C%22%20fill%3D%5C%22#172D38%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445v275H785z%5C%22%20fill%3D%5C%22#D4CBBB%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445l-26%2017-324-167z%5C%22%20fill%3D%5C%22#F4EDE1%5C%22%20fill-opacity%3D%5C%22.5%5C%22/%3E%20%20%20%3C%21--%20left%20glazing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M500%20465h230v255H500z%5C%22%20fill%3D%5C%22#253C46%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M514%20479h202v227H514z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M614%20479v227M514%20590h202%5C%22%20stroke%3D%5C%22#D7D6C9%5C%22%20stroke-opacity%3D%5C%22.75%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.58%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M624%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.32%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20602h82v92h-82z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.28%5C%22/%3E%20%20%20%3C%21--%20right%20wing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M820%20475h260v245H820z%5C%22%20fill%3D%5C%22#263E48%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M837%20492h226v211H837z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M950%20492v211M837%20596h226%5C%22%20stroke%3D%5C%22#D9D4C7%5C%22%20stroke-opacity%3D%5C%22.7%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20505h88v78h-88zM963%20505h88v78h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.42%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20609h88v82h-88z%5C%22%20fill%3D%5C%22#F4C987%5C%22%20fill-opacity%3D%5C%22.24%5C%22/%3E%20%20%20%3C%21--%20entrance%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M738%20540h90v180h-90z%5C%22%20fill%3D%5C%22url(#wood)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M751%20553h64v154h-64z%5C%22%20fill%3D%5C%22#604B3C%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%22801%5C%22%20cy%3D%5C%22635%5C%22%20r%3D%5C%225%5C%22%20fill%3D%5C%22#E7C58C%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M720%20532h126v12H720z%5C%22%20fill%3D%5C%22#F5ECDD%5C%22/%3E%20%20%20%3C%21--%20roof%20details%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M420%20430h730v14H420z%5C%22%20fill%3D%5C%22#172E39%5C%22%20fill-opacity%3D%5C%22.9%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20230v490%5C%22%20stroke%3D%5C%22#9F998E%5C%22%20stroke-opacity%3D%5C%22.3%5C%22%20stroke-width%3D%5C%223%5C%22/%3E%20%20%20%3C%21--%20terrace%20and%20steps%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M445%20720h705l68%2038H390z%5C%22%20fill%3D%5C%22#C4B9A7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20758h828l48%2028H350z%5C%22%20fill%3D%5C%22#938C7E%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M350%20786h916l45%2024H310z%5C%22%20fill%3D%5C%22#6E746D%5C%22/%3E%20%20%20%3C%21--%20garden%20beds%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M120%20820c120-70%20220-55%20330%200l-30%2080H90zM1160%20815c110-65%20230-50%20350%2010l30%2075h-410z%5C%22%20fill%3D%5C%22#243D34%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#789078%5C%22%3E%3Ccircle%20cx%3D%5C%22170%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2235%5C%22/%3E%3Ccircle%20cx%3D%5C%22220%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2242%5C%22/%3E%3Ccircle%20cx%3D%5C%22275%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2230%5C%22/%3E%3Ccircle%20cx%3D%5C%221290%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2238%5C%22/%3E%3Ccircle%20cx%3D%5C%221350%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2248%5C%22/%3E%3Ccircle%20cx%3D%5C%221420%5C%22%20cy%3D%5C%22765%5C%22%20r%3D%5C%2234%5C%22/%3E%3C/g%3E%20%20%20%3Cg%20fill%3D%5C%22#A9B58E%5C%22%3E%3Ccircle%20cx%3D%5C%22185%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%2213%5C%22/%3E%3Ccircle%20cx%3D%5C%22250%5C%22%20cy%3D%5C%22778%5C%22%20r%3D%5C%2212%5C%22/%3E%3Ccircle%20cx%3D%5C%221320%5C%22%20cy%3D%5C%22758%5C%22%20r%3D%5C%2214%5C%22/%3E%3Ccircle%20cx%3D%5C%221390%5C%22%20cy%3D%5C%22780%5C%22%20r%3D%5C%2212%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20865c260-35%20430-8%20620%2010%20250%2024%20530-28%20980-5v30H0z%5C%22%20fill%3D%5C%22#102522%5C%22%20fill-opacity%3D%5C%22.65%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#E9C58B%5C%22%20fill-opacity%3D%5C%22.8%5C%22%3E%3Ccircle%20cx%3D%5C%22375%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%221220%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%22300%5C%22%20cy%3D%5C%22835%5C%22%20r%3D%5C%224%5C%22/%3E%3Ccircle%20cx%3D%5C%221450%5C%22%20cy%3D%5C%22830%5C%22%20r%3D%5C%224%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%200h1600v900H0z%5C%22%20fill%3D%5C%22#071A27%5C%22%20fill-opacity%3D%5C%22.12%5C%22/%3E%20%3C/svg%3E%20") center 53% / cover no-repeat !important;
+}
+html[data-theme="light"] .welcome {
+  background: linear-gradient(90deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 70%),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%5C%22http://www.w3.org/2000/svg%5C%22%20width%3D%5C%221600%5C%22%20height%3D%5C%22900%5C%22%20viewBox%3D%5C%220%200%201600%20900%5C%22%20fill%3D%5C%22none%5C%22%3E%20%20%20%3Ctitle%3EModern%20smart%20home%20at%20dusk%3C/title%3E%20%20%20%3Cdesc%3EModern%20minimalist%20home%20with%20warm%20illuminated%20windows,%20landscaped%20garden%20and%20a%20calm%20blue%20evening%20sky.%3C/desc%3E%20%20%20%3Cdefs%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22sky%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#B9D9EA%5C%22/%3E%3Cstop%20offset%3D%5C%22.52%5C%22%20stop-color%3D%5C%22#DDEBF2%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#F2DDBB%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22glass%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#C7E6EB%5C%22%20stop-opacity%3D%5C%22.82%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#7196A5%5C%22%20stop-opacity%3D%5C%22.95%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wall%5C%22%20x1%3D%5C%22580%5C%22%20y1%3D%5C%22280%5C%22%20x2%3D%5C%221080%5C%22%20y2%3D%5C%22720%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#FFF9EE%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#D8D1C4%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22wood%5C%22%20x1%3D%5C%220%5C%22%20y1%3D%5C%220%5C%22%20x2%3D%5C%221%5C%22%20y2%3D%5C%221%5C%22%3E%3Cstop%20stop-color%3D%5C%22#9C7555%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#4D4036%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3ClinearGradient%20id%3D%5C%22lawn%5C%22%20x1%3D%5C%22800%5C%22%20y1%3D%5C%22600%5C%22%20x2%3D%5C%22800%5C%22%20y2%3D%5C%22900%5C%22%20gradientUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3Cstop%20stop-color%3D%5C%22#779B78%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#456B58%5C%22/%3E%3C/linearGradient%3E%20%20%20%20%20%3CradialGradient%20id%3D%5C%22glow%5C%22%3E%3Cstop%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%22.52%5C%22/%3E%3Cstop%20offset%3D%5C%221%5C%22%20stop-color%3D%5C%22#F5D7A0%5C%22%20stop-opacity%3D%5C%220%5C%22/%3E%3C/radialGradient%3E%20%20%20%20%20%3Cfilter%20id%3D%5C%22shadow%5C%22%20x%3D%5C%22350%5C%22%20y%3D%5C%22210%5C%22%20width%3D%5C%22900%5C%22%20height%3D%5C%22650%5C%22%20color-interpolation-filters%3D%5C%22sRGB%5C%22%20filterUnits%3D%5C%22userSpaceOnUse%5C%22%3E%3CfeGaussianBlur%20stdDeviation%3D%5C%2224%5C%22/%3E%3C/filter%3E%20%20%20%3C/defs%3E%20%20%20%3Cpath%20fill%3D%5C%22url(#sky)%5C%22%20d%3D%5C%22M0%200h1600v900H0z%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%22190%5C%22%20fill%3D%5C%22url(#glow)%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%221260%5C%22%20cy%3D%5C%22170%5C%22%20r%3D%5C%2254%5C%22%20fill%3D%5C%22#FFF1C9%5C%22%20fill-opacity%3D%5C%22.7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20515%20180%20420l150%2074%20190-150%20190%20145%20160-105%20190%20130%20170-150%20170%20120%20200-95v310H0z%5C%22%20fill%3D%5C%22#7897A2%5C%22%20fill-opacity%3D%5C%22.55%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20600%20230%20500l190%2090%20190-120%20210%20120%20180-90%20210%20105%20210-125%20180%2090v330H0z%5C%22%20fill%3D%5C%22#66877E%5C%22%20fill-opacity%3D%5C%22.72%5C%22/%3E%20%20%20%3Cellipse%20cx%3D%5C%22830%5C%22%20cy%3D%5C%22758%5C%22%20rx%3D%5C%22530%5C%22%20ry%3D%5C%2275%5C%22%20fill%3D%5C%22#455D59%5C%22%20fill-opacity%3D%5C%22.55%5C%22%20filter%3D%5C%22url(#shadow)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20690c220-42%20370-18%20560%2024%20220%2048%20430%2035%20620-5%20170-36%20290-31%20420-2v193H0z%5C%22%20fill%3D%5C%22url(#lawn)%5C%22/%3E%20%20%20%3C%21--%20house%20body%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M440%20420%20785%20230l395%20190v300H440z%5C%22%20fill%3D%5C%22url(#wall)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20430%20785%20205l435%20225-26%2040-409-211-370%20211z%5C%22%20fill%3D%5C%22#536D78%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22m785%20205%20435%20225-26%2040-409-211z%5C%22%20fill%3D%5C%22#405966%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445v275H785z%5C%22%20fill%3D%5C%22#F2EBDD%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20265%201135%20445l-26%2017-324-167z%5C%22%20fill%3D%5C%22#F4EDE1%5C%22%20fill-opacity%3D%5C%22.5%5C%22/%3E%20%20%20%3C%21--%20left%20glazing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M500%20465h230v255H500z%5C%22%20fill%3D%5C%22#587783%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M514%20479h202v227H514z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M614%20479v227M514%20590h202%5C%22%20stroke%3D%5C%22#D7D6C9%5C%22%20stroke-opacity%3D%5C%22.75%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F9DDA4%5C%22%20fill-opacity%3D%5C%22.58%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M624%20493h82v87h-82z%5C%22%20fill%3D%5C%22#F9DDA4%5C%22%20fill-opacity%3D%5C%22.32%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M524%20602h82v92h-82z%5C%22%20fill%3D%5C%22#F9DDA4%5C%22%20fill-opacity%3D%5C%22.28%5C%22/%3E%20%20%20%3C%21--%20right%20wing%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M820%20475h260v245H820z%5C%22%20fill%3D%5C%22#587783%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M837%20492h226v211H837z%5C%22%20fill%3D%5C%22url(#glass)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M950%20492v211M837%20596h226%5C%22%20stroke%3D%5C%22#D9D4C7%5C%22%20stroke-opacity%3D%5C%22.7%5C%22%20stroke-width%3D%5C%227%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20505h88v78h-88zM963%20505h88v78h-88z%5C%22%20fill%3D%5C%22#F9DDA4%5C%22%20fill-opacity%3D%5C%22.42%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M849%20609h88v82h-88z%5C%22%20fill%3D%5C%22#F9DDA4%5C%22%20fill-opacity%3D%5C%22.24%5C%22/%3E%20%20%20%3C%21--%20entrance%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M738%20540h90v180h-90z%5C%22%20fill%3D%5C%22url(#wood)%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M751%20553h64v154h-64z%5C%22%20fill%3D%5C%22#604B3C%5C%22/%3E%20%20%20%3Ccircle%20cx%3D%5C%22801%5C%22%20cy%3D%5C%22635%5C%22%20r%3D%5C%225%5C%22%20fill%3D%5C%22#E7C58C%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M720%20532h126v12H720z%5C%22%20fill%3D%5C%22#F5ECDD%5C%22/%3E%20%20%20%3C%21--%20roof%20details%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M420%20430h730v14H420z%5C%22%20fill%3D%5C%22#172E39%5C%22%20fill-opacity%3D%5C%22.9%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M785%20230v490%5C%22%20stroke%3D%5C%22#9F998E%5C%22%20stroke-opacity%3D%5C%22.3%5C%22%20stroke-width%3D%5C%223%5C%22/%3E%20%20%20%3C%21--%20terrace%20and%20steps%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M445%20720h705l68%2038H390z%5C%22%20fill%3D%5C%22#C4B9A7%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M390%20758h828l48%2028H350z%5C%22%20fill%3D%5C%22#938C7E%5C%22/%3E%20%20%20%3Cpath%20d%3D%5C%22M350%20786h916l45%2024H310z%5C%22%20fill%3D%5C%22#6E746D%5C%22/%3E%20%20%20%3C%21--%20garden%20beds%20--%3E%20%20%20%3Cpath%20d%3D%5C%22M120%20820c120-70%20220-55%20330%200l-30%2080H90zM1160%20815c110-65%20230-50%20350%2010l30%2075h-410z%5C%22%20fill%3D%5C%22#243D34%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#789078%5C%22%3E%3Ccircle%20cx%3D%5C%22170%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2235%5C%22/%3E%3Ccircle%20cx%3D%5C%22220%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2242%5C%22/%3E%3Ccircle%20cx%3D%5C%22275%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2230%5C%22/%3E%3Ccircle%20cx%3D%5C%221290%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%2238%5C%22/%3E%3Ccircle%20cx%3D%5C%221350%5C%22%20cy%3D%5C%22790%5C%22%20r%3D%5C%2248%5C%22/%3E%3Ccircle%20cx%3D%5C%221420%5C%22%20cy%3D%5C%22765%5C%22%20r%3D%5C%2234%5C%22/%3E%3C/g%3E%20%20%20%3Cg%20fill%3D%5C%22#A9B58E%5C%22%3E%3Ccircle%20cx%3D%5C%22185%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%2213%5C%22/%3E%3Ccircle%20cx%3D%5C%22250%5C%22%20cy%3D%5C%22778%5C%22%20r%3D%5C%2212%5C%22/%3E%3Ccircle%20cx%3D%5C%221320%5C%22%20cy%3D%5C%22758%5C%22%20r%3D%5C%2214%5C%22/%3E%3Ccircle%20cx%3D%5C%221390%5C%22%20cy%3D%5C%22780%5C%22%20r%3D%5C%2212%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%20865c260-35%20430-8%20620%2010%20250%2024%20530-28%20980-5v30H0z%5C%22%20fill%3D%5C%22#52745F%5C%22%20fill-opacity%3D%5C%22.65%5C%22/%3E%20%20%20%3Cg%20fill%3D%5C%22#E9C58B%5C%22%20fill-opacity%3D%5C%22.8%5C%22%3E%3Ccircle%20cx%3D%5C%22375%5C%22%20cy%3D%5C%22760%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%221220%5C%22%20cy%3D%5C%22770%5C%22%20r%3D%5C%225%5C%22/%3E%3Ccircle%20cx%3D%5C%22300%5C%22%20cy%3D%5C%22835%5C%22%20r%3D%5C%224%5C%22/%3E%3Ccircle%20cx%3D%5C%221450%5C%22%20cy%3D%5C%22830%5C%22%20r%3D%5C%224%5C%22/%3E%3C/g%3E%20%20%20%3Cpath%20d%3D%5C%22M0%200h1600v900H0z%5C%22%20fill%3D%5C%22#FFFFFF%5C%22%20fill-opacity%3D%5C%22.12%5C%22/%3E%20%3C/svg%3E%20") center 53% / cover no-repeat !important;
+}
+html[data-theme="light"] .welcome .eyebrow,
+html[data-theme="light"] .welcome h1,
+html[data-theme="light"] .welcome-copy {
+  color: #17313d !important;
+  text-shadow: 0 1px 8px rgba(255,255,255,.42);
+}
+html[data-theme="light"] .hero-chip {
+  color: #203744 !important; background: rgba(255,255,255,.86) !important;
+  border-color: rgba(48,75,88,.22) !important;
+}
+.hero-location {
+  position:absolute; top:15px; left:17px; z-index:4;
+  display:flex !important; align-items:center; gap:5px;
+  width:max-content; max-width:calc(100% - 125px);
+  padding:6px 10px; border:1px solid rgba(255,255,255,.24);
+  border-radius:999px; background:rgba(12,25,35,.58);
+  color:#fff !important; font-size:9px !important; font-weight:650;
+  letter-spacing:.015em !important; line-height:1.25;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+}
+.hero-location .location-pin { color:#63dfb6; font-size:12px; flex:0 0 auto; }
+.hero-location.is-error { color:#fff !important; }
+html[data-theme="light"] .hero-location {
+  color:#17313d !important; background:rgba(255,255,255,.78);
+  border-color:rgba(35,65,78,.16); box-shadow:0 2px 10px rgba(20,45,55,.08);
+}
+html[data-theme="light"] .hero-location .location-pin { color:#218f70; }
+@media (max-width:380px) {
+  .hero-location { top:12px; left:12px; max-width:calc(100% - 112px); padding:5px 8px; font-size:8px !important; }
+}
+
+</style>
+
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <!-- =====================================
+         TOPBAR
+    ====================================== -->
+
+    <header class="topbar">
+
+      <a
+        class="brand"
+        href="./"
+        aria-label="NOVIA HOME Dashboard"
+      >
+        <span class="brand-mark" aria-hidden="true">N</span>
+
+        <span>
+          <strong>NOVIA HOME</strong>
+          <small>SMART CONTROL</small>
+        </span>
+      </a>
+
+      <div
+        class="demo-pill"
+        role="status"
+        aria-live="polite"
+      >
+        <span class="pulse" aria-hidden="true"></span>
+
+        <span id="connectionStatus">
+          MENGHUBUNGKAN...
+        </span>
+      </div>
+
+      <!-- Theme Switcher ditambahkan otomatis oleh app.js -->
+
+    </header>
+
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
+    <main id="main-content">
+
+      <!-- WELCOME SECTION -->
+
+      <section class="welcome">
+
+        <small class="hero-location" id="deviceLocation" role="status" aria-live="polite">
+          <span class="location-pin" aria-hidden="true">⌖</span> Mencari lokasi...
+        </small>
+
+        <div>
+          <p class="eyebrow">NOVIA HOME • SMART LIVING</p>
+
+          <h1>
+            Rumahku
+          </h1>
+          <p class="welcome-copy">Semua perangkat rumah dalam satu kendali.</p>
+        </div>
+
+        <div class="hero-chip">
+
+          <span class="chip-icon" aria-hidden="true">⌂</span>
+
+          <span>
+            <b>ESP32</b>
+            <small>CONTROLLER</small>
+          </span>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================
+           MAIN NAVIGATION TABS
+      ====================================== -->
+
+      <nav
+        class="main-tabs"
+        role="tablist"
+        aria-label="Navigasi dashboard"
+      >
+        <button
+          class="main-tab is-active"
+          id="tabControl"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panelControl"
+          data-tab="panelControl"
+        >
+          <span aria-hidden="true">⌂</span>
+          Beranda
+        </button>
+        <button
+          class="main-tab"
+          id="tabDevices"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panelDevices"
+          data-tab="panelDevices"
+        >
+          <span aria-hidden="true">⌘</span>
+          Perangkat
+        </button>
+        <button
+          class="main-tab"
+          id="tabAutomation"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panelAutomation"
+          data-tab="panelAutomation"
+        >
+          <span aria-hidden="true">▦</span>
+          Jadwal
+        </button>
+        <button
+          class="main-tab"
+          id="tabMonitor"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panelMonitor"
+          data-tab="panelMonitor"
+        >
+          <span aria-hidden="true">♙</span>
+          Sistem
+        </button>
+      </nav>
+
+
+      <!-- =====================================
+           DEVICE ACCESS PANEL
+      ====================================== -->
+
+      <div
+        class="tab-panel"
+        id="panelDevices"
+        role="tabpanel"
+        aria-labelledby="tabDevices"
+        hidden
+      >
+
+      <!-- =====================================
+           LOCAL CONNECTION SELECTOR
+           MODE AP / MODE ROUTER
+      ====================================== -->
+
+      <section
+        class="connection-mode"
+        aria-labelledby="connectionModeTitle"
+      >
+
+        <div class="connection-mode-heading">
+
+          <p class="eyebrow">KONEKSI LOKAL</p>
+
+          <h2 id="connectionModeTitle">
+            Pilih akses perangkat
+          </h2>
+
+          <p>
+            Pilih jalur sesuai jaringan yang digunakan.
+            Mode AP dipakai saat HP terhubung langsung ke Wi-Fi ESP32;
+            Mode Router dipakai saat HP dan ESP32 berada di Wi-Fi rumah.
+          </p>
+
+        </div>
+
+        <div class="connection-mode-actions">
+
+          <!-- MODE AP -->
+
+          <button
+            type="button"
+            class="connection-mode-card"
+            id="openApMode"
+          >
+
+            <span
+              class="connection-mode-icon"
+              aria-hidden="true"
+            >⌁</span>
+
+            <strong>MODE AP</strong>
+
+            <span>HP terhubung ke Wi-Fi NOVIA HOME</span>
+
+            <small>Alamat lokal: 192.168.4.1</small>
+
+          </button>
+
+
+          <!-- MODE ROUTER -->
+
+          <div class="connection-mode-card router-card">
+
+            <span
+              class="connection-mode-icon"
+              aria-hidden="true"
+            >⌘</span>
+
+            <strong>MODE ROUTER</strong>
+
+            <span>HP dan ESP32 pada router yang sama</span>
+
+            <label for="routerDeviceIp">
+              IP ESP32
+            </label>
+
+            <input
+              id="routerDeviceIp"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              placeholder="Contoh: 192.168.1.25"
+              maxlength="15"
+            >
+
+            <button
+              type="button"
+              class="connection-open-router"
+              id="openRouterMode"
+            >
+              BUKA DASHBOARD LOKAL
+            </button>
+
+          </div>
+
+        </div>
+
+        <p
+          class="connection-mode-note"
+          id="connectionModeNote"
+          role="status"
+        >
+          Tips: jika memakai Mode AP, sambungkan HP ke Wi-Fi ESP32 terlebih dahulu.
+          Untuk Mode Router, masukkan alamat IPv4 ESP32 yang terlihat di router
+          atau Serial Monitor. Koneksi internet tidak selalu diperlukan untuk akses lokal.
+        </p>
+
+      </section>
+
+
+      </div>
+
+
+      <!-- =====================================
+           MONITORING PANEL
+      ====================================== -->
+
+      <div
+        class="tab-panel"
+        id="panelMonitor"
+        role="tabpanel"
+        aria-labelledby="tabMonitor"
+        hidden
+      >
+
+        <!-- SYSTEM SUMMARY -->
+
+        <section
+          class="summary-grid"
+          aria-label="Ringkasan sistem"
+        >
+
+          <article class="summary-card">
+
+            <span class="summary-icon" aria-hidden="true">
+              ⌁
+            </span>
+
+            <div>
+              <small>JARINGAN</small>
+
+              <strong>Memeriksa koneksi...</strong>
+
+              <span class="summary-note">
+                Menunggu respons API
+              </span>
+            </div>
+
+          </article>
+
+
+          <article class="summary-card">
+
+            <span class="summary-icon" aria-hidden="true">
+              ▣
+            </span>
+
+            <div>
+              <small>PERANGKAT</small>
+
+              <strong>Memeriksa perangkat...</strong>
+
+              <span class="summary-note">
+                ESP32 · 4 channel
+              </span>
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- RELIABILITY MONITOR -->
+
+        <section
+          class="section-block reliability-panel"
+          aria-labelledby="reliabilityTitle"
+        >
+
+          <div class="section-heading">
+
+            <div>
+              <p class="eyebrow">STATUS SISTEM</p>
+              <h2 id="reliabilityTitle">Kondisi sistem</h2>
+            </div>
+
+            <button
+              type="button"
+              class="monitor-refresh"
+              id="refreshStatus"
+              aria-label="Perbarui status koneksi"
+            >
+              ↻ <span>PERBARUI</span>
+            </button>
+
+          </div>
+
+
+          <div class="health-grid">
+
+            <article
+              class="health-item"
+              id="browserHealth"
+              data-health="checking"
+            >
+              <span class="health-dot" aria-hidden="true"></span>
+
+              <div>
+                <small>JARINGAN HP / BROWSER</small>
+                <strong id="browserHealthText">
+                  Memeriksa...
+                </strong>
+              </div>
+            </article>
+
+
+            <article
+              class="health-item"
+              id="deviceHealth"
+              data-health="checking"
+            >
+              <span class="health-dot" aria-hidden="true"></span>
+
+              <div>
+                <small>ESP32 · STATUS PERANGKAT</small>
+                <strong id="deviceHealthText">
+                  Memeriksa perangkat...
+                </strong>
+              </div>
+            </article>
+
+
+            <article
+              class="health-item"
+              id="apiHealth"
+              data-health="checking"
+            >
+              <span class="health-dot" aria-hidden="true"></span>
+
+              <div>
+                <small>CLOUD API · BLYNK</small>
+                <strong id="apiHealthText">
+                  Memeriksa...
+                </strong>
+              </div>
+            </article>
+
+          </div>
+
+
+          <!-- HEALTH METADATA -->
+
+          <div class="health-meta">
+
+            <div>
+              <span>Sinkronisasi terakhir</span>
+              <strong id="lastSyncText">
+                Belum tersedia
+              </strong>
+            </div>
+
+            <div>
+              <span>Waktu respons</span>
+              <strong id="latencyText">--</strong>
+            </div>
+
+            <div>
+              <span>Kegagalan beruntun</span>
+              <strong id="failureCountText">0</strong>
+            </div>
+
+            <div>
+              <span>Terakhir ESP32 online</span>
+              <strong id="deviceLastSeenText">
+                Belum tersedia
+              </strong>
+            </div>
+
+          </div>
+
+
+          <p
+            class="health-footnote"
+            id="deviceHealthNote"
+          >
+            Status ESP32 diperiksa melalui Blynk Cloud. Status API menunjukkan
+            apakah layanan dashboard dapat dijangkau, sedangkan status ESP32
+            menunjukkan apakah perangkat terdeteksi online oleh Blynk.
+          </p>
+
+          <div class="info-note" aria-label="Panduan membaca monitoring">
+            <strong>Cara membaca status</strong>
+            <ul>
+              <li><b>Browser:</b> koneksi jaringan pada HP atau browser.</li>
+              <li><b>Cloud API:</b> jalur komunikasi dashboard ke layanan NOVIA HOME.</li>
+              <li><b>ESP32:</b> status perangkat menurut Blynk Cloud, bukan pemeriksaan relay secara fisik.</li>
+              <li><b>Waktu respons:</b> durasi permintaan status API, bukan waktu respons relay.</li>
+            </ul>
+          </div>
+
+        </section>
+
+
+        <!-- CONNECTION HISTORY -->
+
+        <section
+          class="section-block reliability-history"
+          aria-labelledby="historyTitle"
+        >
+
+          <div class="section-heading">
+
+            <div>
+              <p class="eyebrow">AKTIVITAS</p>
+              <h2 id="historyTitle">Riwayat koneksi</h2>
+            </div>
+
+            <button
+              type="button"
+              class="history-clear"
+              id="clearConnectionHistory"
+            >
+              HAPUS
+            </button>
+
+          </div>
+
+
+          <div
+            class="history-summary"
+            aria-live="polite"
+          >
+            <span id="historyCount">
+              0 kejadian tersimpan
+            </span>
+
+            <span id="historyStorageState">
+              Penyimpanan lokal
+            </span>
+          </div>
+
+
+          <ol
+            class="connection-history-list"
+            id="connectionHistoryList"
+            aria-live="polite"
+          >
+            <li class="history-empty">
+              Belum ada riwayat koneksi.
+            </li>
+          </ol>
+
+        </section>
+
+
+        <!-- SYSTEM INFORMATION -->
+
+        <section class="section-block system-panel">
+
+          <p class="eyebrow">INFORMASI</p>
+
+          <h2>Detail sistem</h2>
+
+          <div class="system-list">
+
+            <div>
+              <span>Platform</span>
+              <strong>SMART HOME V4</strong>
+            </div>
+
+            <div>
+              <span>Controller</span>
+              <strong>ESP32 DevKit V1</strong>
+            </div>
+
+            <div>
+              <span>Komunikasi</span>
+              <strong>Blynk IoT</strong>
+            </div>
+
+            <div>
+              <span>Hosting dashboard</span>
+              <strong>GitHub Pages</strong>
+            </div>
+
+            <div>
+              <span>Status integrasi</span>
+              <strong class="pending">
+                Memeriksa koneksi...
+              </strong>
+            </div>
+
+          </div>
+
+        </section>
+
+        <section class="section-block system-panel" aria-labelledby="wifiConfigTitle">
+          <p class="eyebrow">KONEKSI AP + STA</p>
+          <h2 id="wifiConfigTitle">Konfigurasi WiFi</h2>
+          <p class="welcome-copy">Pindai jaringan router dan simpan koneksi tanpa menonaktifkan Access Point NOVIA HOME.</p>
+          <div class="system-actions">
+            <button type="button" class="primary-button" id="wifiScanButton">Pindai WiFi</button>
+            <span id="wifiScanStatus" class="system-feedback" role="status" aria-live="polite">Siap memindai jaringan.</span>
+          </div>
+          <label class="system-field" for="wifiNetworkSelect">Pilih jaringan (SSID)</label>
+          <select id="wifiNetworkSelect" class="system-input"><option value="">Tekan Pindai WiFi terlebih dahulu</option></select>
+          <label class="system-field" for="wifiPasswordInput">Password WiFi</label>
+          <input id="wifiPasswordInput" class="system-input" type="password" maxlength="63" autocomplete="new-password" placeholder="Masukkan password WiFi">
+          <div class="system-actions">
+            <button type="button" class="primary-button" id="wifiSaveButton">Simpan WiFi</button>
+            <span id="wifiSaveStatus" class="system-feedback" role="status" aria-live="polite"></span>
+          </div>
+          <small class="system-hint">Mode AP tetap aktif. Setelah disimpan, ESP32 akan mencoba tersambung ke router.</small>
+        </section>
+
+        <section class="section-block system-panel" aria-labelledby="dashboardUpdateTitle">
+          <p class="eyebrow">PEMELIHARAAN</p>
+          <h2 id="dashboardUpdateTitle">Pembaruan Dashboard</h2>
+          <div class="system-list">
+            <div><span>Versi terpasang</span><strong id="dashboardCurrentVersion">R10.0.0</strong></div>
+            <div><span>Versi GitHub</span><strong id="dashboardLatestVersion">Belum diperiksa</strong></div>
+            <div><span>Status update</span><strong id="dashboardUpdateStatus">Belum diperiksa</strong></div>
+          </div>
+          <div class="system-actions">
+            <button type="button" class="secondary-button" id="dashboardCheckButton">Cek Update</button>
+            <button type="button" class="primary-button" id="dashboardInstallButton" disabled>Perbarui Sekarang</button>
+          </div>
+          <p id="dashboardUpdateMessage" class="system-feedback" role="status" aria-live="polite">Pemeriksaan update memerlukan koneksi internet pada ESP32.</p>
+          <small class="system-hint">Pembaruan hanya mengganti dashboard web, bukan firmware atau konfigurasi relay.</small>
+        </section>
+
+      </div>
+
+
+      <!-- =====================================
+           CONTROL PANEL
+      ====================================== -->
+
+      <div
+        class="tab-panel is-active"
+        id="panelControl"
+        role="tabpanel"
+        aria-labelledby="tabControl"
+      >
+
+        <section class="section-block">
+
+          <div class="section-heading">
+
+            <div>
+              <p class="eyebrow">KONTROL RUANGAN</p>
+              <h2>Perangkat</h2>
+            </div>
+
+            <span class="count-label">
+              4 PERANGKAT
+            </span>
+
+          </div>
+
+
+          <div class="device-grid">
+
+            <!-- CHANNEL 01 -->
+
+            <article
+              class="device-card"
+              data-channel="0"
+            >
+
+              <div class="device-card-head">
+
+                <span class="device-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 8h20l7 17H7L14 8Z"/><path d="M18 25v5m12-5v5M20 30h8v8a4 4 0 0 1-8 0v-8Z"/><path d="M21 35h6"/></svg>
+                </span>
+
+                <span class="state-badge">
+                  MENUNGGU
+                </span>
+
+              </div>
+
+              <h3>Lampu Depan</h3>
+
+              <p>VIRTUAL PIN 0</p>
+              <p>GPIO 23</p>
+
+              <button
+                type="button"
+                class="toggle-button"
+                aria-pressed="false"
+                aria-label="Kontrol Lampu Depan"
+              >
+                <span
+                  class="toggle-knob"
+                  aria-hidden="true"
+                ></span>
+
+                <span class="toggle-label">
+                  MENUNGGU...
+                </span>
+              </button>
+
+            </article>
+
+
+            <!-- CHANNEL 02 -->
+
+            <article
+              class="device-card"
+              data-channel="1"
+            >
+
+              <div class="device-card-head">
+
+                <span class="device-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M15 23a9 9 0 1 1 18 0c0 5-4 7-5 11H20c-1-4-5-6-5-11Z"/><path d="M20 38h8m-7 4h6M24 8v3M10 23h3m22 0h3"/></svg>
+                </span>
+
+                <span class="state-badge">
+                  MENUNGGU
+                </span>
+
+              </div>
+
+              <h3>Lampu Tengah</h3>
+
+              <p>VIRTUAL PIN 1</p>
+              <p>GPIO 22</p>
+
+              <button
+                type="button"
+                class="toggle-button"
+                aria-pressed="false"
+                aria-label="Kontrol Lampu Tengah"
+              >
+                <span
+                  class="toggle-knob"
+                  aria-hidden="true"
+                ></span>
+
+                <span class="toggle-label">
+                  MENUNGGU...
+                </span>
+              </button>
+
+            </article>
+
+
+            <!-- CHANNEL 03 -->
+
+            <article
+              class="device-card"
+              data-channel="2"
+            >
+
+              <div class="device-card-head">
+
+                <span class="device-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 9h22l7 20H6l7-20Z"/><path d="M24 29v7m-8 4h16m-13-4h10"/></svg>
+                </span>
+
+                <span class="state-badge">
+                  MENUNGGU
+                </span>
+
+              </div>
+
+              <h3>Lampu Kamar</h3>
+
+              <p>VIRTUAL PIN 2</p>
+              <p>GPIO 21</p>
+
+              <button
+                type="button"
+                class="toggle-button"
+                aria-pressed="false"
+                aria-label="Kontrol Lampu Kamar"
+              >
+                <span
+                  class="toggle-knob"
+                  aria-hidden="true"
+                ></span>
+
+                <span class="toggle-label">
+                  MENUNGGU...
+                </span>
+              </button>
+
+            </article>
+
+
+            <!-- CHANNEL 04 -->
+
+            <article
+              class="device-card"
+              data-channel="3"
+            >
+
+              <div class="device-card-head">
+
+                <span class="device-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="19"/><circle cx="24" cy="24" r="3"/><path d="M24 21c-5-9-2-13 3-12 5 1 4 7-3 12Zm3 3c10-2 13 2 10 6-3 4-8 1-10-6Zm-5 2c-5 9-10 9-12 4-2-5 4-8 12-4Z"/></svg>
+                </span>
+
+                <span class="state-badge">
+                  MENUNGGU
+                </span>
+
+              </div>
+
+              <h3>Kipas Angin</h3>
+
+              <p>VIRTUAL PIN 3</p>
+              <p>GPIO 19</p>
+
+              <button
+                type="button"
+                class="toggle-button"
+                aria-pressed="false"
+                aria-label="Kontrol Kipas Angin"
+              >
+                <span
+                  class="toggle-knob"
+                  aria-hidden="true"
+                ></span>
+
+                <span class="toggle-label">
+                  MENUNGGU...
+                </span>
+              </button>
+
+            </article>
+
+          </div>
+
+
+          <p
+            class="demo-note"
+            role="status"
+            aria-live="polite"
+          >
+            Menghubungkan dashboard dengan Blynk IoT...
+          </p>
+          <p class="info-note">
+            Tekan saklar untuk mengirim perintah ON/OFF. Perubahan akan ditampilkan
+            setelah status terbaru berhasil dibaca kembali dari API. Jika koneksi
+            terputus, kontrol dinonaktifkan untuk mencegah perintah yang tidak terkonfirmasi.
+          </p>
+
+        </section>
+
+      </div>
+
+
+      <!-- =====================================
+           AUTOMATION PANEL
+      ====================================== -->
+
+      <div
+        class="tab-panel"
+        id="panelAutomation"
+        role="tabpanel"
+        aria-labelledby="tabAutomation"
+        hidden
+      >
+
+        <section
+          class="section-block automation-panel"
+          id="automation"
+        >
+
+          <div class="section-heading">
+
+            <div>
+              <p class="eyebrow">OTOMASI</p>
+              <h2>Pengaturan otomatis</h2>
+            </div>
+
+          </div>
+
+
+          <!-- TIMER AUTOMATIC -->
+
+          <article class="automation-card">
+
+            <div class="automation-heading">
+
+              <span class="automation-icon">◷</span>
+
+              <div>
+                <h3>Timer otomatis</h3>
+                <p>
+                  Matikan perangkat setelah durasi tertentu
+                </p>
+              </div>
+
+            </div>
+
+
+            <label for="timerChannel">
+              Pilih perangkat
+            </label>
+
+            <select id="timerChannel">
+              <option value="0">Lampu Depan · V0</option>
+              <option value="1">Lampu Tengah · V1</option>
+              <option value="2">Lampu Kamar · V2</option>
+              <option value="3">Kipas Angin · V3</option>
+            </select>
+
+
+            <label for="timerMinutes">
+              Durasi timer
+            </label>
+
+            <select id="timerMinutes">
+              <option value="15">15 menit</option>
+              <option value="30">30 menit</option>
+              <option value="60" selected>1 jam</option>
+              <option value="120">2 jam</option>
+              <option value="180">3 jam</option>
+              <option value="240">4 jam</option>
+              <option value="480">8 jam</option>
+            </select>
+
+
+            <button
+              type="button"
+              id="startTimer"
+              class="automation-button"
+            >
+              AKTIFKAN TIMER
+            </button>
+
+            <button
+              type="button"
+              id="cancelTimer"
+              class="automation-button secondary"
+            >
+              BATALKAN TIMER
+            </button>
+
+
+            <!-- LIVE TIMER COUNTDOWN -->
+            
+
+<div id="timerCountdown" class="timer-countdown" hidden>
+
+  <div class="timer-countdown-header">
+    <span>SISA WAKTU</span>
+    <span id="timerCountdownBadge">AKTIF</span>
+  </div>
+
+  <div id="timerCountdownValue"
+       class="timer-countdown-value">
+    00:00
+  </div>
+
+  <div class="timer-progress-track">
+    <div id="timerProgressBar"
+         class="timer-progress-bar">
+    </div>
+  </div>
+
+  <div class="timer-countdown-footer">
+    <span id="timerDeviceName">Perangkat</span>
+    <span id="timerRemainingLabel">
+      Timer berjalan
+    </span>
+  </div>
+
+</div>
+
+    <p id="timerStatus" class="automation-status" role="status">
+      Belum ada timer yang diatur.
+    </p>
+
+  </article>
+
+  <!-- DAILY SCHEDULE -->
+  <article class="automation-card">
+
+    <div class="automation-heading">
+      <span class="automation-icon">◷</span>
+      <div>
+        <h3>Jadwal harian</h3>
+        <p>Atur jam ON/OFF dan hari berlakunya jadwal</p>
+      </div>
+    </div>
+
+    <label for="scheduleChannel">Pilih perangkat</label>
+
+    <select id="scheduleChannel">
+      <option value="0">Lampu Depan · V0</option>
+      <option value="1">Lampu Tengah · V1</option>
+      <option value="2">Lampu Kamar · V2</option>
+      <option value="3">Kipas Angin · V3</option>
+    </select>
+
+    <div class="schedule-time-grid">
+
+      <div>
+        <label for="scheduleOn">Waktu ON</label>
+        <input type="time" id="scheduleOn" value="18:00">
+      </div>
+
+      <div>
+        <label for="scheduleOff">Waktu OFF</label>
+        <input type="time" id="scheduleOff" value="22:00">
+      </div>
+
+    </div>
+
+    <p class="info-note">
+      Pilih minimal satu hari. Jadwal yang sama akan berulang pada hari terpilih.
+      Pastikan waktu perangkat dan layanan otomasi mengikuti zona waktu yang benar.
+    </p>
+
+    <label>Hari aktif</label>
+
+    <div class="weekday-grid">
+
+      <label><input type="checkbox" value="1" checked> Sen</label>
+      <label><input type="checkbox" value="2" checked> Sel</label>
+      <label><input type="checkbox" value="4" checked> Rab</label>
+      <label><input type="checkbox" value="8" checked> Kam</label>
+      <label><input type="checkbox" value="16" checked> Jum</label>
+      <label><input type="checkbox" value="32" checked> Sab</label>
+      <label><input type="checkbox" value="64" checked> Min</label>
+
+    </div>
+
+    <label class="schedule-enable">
+      <input type="checkbox" id="scheduleEnabled" checked>
+      Aktifkan jadwal
+    </label>
+
+    <button type="button" id="saveSchedule" class="automation-button">
+      SIMPAN JADWAL
+    </button>
+
+    <p id="scheduleStatus" class="automation-status" role="status">
+      Jadwal belum disimpan.
+    </p>
+
+  </article>
+
+  <!-- SAVED SCHEDULES -->
+  <article class="automation-card">
+
+    <div class="automation-heading">
+      <span class="automation-icon">▤</span>
+      <div>
+        <h3>Jadwal tersimpan</h3>
+        <p>Daftar aturan yang sudah tersimpan pada layanan NOVIA HOME.</p>
+        
+      </div>
+    </div>
+
+    <div id="scheduleList" class="schedule-list">
+      Memuat daftar jadwal...
+    </div>
+
+  </article>
+
+</section>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================================
+       FOOTER
+  ========================================== -->
+
+  <footer>
+    <span>NOVIA HOME</span>
+    <span>ESP32 · BLYNK IoT</span>
+  </footer>
+
+</div>
+
+
+<!-- =========================================
+     APPLICATION JAVASCRIPT
+========================================== -->
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const API_URL = "";
+
+  // ==========================================
+  // NOVIA HOME V4 - THEME SWITCHER
+  // ==========================================
+
+  const themeButton = document.createElement("button");
+
+  themeButton.type = "button";
+  themeButton.className = "theme-toggle";
+  themeButton.setAttribute("aria-label", "Ganti tema");
+
+  const savedTheme = (() => {
+    try {
+      return localStorage.getItem("novia-home-theme");
+    } catch (error) {
+      return null;
+    }
+  })();
+
+  let currentTheme =
+    savedTheme === "dark" ? "dark" : "light";
+
+  function applyTheme(theme) {
+    currentTheme = theme;
+
+    document.documentElement.setAttribute(
+      "data-theme",
+      theme
+    );
+
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) {
+      themeColor.setAttribute("content", theme === "light" ? "#f3f6f7" : "#0d1319");
+    }
+
+    const isLight = theme === "light";
+
+    themeButton.innerHTML = `
+      <span class="theme-toggle-icon">
+        ${isLight ? "☀" : "☾"}
+      </span>
+      <span>${isLight ? "LIGHT" : "DARK"}</span>
+    `;
+
+    themeButton.setAttribute(
+      "aria-label",
+      isLight ? "Aktifkan Dark Mode" : "Aktifkan Light Mode"
+    );
+
+    try {
+      localStorage.setItem("novia-home-theme", theme);
+    } catch (error) {
+      console.warn("Tema tidak dapat disimpan:", error);
+    }
+  }
+
+  const topbar = document.querySelector(".topbar");
+
+  if (topbar) {
+    topbar.appendChild(themeButton);
+  }
+
+  themeButton.addEventListener("click", () => {
+    applyTheme(
+      currentTheme === "dark" ? "light" : "dark"
+    );
+  });
+
+  applyTheme(currentTheme);
+
+  // ==========================================
+  // DEVICE LOCATION — GPS + reverse geocoding
+  // Requires HTTPS and location permission from the browser.
+  // ==========================================
+  const locationElement = document.getElementById("deviceLocation");
+
+  function setLocationLabel(message, isError = false) {
+    if (!locationElement) return;
+    locationElement.classList.toggle("is-error", isError);
+    locationElement.innerHTML = `<span class="location-pin" aria-hidden="true">⌖</span> ${message}`;
+    locationElement.title = message;
+  }
+
+  function getDeviceLocation() {
+    if (!locationElement) return;
+    if (!window.isSecureContext) {
+      setLocationLabel("Lokasi perlu HTTPS", true);
+      return;
+    }
+    if (!navigator.geolocation) {
+      setLocationLabel("GPS tidak didukung browser", true);
+      return;
+    }
+
+    setLocationLabel("Mengambil lokasi GPS...");
+    navigator.geolocation.getCurrentPosition(async position => {
+      const { latitude, longitude } = position.coords;
+      try {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}&zoom=18&addressdetails=1`;
+        const response = await fetch(url, { headers: { Accept: "application/json" }, cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const a = data.address || {};
+        const road = a.road || a.pedestrian || a.residential || a.neighbourhood || a.suburb || "";
+        const area = a.suburb || a.neighbourhood || a.village || a.town || a.city_district || "";
+        const city = a.city || a.town || a.city_district || a.county || "";
+        const parts = [...new Set([road, area, city].filter(Boolean))];
+        const label = parts.join(", ") || data.display_name || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+        setLocationLabel(label);
+        locationElement.title = `${label} · Lokasi perangkat`;
+      } catch (error) {
+        console.warn("NOVIA HOME: alamat lokasi tidak dapat dimuat:", error);
+        setLocationLabel(`GPS aktif · ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`, true);
+      }
+    }, error => {
+      const messages = {
+        1: "Izinkan akses lokasi di Chrome",
+        2: "Lokasi perangkat tidak tersedia",
+        3: "GPS terlalu lama merespons"
+      };
+      setLocationLabel(messages[error.code] || "Lokasi tidak tersedia", true);
+    }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 600000 });
+  }
+
+  getDeviceLocation();
+
+  // ==========================================
+  // API REAL-TIME MONITOR
+  // ==========================================
+
+  const API_CHECK_INTERVAL = 5000;
+  const API_TIMEOUT = 3000;
+  const CONTROL_TIMEOUT = 10000;
+
+  const statusElement = document.getElementById("connectionStatus");
+  const statusPill = statusElement
+    ? statusElement.closest(".demo-pill")
+    : null;
+
+  const cards = [...document.querySelectorAll(".device-card")];
+  const note = document.querySelector(".demo-note");
+  const summaryCards = [...document.querySelectorAll(".summary-card")];
+  const systemRows = [...document.querySelectorAll(".system-list div")];
+
+  const channelNames = [
+    "Lampu Depan",
+    "Lampu Tengah",
+    "Lampu Kamar",
+    "Kipas Angin"
+  ];
+
+  let controlPin = null;
+  let refreshing = false;
+  let lastSuccessfulCheck = null;
+  let lastLatency = null;
+  let consecutiveFailures = 0;
+  let nextCheckTimer = null;
+  let requestInFlight = false;
+  let controlInFlight = false;
+  let refreshAfterCurrentRequest = false;
+  let previousApiState = null;
+  let previousBrowserState = null;
+  const HISTORY_KEY = "novia-home-connection-history-v1";
+  const HISTORY_LIMIT = 50;
+  const historyList = document.getElementById("connectionHistoryList");
+  const historyCount = document.getElementById("historyCount");
+  const historyStorageState = document.getElementById("historyStorageState");
+  const clearHistoryButton = document.getElementById("clearConnectionHistory");
+  const refreshButton = document.getElementById("refreshStatus");
+  const browserHealth = document.getElementById("browserHealth");
+  const deviceHealth = document.getElementById("deviceHealth");
+  const deviceLastSeenText = document.getElementById("deviceLastSeenText");
+  const deviceHealthNote = document.getElementById("deviceHealthNote");
+  const apiHealth = document.getElementById("apiHealth");
+  let esp32Online = null;
+  let lastDeviceOnlineAt = null;
+
+  function setHealthCard(element, textId, state, message) {
+    if (!element) return;
+    element.dataset.health = state;
+    const value = document.getElementById(textId);
+    if (value) value.textContent = message;
+  }
+
+  // ==========================================
+  // CONNECTION HISTORY - LOCAL DEVICE STORAGE
+  // ==========================================
+
+  function readConnectionHistory() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+      return Array.isArray(parsed) ? parsed.filter(item =>
+        item && typeof item.time === "string" &&
+        typeof item.source === "string" &&
+        typeof item.title === "string" &&
+        typeof item.detail === "string"
+      ).slice(0, HISTORY_LIMIT) : [];
+    } catch (error) {
+      if (historyStorageState) historyStorageState.textContent = "Penyimpanan tidak tersedia";
+      return [];
+    }
+  }
+
+  let connectionHistory = readConnectionHistory();
+
+  function renderConnectionHistory() {
+    if (historyCount) {
+      historyCount.textContent = `${connectionHistory.length} kejadian tersimpan`;
+    }
+    if (!historyList) return;
+
+    historyList.replaceChildren();
+    if (!connectionHistory.length) {
+      const empty = document.createElement("li");
+      empty.className = "history-empty";
+      empty.textContent = "Belum ada riwayat koneksi.";
+      historyList.appendChild(empty);
+      return;
+    }
+
+    connectionHistory.forEach(item => {
+      const entry = document.createElement("li");
+      entry.className = `history-entry history-${item.state || "info"}`;
+
+      const marker = document.createElement("span");
+      marker.className = "history-marker";
+      marker.setAttribute("aria-hidden", "true");
+
+      const content = document.createElement("div");
+      content.className = "history-content";
+      const heading = document.createElement("strong");
+      heading.textContent = item.title;
+      const detail = document.createElement("span");
+      detail.textContent = item.detail;
+      const time = document.createElement("time");
+      const date = new Date(item.time);
+      time.dateTime = item.time;
+      time.textContent = Number.isNaN(date.getTime()) ? item.time : date.toLocaleString("id-ID", {
+        day: "2-digit", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+      });
+      content.append(heading, detail, time);
+      entry.append(marker, content);
+      historyList.appendChild(entry);
+    });
+  }
+
+  function recordConnectionEvent(source, state, title, detail) {
+    const item = {
+      time: new Date().toISOString(),
+      source, state, title, detail
+    };
+    connectionHistory.unshift(item);
+    connectionHistory = connectionHistory.slice(0, HISTORY_LIMIT);
+    try {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(connectionHistory));
+      if (historyStorageState) historyStorageState.textContent = "Tersimpan di perangkat ini";
+    } catch (error) {
+      if (historyStorageState) historyStorageState.textContent = "Gagal menyimpan riwayat";
+      console.warn("NOVIA HOME: riwayat tidak dapat disimpan", error);
+    }
+    renderConnectionHistory();
+  }
+
+  if (clearHistoryButton) {
+    clearHistoryButton.addEventListener("click", () => {
+      if (!connectionHistory.length) return;
+      if (!window.confirm("Hapus seluruh riwayat koneksi pada perangkat ini?")) return;
+      connectionHistory = [];
+      try {
+        localStorage.removeItem(HISTORY_KEY);
+        if (historyStorageState) historyStorageState.textContent = "Tersimpan di perangkat ini";
+      } catch (error) {
+        if (historyStorageState) historyStorageState.textContent = "Penyimpanan tidak tersedia";
+      }
+      renderConnectionHistory();
+    });
+  }
+
+  renderConnectionHistory();
+
+  function updateReliability(state, latency = null) {
+    const browserOnline = navigator.onLine;
+    setHealthCard(browserHealth, "browserHealthText", browserOnline ? "online" : "offline", browserOnline ? "Browser online" : "Tidak ada jaringan");
+    const apiMessage = state === "online"
+      ? "Cloud API terhubung"
+      : state === "checking"
+        ? "Memeriksa layanan..."
+        : "Tidak terjangkau";
+    setHealthCard(apiHealth, "apiHealthText", state, apiMessage);
+    const sync = document.getElementById("lastSyncText");
+    const latencyNode = document.getElementById("latencyText");
+    const failures = document.getElementById("failureCountText");
+    if (sync) sync.textContent = formatClock(lastSuccessfulCheck);
+    if (latencyNode) latencyNode.textContent = lastLatency === null ? "--" : `${lastLatency} ms`;
+    if (failures) failures.textContent = String(consecutiveFailures);
+  }
+
+  function updateDeviceHealth(isOnline) {
+    esp32Online = isOnline;
+    if (isOnline === true) lastDeviceOnlineAt = new Date();
+    const known = typeof isOnline === "boolean";
+    const message = !known ? "Status ESP32 belum dapat diverifikasi" : isOnline ? "ESP32 ONLINE · terhubung ke Blynk" : "ESP32 OFFLINE · tidak terhubung ke Blynk";
+    setHealthCard(deviceHealth, "deviceHealthText", !known ? "checking" : isOnline ? "online" : "offline", message);
+    if (deviceLastSeenText) deviceLastSeenText.textContent = lastDeviceOnlineAt ? formatClock(lastDeviceOnlineAt) : "Belum pernah online";
+    if (deviceHealthNote) {
+      deviceHealthNote.textContent = !known
+        ? "Cloud API belum dapat memverifikasi kondisi ESP32. Periksa koneksi internet HP atau layanan Cloudflare/Blynk."
+        : isOnline
+          ? "ESP32 terdeteksi aktif oleh Blynk Cloud. Pemantauan tetap berjalan meskipun HP memakai jaringan seluler."
+          : "ESP32 tidak terdeteksi online oleh Blynk Cloud. Periksa daya ESP32, Wi-Fi router, internet, dan koneksi Blynk. Status relay yang tampil adalah data terakhir yang tersimpan.";
+    }
+    cards.forEach(card => {
+      const button = card.querySelector(".toggle-button");
+      if (button) {
+        button.disabled = !isOnline || controlInFlight;
+        button.title = isOnline ? "Kontrol relay" : "Kontrol dinonaktifkan: ESP32 offline";
+      }
+      card.classList.toggle("device-unreachable", !isOnline);
+    });
+    if (known && previousDeviceState !== null && previousDeviceState !== isOnline) {
+      recordConnectionEvent("ESP32", isOnline ? "online" : "offline", isOnline ? "ESP32 kembali online" : "ESP32 offline", isOnline ? "Perangkat kembali terdeteksi oleh Blynk Cloud." : "Blynk Cloud tidak lagi mendeteksi perangkat.");
+    }
+    if (known) previousDeviceState = isOnline;
+  }
+  let previousDeviceState = null;
+
+  function scheduleNextCheck(delay) {
+    if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+    nextCheckTimer = window.setTimeout(() => {
+      nextCheckTimer = null;
+      loadStatus();
+    }, delay);
+  }
+
+  function formatClock(date) {
+    if (!date) return "Belum pernah";
+    return date.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    });
+  }
+
+  function setConnection(state, latency = null, recordTransition = true) {
+    const connected = state === "online";
+    const checking = state === "checking";
+
+    if (recordTransition && state !== "checking" && state !== previousApiState) {
+      if (state === "online") {
+        recordConnectionEvent("API", "online", previousApiState === "offline" ? "API pulih" : "API terhubung", latency === null ? "Layanan API berhasil dijangkau." : `Layanan API merespons dalam ${latency} ms.`);
+      } else if (state === "offline") {
+        recordConnectionEvent("API", "offline", previousApiState === "online" ? "API terputus" : "API tidak tersedia", "Dashboard gagal membaca status dari API.");
+      }
+      previousApiState = state;
+    }
+
+    if (connected) {
+      lastSuccessfulCheck = new Date();
+      lastLatency = latency;
+    }
+
+    const lastSeenText = formatClock(lastSuccessfulCheck);
+    const latencyText = lastLatency === null
+      ? "--"
+      : `${lastLatency} ms`;
+
+    updateReliability(state, latency);
+
+    if (statusElement) {
+      if (connected) {
+        statusElement.textContent = `API ONLINE · ${latencyText}`;
+      } else if (checking) {
+        statusElement.textContent = "API CONNECTING...";
+      } else {
+        statusElement.textContent = "API OFFLINE";
+      }
+
+      statusElement.title =
+        `Last seen: ${lastSeenText}` +
+        (lastLatency === null ? "" : ` | Respons terakhir: ${latencyText}`);
+    }
+
+    if (statusPill) {
+      statusPill.classList.toggle("is-online", connected);
+      statusPill.classList.toggle("is-offline", state === "offline");
+      statusPill.classList.toggle("is-checking", checking);
+      statusPill.setAttribute(
+        "aria-label",
+        connected
+          ? `API online, respons ${latencyText}, terakhir terlihat ${lastSeenText}`
+          : checking
+            ? "Sedang memeriksa koneksi API"
+            : `API offline, terakhir terlihat ${lastSeenText}`
+      );
+    }
+
+    if (summaryCards[0]) {
+      const strong = summaryCards[0].querySelector("strong");
+      const small = summaryCards[0].querySelector(".summary-note");
+
+      if (strong) {
+        strong.textContent = connected
+          ? "Terhubung"
+          : checking
+            ? "Memeriksa..."
+            : "Tidak terhubung";
+      }
+
+      if (small) {
+        small.textContent = connected
+          ? `Worker aktif · ${latencyText} · ${lastSeenText}`
+          : checking
+            ? "Memeriksa API..."
+            : `Last seen: ${lastSeenText}`;
+      }
+    }
+
+    if (summaryCards[1]) {
+      const strong = summaryCards[1].querySelector("strong");
+      const small = summaryCards[1].querySelector(".summary-note");
+      if (strong) strong.textContent = "4 channel terdaftar";
+      if (small) small.textContent = "Sinkronisasi Blynk IoT";
+    }
+
+    if (systemRows[2]) {
+      const label = systemRows[2].querySelector("span");
+      const value = systemRows[2].querySelector("strong");
+      if (label) label.textContent = "Komunikasi";
+      if (value) value.textContent = "Blynk IoT";
+    }
+
+    if (systemRows[4]) {
+      const value = systemRows[4].querySelector("strong");
+      if (value) {
+        value.textContent = connected
+          ? `API sehat · ${latencyText}`
+          : checking
+            ? "Memeriksa koneksi API..."
+            : `API gagal · Last seen ${lastSeenText}`;
+        value.classList.remove("pending");
+      }
+    }
+
+    if (note) {
+      note.textContent = connected
+        ? `Status channel disinkronkan dengan Blynk IoT. Respons API ${latencyText}.`
+        : checking
+          ? "Memeriksa koneksi API dan sinkronisasi channel..."
+          : "Gagal memperbarui status. Dashboard akan mencoba kembali otomatis.";
+    }
+  }
+
+  function updateCard(channel, value) {
+    const card = cards.find(
+      item => Number(item.dataset.channel) === channel
+    );
+    if (!card) return;
+
+    const button = card.querySelector(".toggle-button");
+    const badge = card.querySelector(".state-badge");
+    const label = card.querySelector(".toggle-label");
+    const isOn = value === 1;
+
+    card.classList.toggle("is-on", isOn);
+
+    if (button) {
+      button.setAttribute("aria-pressed", String(isOn));
+      button.setAttribute(
+        "aria-label",
+        `${channelNames[channel]}: ${isOn ? "ON" : "OFF"}`
+      );
+    }
+
+    if (badge) badge.textContent = isOn ? "ON" : "OFF";
+    if (label) label.textContent = isOn ? "MATIKAN" : "NYALAKAN";
+  }
+
+  async function loadStatus() {
+    // Cegah request status bertumpuk.
+    if (refreshing || document.visibilityState === "hidden") return;
+
+    refreshing = true;
+    requestInFlight = true;
+    if (!lastSuccessfulCheck) setConnection("checking");
+    else updateReliability("checking");
+    if (refreshButton) refreshButton.disabled = true;
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(
+      () => controller.abort(),
+      API_TIMEOUT
+    );
+
+    const startedAt = performance.now();
+
+    try {
+      const response = await fetch(`${API_URL}/api/state`, {
+        method: "GET",
+        cache: "no-store",
+        signal: controller.signal,
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!Array.isArray(data.channels) || data.channels.length !== 4) {
+        throw new Error("Format status ESP32 tidak valid");
+      }
+
+      const values = data.channels.map(value => Number(value));
+
+      if (values.some(value => value !== 0 && value !== 1)) {
+        throw new Error("Nilai datastream tidak valid");
+      }
+
+      const latency = Math.max(
+        0,
+        Math.round(performance.now() - startedAt)
+      );
+
+      values.forEach((value, index) => updateCard(index, value));
+      updateDeviceHealth(data.wifi === true || data.blynk === true);
+      consecutiveFailures = 0;
+      setConnection("online", latency);
+
+    } catch (error) {
+      consecutiveFailures += 1;
+      updateDeviceHealth(null);
+      setConnection("offline");
+
+      if (error.name === "AbortError") {
+        console.warn(`NOVIA HOME API timeout (${API_TIMEOUT} ms)`);
+      } else {
+        console.error("NOVIA HOME status:", error);
+      }
+
+    } finally {
+      window.clearTimeout(timeoutId);
+      refreshing = false;
+      requestInFlight = false;
+      if (refreshButton) refreshButton.disabled = false;
+      const retryDelay = refreshAfterCurrentRequest
+        ? 500
+        : consecutiveFailures === 0
+          ? API_CHECK_INTERVAL
+          : Math.min(API_CHECK_INTERVAL * (2 ** Math.min(consecutiveFailures, 3)), 30000);
+      refreshAfterCurrentRequest = false;
+      scheduleNextCheck(retryDelay);
+    }
+  }
+
+  async function controlDevice(channel, value, button) {
+    // Satu perintah kontrol pada satu waktu untuk mencegah klik berulang
+    // atau perintah bersamaan yang dapat saling menimpa.
+    if (controlInFlight || !button || button.disabled) return;
+
+    if (!navigator.onLine) {
+      window.alert("Perangkat sedang offline. Periksa koneksi sebelum mengirim perintah.");
+      return;
+    }
+
+
+    const label = button.querySelector(".toggle-label");
+    const previousLabel = label ? label.textContent : "";
+    const controlButtons = cards
+      .map(card => card.querySelector(".toggle-button"))
+      .filter(Boolean);
+
+    controlInFlight = true;
+    controlButtons.forEach(item => { item.disabled = true; });
+    if (label) label.textContent = "MENGIRIM...";
+    if (note) note.textContent = `Mengirim perintah ${value ? "ON" : "OFF"} ke ${channelNames[channel]}...`;
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), CONTROL_TIMEOUT);
+
+    try {
+      const response = await fetch(`${API_URL}/api/set`, {
+        method: "POST",
+        cache: "no-store",
+        signal: controller.signal,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "Accept": "application/json"
+        },
+        body: new URLSearchParams({ ch: String(channel + 1), state: String(value) }).toString()
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (response.status === 401) {
+        controlPin = null;
+        throw new Error("PIN kontrol salah. Masukkan PIN kembali saat mencoba lagi.");
+      }
+      if (!response.ok || result.ok !== true) {
+        throw new Error(result.error || `Perintah gagal (HTTP ${response.status})`);
+      }
+
+      if (statusElement) statusElement.textContent = "PERINTAH DITERIMA · MENYINKRONKAN";
+      if (note) note.textContent = `Perintah ${value ? "ON" : "OFF"} diterima untuk ${channelNames[channel]}. Memverifikasi status dari API...`;
+
+    } catch (error) {
+      const message = error.name === "AbortError"
+        ? "Waktu tunggu habis. Perintah mungkin sudah diterima perangkat; status akan diperiksa ulang. Jangan langsung mengirim perintah yang sama berulang kali."
+        : error.message;
+      if (label) label.textContent = previousLabel;
+      if (note) note.textContent = `Kontrol ${channelNames[channel]} belum terkonfirmasi: ${message}`;
+      window.alert(`NOVIA HOME — ${channelNames[channel]}: ${message}`);
+      console.error("NOVIA HOME control:", error);
+
+    } finally {
+      window.clearTimeout(timeoutId);
+      controlInFlight = false;
+      controlButtons.forEach(item => { item.disabled = esp32Online !== true; });
+
+      // Jika polling status sedang berjalan saat perintah selesai, minta
+      // satu verifikasi segera setelah polling tersebut selesai.
+      if (refreshing) {
+        refreshAfterCurrentRequest = true;
+      } else {
+        if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+        nextCheckTimer = null;
+        loadStatus();
+      }
+    }
+  }
+
+  cards.forEach(card => {
+    const button = card.querySelector(".toggle-button");
+    if (!button) return;
+
+    const channel = Number(card.dataset.channel);
+
+    if (!Number.isInteger(channel) || channel < 0 || channel > 3) {
+      return;
+    }
+
+    button.addEventListener("click", () => {
+      if (button.disabled) return;
+
+      const currentState =
+        button.getAttribute("aria-pressed") === "true";
+
+      controlDevice(channel, currentState ? 0 : 1, button);
+    });
+  });
+
+  setConnection("checking");
+  loadStatus();
+
+  if (refreshButton) {
+    refreshButton.addEventListener("click", () => {
+      if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+      nextCheckTimer = null;
+      loadStatus();
+    });
+  }
+
+  function recordBrowserNetworkState(isOnline) {
+    const state = isOnline ? "online" : "offline";
+    if (state === previousBrowserState) return;
+    if (previousBrowserState !== null) {
+      recordConnectionEvent(
+        "Browser", state,
+        isOnline ? "Jaringan browser pulih" : "Jaringan browser terputus",
+        isOnline ? "Perangkat kembali memiliki koneksi jaringan." : "Browser mendeteksi perangkat tidak memiliki koneksi jaringan."
+      );
+    }
+    previousBrowserState = state;
+  }
+
+  recordBrowserNetworkState(navigator.onLine);
+
+  window.addEventListener("online", () => {
+    recordBrowserNetworkState(true);
+    updateReliability(lastSuccessfulCheck ? "online" : "checking");
+    if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+    nextCheckTimer = null;
+    loadStatus();
+  });
+
+  window.addEventListener("offline", () => {
+    recordBrowserNetworkState(false);
+    // Offline pada HP/browser tidak membuktikan Cloud API ikut offline.
+    // Pertahankan status API terakhir dan perbarui indikator browser saja.
+    setHealthCard(
+      browserHealth,
+      "browserHealthText",
+      "offline",
+      "Tidak ada jaringan pada browser"
+    );
+    if (note) {
+      note.textContent =
+        "Koneksi jaringan HP/browser terputus. Status Cloud API terakhir dipertahankan sampai pemeriksaan berikutnya berhasil.";
+    }
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && !requestInFlight) {
+      if (nextCheckTimer) window.clearTimeout(nextCheckTimer);
+      nextCheckTimer = null;
+      loadStatus();
+    }
+  });
+
+  // Polling adaptif: 5 detik saat sehat, backoff sampai 30 detik saat gagal.
+
+  console.log(
+    "NOVIA HOME V5 - Reliability + Safe Control active",
+    `interval=${API_CHECK_INTERVAL}ms`,
+    `timeout=${API_TIMEOUT}ms`
+  );
+});
+
+
+// NOVIA HOME V5: navigasi tab utama
+document.addEventListener("DOMContentLoaded", () => {
+  const tabs = Array.from(document.querySelectorAll(".main-tab[data-tab]"));
+  const panels = Array.from(document.querySelectorAll(".tab-panel"));
+  if (!tabs.length || !panels.length) return;
+
+  function activateTab(tab, updateHash = true) {
+    const targetId = tab.dataset.tab;
+    tabs.forEach(item => {
+      const active = item === tab;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-selected", String(active));
+      item.tabIndex = active ? 0 : -1;
+    });
+    panels.forEach(panel => {
+      const active = panel.id === targetId;
+      panel.hidden = !active;
+      panel.classList.toggle("is-active", active);
+    });
+    if (updateHash) history.replaceState(null, "", `#${targetId}`);
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateTab(tab));
+    tab.addEventListener("keydown", event => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const next = tabs[(index + direction + tabs.length) % tabs.length];
+      activateTab(next);
+      next.focus();
+    });
+  });
+
+  // Selalu mulai dari Kontrol Saklar. Hash lama tidak boleh membuat
+  // dashboard terbuka di tab Monitoring/Otomasi setelah refresh.
+  const defaultTab = document.querySelector('.main-tab[data-tab="panelControl"]') || tabs[0];
+  activateTab(defaultTab, false);
+});
+
+</script>
+  <script>
+/* NOVIA HOME R9 — ESP32 native automation adapter
+   Firmware API: /api/state, /api/timer, /api/schedule (form-urlencoded). */
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const names = ["Lampu Depan", "Lampu Tengah", "Lampu Kamar", "Kipas Angin"];
+  const post = async (path, values) => {
+    const response = await fetch(path, {method:"POST", cache:"no-store", headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"}, body:new URLSearchParams(values)});
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || data.ok !== true) throw new Error(data.error || `HTTP ${response.status}`);
+    return data;
+  };
+  const status = (id, message, type="") => { const el=$(id); if(el){el.textContent=message;el.className="automation-status "+type;} };
+  async function sync(){
+    try {
+      const r=await fetch('/api/state',{cache:'no-store'}); if(!r.ok) throw new Error('ESP32 tidak merespons');
+      const s=await r.json();
+      const channel=Number($('timerChannel')?.value||0);
+      const remaining=Number(s.timers?.[channel]||0);
+      const panel=$('timerCountdown'); if(panel) panel.hidden=remaining<=0;
+      const val=$('timerCountdownValue'); if(val) val.textContent=`${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,'0')}`;
+      const device=$('timerDeviceName'); if(device) device.textContent=names[channel];
+      const badge=$('timerCountdownBadge'); if(badge) badge.textContent=remaining>0?'AKTIF':'NONAKTIF';
+      const bar=$('timerProgressBar'); if(bar) bar.style.width=remaining>0?'100%':'0%';
+      const list=$('scheduleList'); if(list){list.replaceChildren(); for(let i=0;i<4;i++){ if(s.scheduleEnabled?.[i]===undefined) continue; const item=document.createElement('div'); item.className='schedule-empty'; item.textContent=`${names[i]} · ${s.scheduleEnabled[i]?'Aktif':'Nonaktif'} · ON ${s.scheduleOn?.[i]||'--:--'} · OFF ${s.scheduleOff?.[i]||'--:--'}`; list.appendChild(item); } if(!list.children.length) list.textContent='Jadwal akan tampil setelah status ESP32 tersedia.'; }
+    } catch(e) { console.warn('NOVIA automation sync:',e); }
+  }
+  async function setTimer(){
+    const button=$('setTimer'); const ch=Number($('timerChannel')?.value); const minutes=Number($('timerMinutes')?.value);
+    if(!Number.isInteger(ch)||ch<0||ch>3||!Number.isInteger(minutes)||minutes<0||minutes>1440){status('timerStatus','Masukkan durasi 1–1440 menit.','error');return;}
+    if(button)button.disabled=true;
+    try { await post('/api/timer',{ch:String(ch+1),minutes:String(minutes)}); status('timerStatus',minutes?`Timer ${names[ch]} disetel ${minutes} menit.`:'Timer dibatalkan.','success'); await sync(); }
+    catch(e){status('timerStatus','Gagal mengatur timer: '+e.message,'error');}
+    finally{if(button)button.disabled=false;}
+  }
+  async function cancelTimer(){ const ch=Number($('timerChannel')?.value); try{await post('/api/timer',{ch:String(ch+1),minutes:'0'});status('timerStatus','Timer dibatalkan.','success');await sync();}catch(e){status('timerStatus',e.message,'error');} }
+  async function saveSchedule(){
+    const button=$('saveSchedule'); const ch=Number($('scheduleChannel')?.value); const on=$('scheduleOn')?.value; const off=$('scheduleOff')?.value; const enabled=$('scheduleEnabled')?.checked?1:0;
+    if(!Number.isInteger(ch)||ch<0||ch>3||!on||!off||on===off){status('scheduleStatus','Periksa perangkat dan jam ON/OFF.','error');return;}
+    if(button)button.disabled=true;
+    try{await post('/api/schedule',{ch:String(ch+1),enabled:String(enabled),on,off});status('scheduleStatus',`Jadwal harian ${names[ch]} berhasil disimpan.`,'success');await sync();}
+    catch(e){status('scheduleStatus','Gagal menyimpan jadwal: '+e.message,'error');}
+    finally{if(button)button.disabled=false;}
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    $('setTimer')?.addEventListener('click',setTimer);
+    $('cancelTimer')?.addEventListener('click',cancelTimer);
+    $('saveSchedule')?.addEventListener('click',saveSchedule);
+    $('timerChannel')?.addEventListener('change',sync);
+    sync(); window.setInterval(sync,5000);
+    const weekdays=document.querySelector('.weekday-grid'); if(weekdays){weekdays.setAttribute('aria-disabled','true');weekdays.style.opacity='.45';weekdays.title='Firmware saat ini mendukung jadwal harian, bukan pilihan hari.';}
+  });
+})();
+
+</script>
+
+
+<!-- =========================================
+     PWA SERVICE WORKER
+========================================== -->
+
+
+
+<script>
+(() => {
+  const AP_URL = "http://192.168.4.1/";
+  const IP_KEY = "novia-home-router-ip-v1";
+  const apButton = document.getElementById("openApMode");
+  const routerButton = document.getElementById("openRouterMode");
+  const ipInput = document.getElementById("routerDeviceIp");
+  const note = document.getElementById("connectionModeNote");
+  if (!apButton || !routerButton || !ipInput) return;
+
+  try { ipInput.value = localStorage.getItem(IP_KEY) || ""; } catch (_) {}
+
+  apButton.addEventListener("click", () => {
+    if (note) note.textContent = "Membuka dashboard ESP32 melalui mode AP. Pastikan HP sudah terhubung ke Wi-Fi NOVIA HOME.";
+    window.location.assign(AP_URL);
+  });
+
+  routerButton.addEventListener("click", () => {
+    const raw = ipInput.value.trim().replace(/^https?:\/\//i, "").replace(/\/$/, "");
+    const ip = raw.split("/")[0].split(":")[0];
+    const valid = /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)$/.test(ip);
+    if (!valid) {
+      if (note) note.textContent = "Masukkan IPv4 ESP32 yang benar, misalnya 192.168.1.25.";
+      ipInput.focus();
+      return;
+    }
+    try { localStorage.setItem(IP_KEY, ip); } catch (_) {}
+    if (note) note.textContent = "Membuka dashboard lokal ESP32 di " + ip + ". Pastikan HP dan ESP32 berada di router yang sama.";
+    window.location.assign("http://" + ip + "/");
+  });
+})();
+
+</script>
+
+<script>
+// NOVIA HOME R10 — WiFi scanner and dashboard updater
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const say = (id, msg) => { const el=$(id); if(el) el.textContent=msg; };
+  const postForm = async (url, data) => {
+    const r=await fetch(url,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:new URLSearchParams(data)});
+    const body=await r.json().catch(()=>({})); if(!r.ok || body.ok===false) throw new Error(body.message||body.error||`HTTP ${r.status}`); return body;
+  };
+  async function scanWiFi(){
+    const button=$('wifiScanButton'), select=$('wifiNetworkSelect'); if(button)button.disabled=true;
+    say('wifiScanStatus','Memulai pemindaian...');
+    try{
+      const start=await fetch('/api/scan',{cache:'no-store'}); const a=await start.json().catch(()=>({}));
+      if(!start.ok) throw new Error(a.message||'Gagal memulai scan');
+      let result=null;
+      for(let i=0;i<35;i++){ await new Promise(r=>setTimeout(r,900)); const q=await fetch('/api/scan/status',{cache:'no-store'}); const d=await q.json(); if(!q.ok) throw new Error(d.error||'Pemindaian gagal'); if(d.scanning===false){result=d;break;} }
+      if(!result) throw new Error('Pemindaian melewati batas waktu. Coba lagi.');
+      select.replaceChildren();
+      (result.networks||[]).filter(n=>n.ssid).sort((a,b)=>b.rssi-a.rssi).forEach(n=>{
+        const opt=document.createElement('option'); opt.value=n.ssid;
+        opt.textContent=`${n.ssid} · ${n.rssi} dBm · CH ${n.channel} · ${n.secure?'Terkunci':'Terbuka'}`; select.appendChild(opt);
+      });
+      if(!select.options.length) select.add(new Option('Tidak ada SSID yang terdeteksi',''));
+      say('wifiScanStatus',`${result.count||0} jaringan ditemukan.`);
+    }catch(e){say('wifiScanStatus',e.message);}
+    finally{if(button)button.disabled=false;}
+  }
+  async function saveWiFi(){
+    const ssid=$('wifiNetworkSelect')?.value||'', pass=$('wifiPasswordInput')?.value||''; const b=$('wifiSaveButton');
+    if(!ssid){say('wifiSaveStatus','Pilih SSID terlebih dahulu.');return;}
+    if(b)b.disabled=true; say('wifiSaveStatus','Menyimpan konfigurasi...');
+    try{
+      const r=await fetch('/savewifi',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:new URLSearchParams({ssid,pass})});
+      if(!r.ok) throw new Error((await r.text()).slice(0,140)||`HTTP ${r.status}`);
+      say('wifiSaveStatus','WiFi tersimpan. ESP32 akan mencoba tersambung; AP NOVIA HOME tetap aktif.');
+      if($('wifiPasswordInput'))$('wifiPasswordInput').value='';
+    }catch(e){say('wifiSaveStatus','Gagal menyimpan: '+e.message);}
+    finally{if(b)b.disabled=false;}
+  }
+  async function checkUpdate(){
+    const b=$('dashboardCheckButton'), install=$('dashboardInstallButton'); if(b)b.disabled=true; if(install)install.disabled=true;
+    say('dashboardUpdateMessage','Menghubungi GitHub Pages...'); say('dashboardUpdateStatus','Memeriksa...');
+    try{
+      const r=await fetch('/api/update/check',{cache:'no-store'}), d=await r.json(); if(!r.ok||!d.ok)throw new Error(d.message||`HTTP ${r.status}`);
+      say('dashboardCurrentVersion',d.current); say('dashboardLatestVersion',d.latest);
+      say('dashboardUpdateStatus',d.available?'Update tersedia':'Sudah terbaru');
+      say('dashboardUpdateMessage',d.available?'Versi baru tersedia. Tekan Perbarui Sekarang untuk memasang.':'Dashboard sudah menggunakan versi terbaru.');
+      if(install)install.disabled=!d.available;
+    }catch(e){say('dashboardUpdateStatus','Tidak dapat diperiksa');say('dashboardUpdateMessage',e.message);}
+    finally{if(b)b.disabled=false;}
+  }
+  async function installUpdate(){
+    const b=$('dashboardInstallButton'), check=$('dashboardCheckButton'); if(b)b.disabled=true;if(check)check.disabled=true;
+    say('dashboardUpdateMessage','Mengunduh dan memvalidasi dashboard baru. Jangan matikan ESP32...');
+    try{
+      const d=await postForm('/api/update/install',{});
+      say('dashboardUpdateStatus','Berhasil diperbarui'); say('dashboardUpdateMessage',d.message||'Pembaruan selesai. Muat ulang halaman.');
+      if(b)b.textContent='Terpasang';
+    }catch(e){say('dashboardUpdateStatus','Pembaruan gagal');say('dashboardUpdateMessage',e.message);if(b)b.disabled=false;}
+    finally{if(check)check.disabled=false;}
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    $('wifiScanButton')?.addEventListener('click',scanWiFi); $('wifiSaveButton')?.addEventListener('click',saveWiFi);
+    $('dashboardCheckButton')?.addEventListener('click',checkUpdate); $('dashboardInstallButton')?.addEventListener('click',installUpdate);
+  });
+})();
+</script>
+
+</body>
+</html>
+
+    
+
