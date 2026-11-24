@@ -71,6 +71,62 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTheme(currentTheme);
 
   // ==========================================
+  // DEVICE LOCATION — GPS + reverse geocoding
+  // Requires HTTPS and location permission from the browser.
+  // ==========================================
+  const locationElement = document.getElementById("deviceLocation");
+
+  function setLocationLabel(message, isError = false) {
+    if (!locationElement) return;
+    locationElement.classList.toggle("is-error", isError);
+    locationElement.innerHTML = `<span class="location-pin" aria-hidden="true">⌖</span> ${message}`;
+    locationElement.title = message;
+  }
+
+  function getDeviceLocation() {
+    if (!locationElement) return;
+    if (!window.isSecureContext) {
+      setLocationLabel("Lokasi perlu HTTPS", true);
+      return;
+    }
+    if (!navigator.geolocation) {
+      setLocationLabel("GPS tidak didukung browser", true);
+      return;
+    }
+
+    setLocationLabel("Mengambil lokasi GPS...");
+    navigator.geolocation.getCurrentPosition(async position => {
+      const { latitude, longitude } = position.coords;
+      try {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}&zoom=18&addressdetails=1`;
+        const response = await fetch(url, { headers: { Accept: "application/json" }, cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const a = data.address || {};
+        const road = a.road || a.pedestrian || a.residential || a.neighbourhood || a.suburb || "";
+        const area = a.suburb || a.neighbourhood || a.village || a.town || a.city_district || "";
+        const city = a.city || a.town || a.city_district || a.county || "";
+        const parts = [...new Set([road, area, city].filter(Boolean))];
+        const label = parts.join(", ") || data.display_name || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+        setLocationLabel(label);
+        locationElement.title = `${label} · Lokasi perangkat`;
+      } catch (error) {
+        console.warn("NOVIA HOME: alamat lokasi tidak dapat dimuat:", error);
+        setLocationLabel(`GPS aktif · ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`, true);
+      }
+    }, error => {
+      const messages = {
+        1: "Izinkan akses lokasi di Chrome",
+        2: "Lokasi perangkat tidak tersedia",
+        3: "GPS terlalu lama merespons"
+      };
+      setLocationLabel(messages[error.code] || "Lokasi tidak tersedia", true);
+    }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 600000 });
+  }
+
+  getDeviceLocation();
+
+  // ==========================================
   // API REAL-TIME MONITOR
   // ==========================================
 
